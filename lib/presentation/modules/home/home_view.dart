@@ -18,6 +18,21 @@ class HomeView extends StatelessWidget {
           ),
         ),
         elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.search),
+          ),
+          const SizedBox(width: 10),
+          Builder(builder: (context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+              icon: const Icon(Icons.menu),
+            );
+          }),
+        ],
       ),
       endDrawer: const OptionsDrawer(),
       body: ListView.builder(
