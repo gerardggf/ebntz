@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "933639983128",
+    "project_id": "ebntz-app",
+    "storage_bucket": "ebntz-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933639983128:android:c853d3a5c54bd20acf336d",
+        "android_client_info": {
+          "package_name": "com.sanfaina.ebntz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933639983128-4i2h9a6emfkoj367p2mvk8qgkggijs17.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkzvT1jJwrIMs7w5f8t65fXzDPTvtIdLc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933639983128-4i2h9a6emfkoj367p2mvk8qgkggijs17.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

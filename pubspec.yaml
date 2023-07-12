@@ -40,6 +40,8 @@ dependencies:
   slang: ^3.20.0
   freezed_annotation: ^2.2.0
   extended_image: ^8.0.2
+  firebase_core: ^2.14.0
+  cloud_firestore: ^4.8.2
 
 dev_dependencies:
   flutter_test:
