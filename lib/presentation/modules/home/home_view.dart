@@ -1,3 +1,4 @@
+import 'package:ebntz/data/services/firebase_firestore_service.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/widgets/lineup_item_widget.dart';
@@ -68,13 +69,12 @@ class _HomeViewState extends ConsumerState<HomeView> {
               );
             }
             final items = snapshot.data!;
-            print(items);
             return ListView.builder(
               physics: const BouncingScrollPhysics(),
-              itemCount: lineupItems.length,
+              itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
                 return LineupItemWidget(
-                  lineupItem: lineupItems[index],
+                  lineupItem: items[index],
                 );
               },
             );
