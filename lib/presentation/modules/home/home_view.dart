@@ -1,10 +1,34 @@
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/widgets/lineup_item_widget.dart';
 import 'package:ebntz/presentation/widgets/options_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
+
+  @override
+  ConsumerState<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends ConsumerState<HomeView> {
+  Stream<List<LineupItemModel>>? posts;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _init();
+      },
+    );
+  }
+
+  void _init() {
+    posts = ref.read(postsRepostoryProvider).getPosts();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +59,26 @@ class HomeView extends StatelessWidget {
         ],
       ),
       endDrawer: const OptionsDrawer(),
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: lineupItems.length,
-        itemBuilder: (BuildContext context, int index) {
-          return LineupItemWidget(
-            lineupItem: lineupItems[index],
-          );
-        },
-      ),
+      body: StreamBuilder<List<LineupItemModel>>(
+          stream: posts,
+          builder: (BuildContext context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: Text('Error'),
+              );
+            }
+            final items = snapshot.data!;
+            print(items);
+            return ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: lineupItems.length,
+              itemBuilder: (BuildContext context, int index) {
+                return LineupItemWidget(
+                  lineupItem: lineupItems[index],
+                );
+              },
+            );
+          }),
     );
   }
 }

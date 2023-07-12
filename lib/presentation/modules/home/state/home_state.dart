@@ -1,6 +1,10 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'home_state.freezed.dart';
 
-
-class HomeState mixin _$HomeState{
-  factory HomeState({})=_HomeState;
+@freezed
+class HomeState with _$HomeState {
+  factory HomeState({
+    @Default(false) bool fetching,
+  }) = _HomeState;
 }
