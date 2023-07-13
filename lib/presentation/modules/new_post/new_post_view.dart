@@ -1,7 +1,10 @@
 import 'package:ebntz/data/services/firebase_firestore_service.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/presentation/modules/new_post/new_post_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io' as io;
 
 class NewPostView extends ConsumerStatefulWidget {
   const NewPostView({super.key});
@@ -42,5 +45,49 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
       ),
       body: Container(),
     );
+  }
+
+  void imagePickerBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text(
+                'Cámara',
+              ),
+              onTap: () {
+                Navigator.of(context).pop();
+                getImage(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.folder),
+              title: const Text('Galería'),
+              onTap: () {
+                Navigator.of(context).pop();
+                getImage(ImageSource.gallery);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> getImage(ImageSource imageSource) async {
+    final notifier = ref.read(newPostControllerProvider.notifier);
+    final pickedFile =
+        await ImagePicker().pickImage(source: imageSource, imageQuality: 25);
+
+    if (pickedFile != null) {
+      io.File? image;
+      image = io.File(pickedFile.path);
+
+      notifier.updateImage(image);
+    }
   }
 }
