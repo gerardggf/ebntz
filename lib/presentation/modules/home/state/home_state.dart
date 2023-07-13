@@ -6,5 +6,7 @@ part 'home_state.freezed.dart';
 class HomeState with _$HomeState {
   factory HomeState({
     @Default(false) bool fetching,
+    @Default(false) bool searchBar,
+    @Default(null) String? searchText,
   }) = _HomeState;
 }

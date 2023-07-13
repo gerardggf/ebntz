@@ -1,7 +1,7 @@
-import 'package:ebntz/data/services/firebase_firestore_service.dart';
-import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class OptionsDrawer extends ConsumerWidget {
   const OptionsDrawer({super.key});
@@ -27,26 +27,25 @@ class OptionsDrawer extends ConsumerWidget {
               ),
               const SizedBox(height: 15),
               ListTile(
+                title: const Text('Perfil'),
+                leading: const Icon(
+                  Icons.person,
+                  color: Colors.black,
+                ),
+                onTap: () {
+                  context.pop();
+                  context.pushNamed(Routes.profile);
+                },
+              ),
+              ListTile(
                 title: const Text('Compartir nuevo evento'),
                 leading: const Icon(
                   Icons.add,
                   color: Colors.black,
                 ),
                 onTap: () {
-                  ref.read(firebaseFirestoreServiceProvider).createPost(
-                        LineupItemModel(
-                          id: 'sfdsfweq',
-                          author: 'fr8e7g3q',
-                          creationDate: '26/7/2023',
-                          category: 'kdjsfjkas',
-                          tags: ['hdashjd', 'kjasfhj', 'akfshkahkfa'],
-                          title: 'afhjjkfwe',
-                          description: 'jkasfhsakj',
-                          location: 'iusafhjadsa',
-                          url:
-                              'https://fastly.picsum.photos/id/202/1000/1000.jpg?hmac=06EOZKISNxCoPtI2ikLkm3LkVJ7UaHiPTIXwQ_-1L1U',
-                        ),
-                      );
+                  context.pop();
+                  context.pushNamed(Routes.newPost);
                 },
               ),
             ],
