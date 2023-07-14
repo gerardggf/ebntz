@@ -1,5 +1,5 @@
 import 'package:ebntz/my_app.dart';
-import 'package:ebntz/presentation/modules/new_post_view.dart';
+import 'package:ebntz/presentation/modules/new_post/new_post_view.dart';
 import 'package:ebntz/presentation/modules/profile/profile_view.dart';
 import 'package:ebntz/presentation/offline_view.dart';
 import 'package:flutter/widgets.dart';

@@ -1,8 +1,12 @@
 import 'package:ebntz/data/services/firebase_firestore_service.dart';
+import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/presentation/global/custom_snack_bar.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_controller.dart';
+import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' as io;
 
@@ -13,9 +17,17 @@ class NewPostView extends ConsumerStatefulWidget {
   ConsumerState<NewPostView> createState() => _NewPostViewState();
 }
 
+final GlobalKey<FormState> _formKey = GlobalKey();
+
 class _NewPostViewState extends ConsumerState<NewPostView> {
+  final TextEditingController _titleController = TextEditingController(),
+      _descriptionController = TextEditingController(),
+      _locationController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final controller = ref.watch(newPostControllerProvider);
+    final notifier = ref.watch(newPostControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text('New post'),
@@ -23,31 +35,117 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
         backgroundColor: Colors.black,
         actions: [
           IconButton(
-            onPressed: () {
-              ref.read(firebaseFirestoreServiceProvider).createPost(
-                    LineupItemModel(
-                      id: 'sfdsfweq',
-                      author: 'fr8e7g3q',
-                      creationDate: '26/7/2023',
-                      category: 'kdjsfjkas',
-                      tags: ['hdashjd', 'kjasfhj', 'akfshkahkfa'],
-                      title: 'afhjjkfwe',
-                      description: 'jkasfhsakj',
-                      location: 'iusafhjadsa',
-                      url:
-                          'https://fastly.picsum.photos/id/202/1000/1000.jpg?hmac=06EOZKISNxCoPtI2ikLkm3LkVJ7UaHiPTIXwQ_-1L1U',
-                    ),
-                  );
-            },
+            onPressed: () async => _submit(),
             icon: const Icon(Icons.publish),
           ),
         ],
       ),
-      body: Container(),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(20),
+          children: [
+            TextFormField(
+              controller: _titleController,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (_titleController.text == '' ||
+                    _titleController.text.isEmpty) {
+                  return 'El campo no puede estar vacío';
+                }
+                return null;
+              },
+              decoration: const InputDecoration(
+                labelText: 'Título',
+              ),
+              onChanged: (value) {
+                notifier.updateTitle(value);
+              },
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              controller: _descriptionController,
+              decoration: const InputDecoration(
+                labelText: 'Descripción',
+              ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (_descriptionController.text == '' ||
+                    _descriptionController.text.isEmpty) {
+                  return 'El campo no puede estar vacío';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                notifier.updateDescription(value);
+              },
+            ),
+            const SizedBox(height: 10),
+            TextFormField(
+              controller: _locationController,
+              decoration: const InputDecoration(
+                labelText: 'Location',
+              ),
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (_locationController.text == '' ||
+                    _locationController.text.isEmpty) {
+                  return 'El campo no puede estar vacío';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                notifier.updateLocation(value);
+              },
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: CustomButton(
+                    onPressed: () {
+                      imagePickerBottomSheet();
+                    },
+                    child: Text(
+                      controller.image != null
+                          ? 'Cambiar imagen'
+                          : 'Escoger imagen',
+                    ),
+                  ),
+                ),
+                if (controller.image != null) const SizedBox(width: 10),
+                if (controller.image != null)
+                  Expanded(
+                    child: CustomButton(
+                      onPressed: () {
+                        notifier.updateImage(null);
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            if (controller.image != null)
+              Image.file(
+                controller.image!,
+                fit: BoxFit.fitWidth,
+              ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
     );
   }
 
   void imagePickerBottomSheet() {
+    final notifier = ref.watch(newPostControllerProvider.notifier);
+
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -61,7 +159,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
               ),
               onTap: () {
                 Navigator.of(context).pop();
-                getImage(ImageSource.camera);
+                notifier.getImage(ImageSource.camera);
               },
             ),
             ListTile(
@@ -69,7 +167,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
               title: const Text('Galería'),
               onTap: () {
                 Navigator.of(context).pop();
-                getImage(ImageSource.gallery);
+                notifier.getImage(ImageSource.gallery);
               },
             ),
           ],
@@ -78,16 +176,36 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
     );
   }
 
-  Future<void> getImage(ImageSource imageSource) async {
+  Future<void> _submit() async {
+    final controller = ref.read(newPostControllerProvider);
     final notifier = ref.read(newPostControllerProvider.notifier);
-    final pickedFile =
-        await ImagePicker().pickImage(source: imageSource, imageQuality: 25);
-
-    if (pickedFile != null) {
-      io.File? image;
-      image = io.File(pickedFile.path);
-
-      notifier.updateImage(image);
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    if (controller.image == null) {
+      showCustomSnackBar(
+        context: context,
+        text: 'Tienes que seleccionar una imagen',
+        color: Colors.orange,
+      );
+      return;
+    }
+    final result = await notifier.submit();
+    if (result == FirebaseResponse.success) {
+      if (mounted) {
+        showCustomSnackBar(
+          context: context,
+          text: 'Nuevo evento enviado con éxito',
+        );
+        context.pop();
+      }
+    } else {
+      if (mounted) {
+        showCustomSnackBar(
+          context: context,
+          text: 'No se ha podido enviar el evento con éxito',
+        );
+      }
     }
   }
 }

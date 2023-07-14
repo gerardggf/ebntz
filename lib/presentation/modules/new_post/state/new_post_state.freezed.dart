@@ -18,6 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$NewPostState {
   bool get fetching => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get author => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+  String get category => throw _privateConstructorUsedError;
+  String? get location => throw _privateConstructorUsedError;
   File? get image => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +35,14 @@ abstract class $NewPostStateCopyWith<$Res> {
           NewPostState value, $Res Function(NewPostState) then) =
       _$NewPostStateCopyWithImpl<$Res, NewPostState>;
   @useResult
-  $Res call({bool fetching, String title, File? image});
+  $Res call(
+      {bool fetching,
+      String title,
+      String author,
+      String description,
+      String category,
+      String? location,
+      File? image});
 }
 
 /// @nodoc
@@ -49,6 +60,10 @@ class _$NewPostStateCopyWithImpl<$Res, $Val extends NewPostState>
   $Res call({
     Object? fetching = null,
     Object? title = null,
+    Object? author = null,
+    Object? description = null,
+    Object? category = null,
+    Object? location = freezed,
     Object? image = freezed,
   }) {
     return _then(_value.copyWith(
@@ -60,6 +75,22 @@ class _$NewPostStateCopyWithImpl<$Res, $Val extends NewPostState>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      author: null == author
+          ? _value.author
+          : author // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -76,7 +107,14 @@ abstract class _$$_NewPostStateCopyWith<$Res>
       __$$_NewPostStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool fetching, String title, File? image});
+  $Res call(
+      {bool fetching,
+      String title,
+      String author,
+      String description,
+      String category,
+      String? location,
+      File? image});
 }
 
 /// @nodoc
@@ -92,6 +130,10 @@ class __$$_NewPostStateCopyWithImpl<$Res>
   $Res call({
     Object? fetching = null,
     Object? title = null,
+    Object? author = null,
+    Object? description = null,
+    Object? category = null,
+    Object? location = freezed,
     Object? image = freezed,
   }) {
     return _then(_$_NewPostState(
@@ -103,6 +145,22 @@ class __$$_NewPostStateCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
+      author: null == author
+          ? _value.author
+          : author // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
+      location: freezed == location
+          ? _value.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as String?,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -114,7 +172,14 @@ class __$$_NewPostStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_NewPostState implements _NewPostState {
-  _$_NewPostState({this.fetching = false, this.title = '', this.image = null});
+  _$_NewPostState(
+      {this.fetching = false,
+      this.title = '',
+      this.author = '',
+      this.description = '',
+      this.category = '',
+      this.location = null,
+      this.image = null});
 
   @override
   @JsonKey()
@@ -124,11 +189,23 @@ class _$_NewPostState implements _NewPostState {
   final String title;
   @override
   @JsonKey()
+  final String author;
+  @override
+  @JsonKey()
+  final String description;
+  @override
+  @JsonKey()
+  final String category;
+  @override
+  @JsonKey()
+  final String? location;
+  @override
+  @JsonKey()
   final File? image;
 
   @override
   String toString() {
-    return 'NewPostState(fetching: $fetching, title: $title, image: $image)';
+    return 'NewPostState(fetching: $fetching, title: $title, author: $author, description: $description, category: $category, location: $location, image: $image)';
   }
 
   @override
@@ -139,11 +216,19 @@ class _$_NewPostState implements _NewPostState {
             (identical(other.fetching, fetching) ||
                 other.fetching == fetching) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.author, author) || other.author == author) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.category, category) ||
+                other.category == category) &&
+            (identical(other.location, location) ||
+                other.location == location) &&
             (identical(other.image, image) || other.image == image));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, fetching, title, image);
+  int get hashCode => Object.hash(runtimeType, fetching, title, author,
+      description, category, location, image);
 
   @JsonKey(ignore: true)
   @override
@@ -156,12 +241,24 @@ abstract class _NewPostState implements NewPostState {
   factory _NewPostState(
       {final bool fetching,
       final String title,
+      final String author,
+      final String description,
+      final String category,
+      final String? location,
       final File? image}) = _$_NewPostState;
 
   @override
   bool get fetching;
   @override
   String get title;
+  @override
+  String get author;
+  @override
+  String get description;
+  @override
+  String get category;
+  @override
+  String? get location;
   @override
   File? get image;
   @override

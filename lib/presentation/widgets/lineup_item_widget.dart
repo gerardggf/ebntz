@@ -1,8 +1,11 @@
+import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LineupItemWidget extends StatelessWidget {
+class LineupItemWidget extends ConsumerWidget {
   const LineupItemWidget({
     super.key,
     required this.lineupItem,
@@ -10,18 +13,14 @@ class LineupItemWidget extends StatelessWidget {
 
   final LineupItemModel lineupItem;
 
-  final url =
-      'https://fastly.picsum.photos/id/202/1000/1000.jpg?hmac=06EOZKISNxCoPtI2ikLkm3LkVJ7UaHiPTIXwQ_-1L1U';
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 lineupItem.title,
@@ -30,6 +29,7 @@ class LineupItemWidget extends StatelessWidget {
                   fontSize: 25,
                 ),
               ),
+              const Spacer(),
               Text(
                 lineupItem.author,
                 style: const TextStyle(
@@ -37,13 +37,40 @@ class LineupItemWidget extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
+              if (lineupItem.author == 'prueba') const SizedBox(width: 15),
+              if (lineupItem.author == 'prueba')
+                PopupMenuButton<PostOptions>(
+                  onSelected: (result) {
+                    if (result == PostOptions.edit) {
+                    } else if (result == PostOptions.delete) {
+                      ref.read(postsRepostoryProvider).deletePost(lineupItem);
+                    }
+                  },
+                  itemBuilder: (BuildContext context) =>
+                      <PopupMenuEntry<PostOptions>>[
+                    const PopupMenuItem<PostOptions>(
+                      value: PostOptions.edit,
+                      child: Text('Editar'),
+                    ),
+                    const PopupMenuItem<PostOptions>(
+                      value: PostOptions.delete,
+                      child: Text('Eliminar'),
+                    ),
+                  ],
+                )
             ],
           ),
         ),
-        ExtendedImage.network(url),
+        ExtendedImage.network(lineupItem.url),
         Padding(
           padding: const EdgeInsets.all(10),
           child: Text(lineupItem.description),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            lineupItem.tags.toString(),
+          ),
         ),
         const Divider(
           thickness: 1,

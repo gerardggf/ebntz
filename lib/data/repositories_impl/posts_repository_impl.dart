@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:ebntz/data/services/firebase_firestore_service.dart';
 import 'package:ebntz/data/services/firebase_storage_service.dart';
 import 'package:ebntz/data/services/ml_kit_service.dart';
+import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 
@@ -25,5 +26,37 @@ class PostsRepositoryImpl implements PostsRepository {
   @override
   Future<List<String>> getRecognizedTexts(File file) {
     return mlKitService.getRecognizedText(file);
+  }
+
+  @override
+  Future<FirebaseResponse> createPost({
+    required LineupItemModel lineupItemModel,
+    required File image,
+  }) async {
+    final imageId =
+        '${lineupItemModel.title.replaceAll(' ', '_')}_${lineupItemModel.creationDate}';
+    final String imageUrl = await firebaseStorageService.postAndGetImageUrl(
+      image,
+      imageId,
+    );
+
+    final tags = await mlKitService.getRecognizedText(image);
+
+    return await firebaseFirestoreService.createPost(
+      post: lineupItemModel,
+      imageUrl: imageUrl,
+      tags: tags,
+    );
+  }
+
+  @override
+  Future<FirebaseResponse> deletePost(LineupItemModel lineupItemModel) async {
+    final imageId =
+        '${lineupItemModel.title.replaceAll(' ', '_')}_${lineupItemModel.creationDate}';
+    final deleteImage = await firebaseStorageService.deleteImage(imageId);
+    if (deleteImage == FirebaseResponse.failure) {
+      return FirebaseResponse.failure;
+    }
+    return await firebaseFirestoreService.deletePost(lineupItemModel.id);
   }
 }
