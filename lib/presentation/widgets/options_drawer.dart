@@ -1,3 +1,4 @@
+import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,7 @@ class OptionsDrawer extends ConsumerWidget {
                 title: const Text('Perfil'),
                 leading: const Icon(
                   Icons.person,
-                  color: Colors.black,
+                  color: kPrimaryColor,
                 ),
                 onTap: () {
                   context.pop();
@@ -41,7 +42,7 @@ class OptionsDrawer extends ConsumerWidget {
                 title: const Text('Compartir nuevo evento'),
                 leading: const Icon(
                   Icons.add,
-                  color: Colors.black,
+                  color: kPrimaryColor,
                 ),
                 onTap: () {
                   context.pop();

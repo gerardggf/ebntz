@@ -1,4 +1,5 @@
 import 'package:ebntz/domain/enums.dart';
+import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_controller.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
@@ -29,7 +30,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
       appBar: AppBar(
         title: const Text('Nuevo evento'),
         elevation: 0,
-        backgroundColor: Colors.black,
+        backgroundColor: kPrimaryColor,
         actions: [
           if (!controller.fetching)
             IconButton(
@@ -66,6 +67,9 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                       _titleController.text.isEmpty) {
                     return 'El campo no puede estar vacío';
                   }
+                  if (_titleController.text.length > 25) {
+                    return 'El campo no puede tener más de $maxCharacters carácteres';
+                  }
                   return null;
                 },
                 decoration: const InputDecoration(
@@ -84,6 +88,12 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 onChanged: (value) {
                   notifier.updateLocation(value);
+                },
+                validator: (value) {
+                  if (_titleController.text.length > 25) {
+                    return 'El campo no puede tener más de $maxCharacters carácteres';
+                  }
+                  return null;
                 },
               ),
               const SizedBox(height: 10),

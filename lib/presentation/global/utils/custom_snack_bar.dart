@@ -1,9 +1,10 @@
+import 'package:ebntz/presentation/global/const.dart';
 import 'package:flutter/material.dart';
 
 void showCustomSnackBar({
   required BuildContext context,
   required String text,
-  Color color = Colors.black,
+  Color color = kPrimaryColor,
   int milliseconds = 2000,
 }) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();

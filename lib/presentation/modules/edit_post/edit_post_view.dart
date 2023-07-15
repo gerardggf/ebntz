@@ -1,4 +1,5 @@
 import 'package:ebntz/domain/enums.dart';
+import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_controller.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
@@ -29,7 +30,7 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
       appBar: AppBar(
         title: const Text('Editar evento'),
         elevation: 0,
-        backgroundColor: Colors.black,
+        backgroundColor: kPrimaryColor,
         actions: [
           if (!controller.fetching)
             IconButton(

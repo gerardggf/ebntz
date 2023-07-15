@@ -1,3 +1,4 @@
+import 'package:ebntz/presentation/global/const.dart';
 import 'package:flutter/material.dart';
 
 class ProfileView extends StatelessWidget {
@@ -9,7 +10,7 @@ class ProfileView extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: const Text('Perfil'),
-        backgroundColor: Colors.black,
+        backgroundColor: kPrimaryColor,
       ),
       body: Container(),
     );

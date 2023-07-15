@@ -23,48 +23,61 @@ class LineupItemWidget extends ConsumerWidget {
           child: Row(
             children: [
               const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    lineupItem.title,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    ),
-                  ),
-                  if (lineupItem.location != '')
-                    Text(
-                      lineupItem.location,
-                      textAlign: TextAlign.start,
-                    ),
-                ],
-              ),
-              const Spacer(),
-              FittedBox(
-                fit: BoxFit.scaleDown,
+              Expanded(
+                flex: 3,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      getFormattedPostDate(lineupItem.creationDate),
-                      style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Colors.black54,
-                        fontSize: 11,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        lineupItem.title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.end,
                     ),
-                    Text(
-                      getFormattedPostTimeOfDay(lineupItem.creationDate),
-                      style: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: Colors.black54,
-                        fontSize: 11,
+                    if (lineupItem.location != '')
+                      Text(
+                        lineupItem.location,
+                        textAlign: TextAlign.start,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      textAlign: TextAlign.end,
-                    ),
                   ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                flex: 1,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        getFormattedPostDate(lineupItem.creationDate),
+                        style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          color: Colors.black54,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.end,
+                      ),
+                      Text(
+                        getFormattedPostTimeOfDay(lineupItem.creationDate),
+                        style: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          color: Colors.black54,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.end,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               if (lineupItem.author == 'prueba') const SizedBox(width: 5),
@@ -87,7 +100,7 @@ class LineupItemWidget extends ConsumerWidget {
                       child: Text('Eliminar'),
                     ),
                   ],
-                )
+                ),
             ],
           ),
         ),
@@ -102,7 +115,9 @@ class LineupItemWidget extends ConsumerWidget {
         //     lineupItem.tags.toString(),
         //   ),
         // ),
-        const SizedBox(height: 20),
+        const Divider(
+          thickness: 1,
+        ),
         const Divider(
           thickness: 1,
         ),

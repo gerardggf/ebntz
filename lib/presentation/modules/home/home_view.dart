@@ -1,5 +1,6 @@
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
+import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/modules/home/home_controller.dart';
 import 'package:ebntz/presentation/widgets/lineup_item_widget.dart';
 import 'package:ebntz/presentation/widgets/options_drawer.dart';
@@ -39,7 +40,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: kPrimaryColor,
         title: const Text(
           'eBntz',
           style: TextStyle(
@@ -87,7 +88,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         controller: _searchController,
                         decoration: const InputDecoration(
                           icon: Icon(Icons.search),
-                          iconColor: Colors.black,
+                          iconColor: kPrimaryColor,
                           border: InputBorder.none,
                           hintText: 'Busca por evento o artista',
                         ),
@@ -110,7 +111,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               ? Icons.close
                               : Icons.keyboard_arrow_up,
                         ),
-                        color: Colors.black,
+                        color: kPrimaryColor,
                       ),
                     ),
                   ],
@@ -124,7 +125,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
                     child: CircularProgressIndicator(
-                      color: Colors.black,
+                      color: kPrimaryColor,
                     ),
                   );
                 }
