@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:ebntz/data/services/firebase_firestore_service.dart';
-import 'package:ebntz/data/services/firebase_storage_service.dart';
-import 'package:ebntz/data/services/ml_kit_service.dart';
+import 'package:ebntz/data/services/remote/firebase_firestore_service.dart';
+import 'package:ebntz/data/services/remote/firebase_storage_service.dart';
+import 'package:ebntz/data/services/remote/ml_kit_service.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
@@ -25,7 +25,7 @@ class PostsRepositoryImpl implements PostsRepository {
 
   @override
   Future<List<String>> getRecognizedTexts(File file) {
-    return mlKitService.getRecognizedText(file);
+    return mlKitService.getRecognizedTextsList(file);
   }
 
   @override
@@ -40,7 +40,7 @@ class PostsRepositoryImpl implements PostsRepository {
       imageId,
     );
 
-    final tags = await mlKitService.getRecognizedText(image);
+    final tags = await mlKitService.getRecognizedTextsList(image);
 
     return await firebaseFirestoreService.createPost(
       post: lineupItemModel,

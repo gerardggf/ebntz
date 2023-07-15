@@ -1,7 +1,7 @@
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
-import 'package:extended_image/extended_image.dart';
+import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,22 +22,52 @@ class LineupItemWidget extends ConsumerWidget {
           padding: const EdgeInsets.all(10),
           child: Row(
             children: [
-              Text(
-                lineupItem.title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                ),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    lineupItem.title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                    ),
+                  ),
+                  if (lineupItem.location != '')
+                    Text(
+                      lineupItem.location,
+                      textAlign: TextAlign.start,
+                    ),
+                ],
               ),
               const Spacer(),
-              Text(
-                lineupItem.author,
-                style: const TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: Colors.grey,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      getFormattedPostDate(lineupItem.creationDate),
+                      style: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.black54,
+                        fontSize: 11,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                    Text(
+                      getFormattedPostTimeOfDay(lineupItem.creationDate),
+                      style: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.black54,
+                        fontSize: 11,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ],
                 ),
               ),
-              if (lineupItem.author == 'prueba') const SizedBox(width: 15),
+              if (lineupItem.author == 'prueba') const SizedBox(width: 5),
               if (lineupItem.author == 'prueba')
                 PopupMenuButton<PostOptions>(
                   onSelected: (result) {
@@ -61,17 +91,18 @@ class LineupItemWidget extends ConsumerWidget {
             ],
           ),
         ),
-        ExtendedImage.network(lineupItem.url),
+        Image.network(lineupItem.url),
         Padding(
           padding: const EdgeInsets.all(10),
           child: Text(lineupItem.description),
         ),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Text(
-            lineupItem.tags.toString(),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(10),
+        //   child: Text(
+        //     lineupItem.tags.toString(),
+        //   ),
+        // ),
+        const SizedBox(height: 20),
         const Divider(
           thickness: 1,
         ),

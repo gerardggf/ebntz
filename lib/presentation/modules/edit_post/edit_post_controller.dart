@@ -4,21 +4,22 @@ import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
-import 'package:ebntz/presentation/modules/new_post/state/new_post_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' as io;
 
-final newPostControllerProvider =
-    StateNotifierProvider<NewPostController, NewPostState>(
-  (ref) => NewPostController(
-    NewPostState(),
+import 'state/edit_post_state.dart';
+
+final editPostControllerProvider =
+    StateNotifierProvider<EditPostController, EditPostState>(
+  (ref) => EditPostController(
+    EditPostState(),
     ref.read(postsRepostoryProvider),
   ),
 );
 
-class NewPostController extends StateNotifier<NewPostState> {
-  NewPostController(
+class EditPostController extends StateNotifier<EditPostState> {
+  EditPostController(
     super.state,
     this.postsRepository,
   );
@@ -70,7 +71,7 @@ class NewPostController extends StateNotifier<NewPostState> {
       ),
     );
     if (result == FirebaseResponse.success) {
-      updateImage(null);
+      state.image == null;
     }
     updateFetching(false);
 

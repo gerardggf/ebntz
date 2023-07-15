@@ -2,6 +2,7 @@ import 'package:ebntz/my_app.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_view.dart';
 import 'package:ebntz/presentation/modules/profile/profile_view.dart';
 import 'package:ebntz/presentation/offline_view.dart';
+import 'package:ebntz/presentation/splash_view.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,8 +13,13 @@ mixin RouterMixin on State<MyApp> {
   final router = GoRouter(
     routes: [
       GoRoute(
-        name: Routes.home,
+        name: Routes.splash,
         path: '/',
+        builder: (_, __) => const SplashView(),
+      ),
+      GoRoute(
+        name: Routes.home,
+        path: '/home',
         builder: (_, __) => const HomeView(),
       ),
       GoRoute(

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ebntz/data/services/firebase_firestore_service.dart';
-import 'package:ebntz/data/services/firebase_storage_service.dart';
-import 'package:ebntz/data/services/ml_kit_service.dart';
+import 'package:ebntz/data/services/remote/firebase_firestore_service.dart';
+import 'package:ebntz/data/services/remote/firebase_storage_service.dart';
+import 'package:ebntz/data/services/remote/ml_kit_service.dart';
 import 'package:ebntz/my_app.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';

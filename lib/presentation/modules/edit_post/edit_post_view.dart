@@ -7,16 +7,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
-class NewPostView extends ConsumerStatefulWidget {
-  const NewPostView({super.key});
+class EditPostView extends ConsumerStatefulWidget {
+  const EditPostView({super.key});
 
   @override
-  ConsumerState<NewPostView> createState() => _NewPostViewState();
+  ConsumerState<EditPostView> createState() => _EditPostViewState();
 }
 
 final GlobalKey<FormState> _formKey = GlobalKey();
 
-class _NewPostViewState extends ConsumerState<NewPostView> {
+class _EditPostViewState extends ConsumerState<EditPostView> {
   final TextEditingController _titleController = TextEditingController(),
       _descriptionController = TextEditingController(),
       _locationController = TextEditingController();
@@ -27,7 +27,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
     final notifier = ref.watch(newPostControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuevo evento'),
+        title: const Text('Editar evento'),
         elevation: 0,
         backgroundColor: Colors.black,
         actions: [

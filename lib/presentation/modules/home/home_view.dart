@@ -89,7 +89,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                           icon: Icon(Icons.search),
                           iconColor: Colors.black,
                           border: InputBorder.none,
-                          hintText: 'Buscar...',
+                          hintText: 'Busca por evento o artista',
                         ),
                         onChanged: (value) {
                           notifier.updateSearchText(value);
@@ -121,6 +121,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
             child: StreamBuilder<List<LineupItemModel>>(
               stream: posts,
               builder: (BuildContext context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  );
+                }
                 if (!snapshot.hasData) {
                   return const Center(
                     child: Text('Error'),
@@ -131,9 +138,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     if (controller.searchText == null) {
                       return true;
                     }
+
+                    final regExp = RegExp(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]');
+                    final filteredTags =
+                        e.tags.join().toLowerCase().replaceAll(regExp, '');
+                    //print('FilteredTags: $filteredTags');
+                    final findByArtist = filteredTags.contains(
+                      controller.searchText!.toLowerCase().replaceAll(' ', ''),
+                    );
                     return e.title.toLowerCase().contains(
-                          controller.searchText!.toLowerCase(),
-                        );
+                              controller.searchText!.toLowerCase(),
+                            ) ||
+                        findByArtist;
                   },
                 ).toList();
                 return ListView.builder(

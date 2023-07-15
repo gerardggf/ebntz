@@ -18,7 +18,7 @@ class MLKitService {
 
   final TextRecognizer textRecognizer;
 
-  Future<List<String>> getRecognizedText(File file) async {
+  Future<List<String>> getRecognizedTextsList(File file) async {
     List<String> textsList = [];
 
     final inputImage = InputImage.fromFile(file);
@@ -27,13 +27,26 @@ class MLKitService {
 
     for (TextBlock block in recognizedText.blocks) {
       for (TextLine line in block.lines) {
-        for (TextElement element in line.elements) {
-          textsList.add(element.text);
-        }
+        //for (TextElement element in line.elements) {
+        textsList.add(line.text);
+        //}
       }
     }
 
     await textRecognizer.close();
     return textsList;
   }
+
+  // Future<String> getRecognizedTexts(File file) async {
+  //   final inputImage = InputImage.fromFile(file);
+  //   final RecognizedText recognizedText =
+  //       await textRecognizer.processImage(inputImage);
+
+  //   final regExp = RegExp(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]');
+
+  //   final texts = recognizedText.text.replaceAll(regExp, '');
+
+  //   await textRecognizer.close();
+  //   return texts;
+  // }
 }

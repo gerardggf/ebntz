@@ -40,11 +40,12 @@ dependencies:
   freezed_annotation: ^2.2.0
   firebase_core: ^2.14.0
   cloud_firestore: ^4.8.2
-  extended_image: ^7.0.2
   firebase_storage: ^11.2.4
   google_mlkit_text_recognition: ^0.9.0
   image_picker: ^1.0.1
   intl: ^0.18.1
+  connectivity_plus: ^4.0.1
+  http: ^0.13.6
 
 dev_dependencies:
   flutter_test:
