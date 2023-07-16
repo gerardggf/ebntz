@@ -46,7 +46,15 @@ class NewPostController extends StateNotifier<NewPostState> {
 
   void updateCategory(String text) => state = state.copyWith(category: text);
 
-  void updateImage(File? image) => state = state.copyWith(image: image);
+  Future<void> updateImage(File? image) async {
+    state = state.copyWith(image: image);
+    if (image != null) {
+      final infoFromImage = await postsRepository.getInfoFromImage(image);
+      if (infoFromImage != null) {
+        updateTitle(infoFromImage);
+      }
+    }
+  }
 
   void updateFetching(bool value) => state = state.copyWith(fetching: value);
 
@@ -60,7 +68,7 @@ class NewPostController extends StateNotifier<NewPostState> {
         creationDate: dateToString(
           DateTime.now(),
         ),
-        category: state.category,
+        category: state.category == '' ? state.category : 'Music',
         tags: [],
         title:
             '${state.title[0].toUpperCase()}${state.title.substring(1, state.title.length)}',

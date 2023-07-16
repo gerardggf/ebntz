@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:ebntz/data/services/local/ml_kit_service.dart';
 import 'package:ebntz/data/services/remote/firebase_firestore_service.dart';
 import 'package:ebntz/data/services/remote/firebase_storage_service.dart';
-import 'package:ebntz/data/services/remote/ml_kit_service.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
@@ -58,5 +58,10 @@ class PostsRepositoryImpl implements PostsRepository {
       return FirebaseResponse.failure;
     }
     return await firebaseFirestoreService.deletePost(lineupItemModel.id);
+  }
+
+  @override
+  Future<String?> getInfoFromImage(File file) {
+    return mlKitService.getTitle(file);
   }
 }

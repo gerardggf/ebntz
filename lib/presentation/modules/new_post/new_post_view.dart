@@ -22,6 +22,29 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
       _descriptionController = TextEditingController(),
       _locationController = TextEditingController();
 
+  //TODO: añadir selección de fechas del evento
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        final controller = ref.watch(newPostControllerProvider);
+        _titleController.text = controller.title;
+        _descriptionController.text = controller.description;
+        _locationController.text = controller.location ?? '';
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _locationController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(newPostControllerProvider);
@@ -68,7 +91,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                     return 'El campo no puede estar vacío';
                   }
                   if (_titleController.text.length > 25) {
-                    return 'El campo no puede tener más de $maxCharacters carácteres';
+                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
                   }
                   return null;
                 },
@@ -78,6 +101,25 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                 onChanged: (value) {
                   notifier.updateTitle(value);
                 },
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  showDatePicker(
+                    context: context,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2100),
+                    initialDate: DateTime.now(),
+                  );
+                },
+                child: const AbsorbPointer(
+                  absorbing: true,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      labelText: 'Fecha inicio',
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -91,7 +133,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                 },
                 validator: (value) {
                   if (_titleController.text.length > 25) {
-                    return 'El campo no puede tener más de $maxCharacters carácteres';
+                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
                   }
                   return null;
                 },
@@ -105,13 +147,6 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                 maxLength: 500,
                 maxLines: null,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (_descriptionController.text == '' ||
-                      _descriptionController.text.isEmpty) {
-                    return 'El campo no puede estar vacío';
-                  }
-                  return null;
-                },
                 onChanged: (value) {
                   notifier.updateDescription(value);
                 },

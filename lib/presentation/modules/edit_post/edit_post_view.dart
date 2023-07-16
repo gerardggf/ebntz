@@ -22,6 +22,8 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
       _descriptionController = TextEditingController(),
       _locationController = TextEditingController();
 
+//TODO: volver a copiar pantalla de newpost una vez añadida la seleccion de fechas del evento
+
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(newPostControllerProvider);

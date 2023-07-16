@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:ebntz/presentation/global/const.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 
@@ -49,4 +49,29 @@ class MLKitService {
   //   await textRecognizer.close();
   //   return texts;
   // }
+
+  Future<String?> getTitle(File file) async {
+    String? result;
+    double biggestTextSize = 0;
+    double sumSize = 0;
+
+    final inputImage = InputImage.fromFile(file);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(inputImage);
+
+    for (TextBlock block in recognizedText.blocks) {
+      for (TextLine line in block.lines) {
+        sumSize = line.boundingBox.size.height * line.boundingBox.size.width;
+        if (sumSize > biggestTextSize && line.text.length < kMaxCharacters) {
+          result = line.text;
+          // print(result);
+          // print(sumSize);
+          biggestTextSize = sumSize;
+        }
+      }
+    }
+
+    await textRecognizer.close();
+    return result;
+  }
 }

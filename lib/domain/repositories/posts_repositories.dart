@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:ebntz/data/repositories_impl/posts_repository_impl.dart';
 import 'package:ebntz/data/services/remote/firebase_firestore_service.dart';
 import 'package:ebntz/data/services/remote/firebase_storage_service.dart';
-import 'package:ebntz/data/services/remote/ml_kit_service.dart';
+import 'package:ebntz/data/services/local/ml_kit_service.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,4 +24,6 @@ abstract class PostsRepository {
     required File image,
   });
   Future<FirebaseResponse> deletePost(LineupItemModel lineupItemModel);
+
+  Future<String?> getInfoFromImage(File file);
 }

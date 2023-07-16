@@ -1,4 +1,5 @@
 import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/presentation/modules/auth/auth_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

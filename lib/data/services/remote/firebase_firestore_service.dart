@@ -19,7 +19,10 @@ class FirebaseFirestoreService {
   FirebaseFirestoreService(this.firebaseFirestore);
 
   Stream<List<LineupItemModel>> getPosts() async* {
-    final snapshots = firebaseFirestore.collection('posts').snapshots();
+    final snapshots = firebaseFirestore
+        .collection('posts')
+        .orderBy('creationDate', descending: true)
+        .snapshots();
     final items = snapshots.map(
       (snapshot) => snapshot.docs
           .map(

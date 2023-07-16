@@ -116,10 +116,7 @@ class LineupItemWidget extends ConsumerWidget {
         //   ),
         // ),
         const Divider(
-          thickness: 1,
-        ),
-        const Divider(
-          thickness: 1,
+          thickness: 5,
         ),
       ],
     );

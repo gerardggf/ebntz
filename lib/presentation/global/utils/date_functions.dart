@@ -59,5 +59,12 @@ String getFormattedPostDate(String dateString) {
 
 String getFormattedPostTimeOfDay(String dateString) {
   final date = stringToDate(dateString);
-  return '${date.hour}: ${date.minute}';
+  final String extra = () {
+    if (date.minute.toString().length == 1) {
+      return '0';
+    }
+    return '';
+  }();
+
+  return '${date.hour}:$extra${date.minute}';
 }
