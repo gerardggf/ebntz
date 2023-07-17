@@ -8,6 +8,7 @@ class LineupItemModel {
   final String description;
   final String location;
   final String url;
+  final bool approved;
 
   LineupItemModel({
     required this.id,
@@ -19,6 +20,7 @@ class LineupItemModel {
     required this.description,
     required this.location,
     required this.url,
+    required this.approved,
   });
 
   LineupItemModel copyWith({
@@ -31,6 +33,7 @@ class LineupItemModel {
     String? description,
     String? location,
     String? url,
+    bool? approved,
   }) =>
       LineupItemModel(
         id: id ?? this.id,
@@ -42,6 +45,7 @@ class LineupItemModel {
         description: description ?? this.description,
         location: location ?? this.location,
         url: url ?? this.url,
+        approved: approved ?? this.approved,
       );
 
   factory LineupItemModel.fromJson(Map<String, dynamic> json) =>
@@ -55,6 +59,7 @@ class LineupItemModel {
         description: json["description"],
         location: json["location"],
         url: json["url"],
+        approved: json["approved"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,6 +72,7 @@ class LineupItemModel {
         "description": description,
         "location": location,
         "url": url,
+        "approved": approved,
       };
 }
 
@@ -80,5 +86,6 @@ class LineupItemModel {
 // "title":"sjkdhasda",
 // "description":"sfhjasfsa",
 // "location":"dhjashjdga",
-// "url":"sjkdasjyhfash"
+// "url":"sjkdasjyhfash",
+// "approved":false,
 // }

@@ -1,9 +1,6 @@
 import 'dart:io';
 
-import 'package:ebntz/domain/enums.dart';
-import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
-import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io' as io;
@@ -51,30 +48,16 @@ class EditPostController extends StateNotifier<EditPostState> {
 
   void updateFetching(bool value) => state = state.copyWith(fetching: value);
 
-  Future<FirebaseResponse> submit() async {
-    updateFetching(true);
-    final result = await postsRepository.createPost(
-      image: state.image!,
-      lineupItemModel: LineupItemModel(
-        id: '',
-        author: 'prueba',
-        creationDate: dateToString(
-          DateTime.now(),
-        ),
-        category: state.category,
-        tags: [],
-        title:
-            '${state.title[0].toUpperCase()}${state.title.substring(1, state.title.length)}',
-        description: state.description,
-        location: state.location ?? '',
-        url: '',
-      ),
-    );
-    if (result == FirebaseResponse.success) {
-      state.image == null;
-    }
-    updateFetching(false);
+  // Future<FirebaseResponse> submit() async {
+  //   updateFetching(true);
 
-    return result;
-  }
+  //TODO: do
+
+  //   if (result == FirebaseResponse.success) {
+  //     state.image == null;
+  //   }
+  //   updateFetching(false);
+
+  //   return result;
+  // }
 }

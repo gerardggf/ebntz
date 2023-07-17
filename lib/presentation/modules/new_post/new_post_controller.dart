@@ -67,14 +67,16 @@ class NewPostController extends StateNotifier<NewPostState> {
         author: 'prueba',
         creationDate: dateToString(
           DateTime.now(),
-        ),
-        category: state.category == '' ? state.category : 'Music',
+        )!,
+        category: state.category.trim() == '' ? state.category.trim() : 'Music',
         tags: [],
         title:
-            '${state.title[0].toUpperCase()}${state.title.substring(1, state.title.length)}',
-        description: state.description,
-        location: state.location ?? '',
+            '${state.title[0].toUpperCase()}${state.title.substring(1, state.title.length)}'
+                .trim(),
+        description: state.description.trim(),
+        location: state.location?.trim() ?? '',
         url: '',
+        approved: true,
       ),
     );
     if (result == FirebaseResponse.success) {

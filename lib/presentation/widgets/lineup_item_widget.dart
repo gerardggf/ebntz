@@ -2,8 +2,10 @@ import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
+import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LineupItemWidget extends ConsumerWidget {
   const LineupItemWidget({
@@ -82,25 +84,7 @@ class LineupItemWidget extends ConsumerWidget {
               ),
               if (lineupItem.author == 'prueba') const SizedBox(width: 5),
               if (lineupItem.author == 'prueba')
-                PopupMenuButton<PostOptions>(
-                  onSelected: (result) {
-                    if (result == PostOptions.edit) {
-                    } else if (result == PostOptions.delete) {
-                      ref.read(postsRepostoryProvider).deletePost(lineupItem);
-                    }
-                  },
-                  itemBuilder: (BuildContext context) =>
-                      <PopupMenuEntry<PostOptions>>[
-                    const PopupMenuItem<PostOptions>(
-                      value: PostOptions.edit,
-                      child: Text('Editar'),
-                    ),
-                    const PopupMenuItem<PostOptions>(
-                      value: PostOptions.delete,
-                      child: Text('Eliminar'),
-                    ),
-                  ],
-                ),
+                _buildPopUpMenuButtonWidget(context, ref),
             ],
           ),
         ),
@@ -121,4 +105,60 @@ class LineupItemWidget extends ConsumerWidget {
       ],
     );
   }
+
+  Widget _buildPopUpMenuButtonWidget(BuildContext context, WidgetRef ref) =>
+      PopupMenuButton<PostOptions>(
+        onSelected: (result) async {
+          if (result == PostOptions.edit) {
+            context.pushNamed(Routes.editPost);
+          } else if (result == PostOptions.delete) {
+            final result = await showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: const Text('Eliminar evento'),
+                    content: const Text(
+                        '¿Seguro que quieres eliminar esta publicación?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          context.pop(true);
+                        },
+                        child: const Text(
+                          'Confirmar',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          context.pop(false);
+                        },
+                        child: const Text(
+                          'Cancelar',
+                          style: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ) ??
+                false;
+            if (result) {
+              ref.read(postsRepostoryProvider).deletePost(lineupItem);
+            }
+          }
+        },
+        itemBuilder: (BuildContext context) => <PopupMenuEntry<PostOptions>>[
+          const PopupMenuItem<PostOptions>(
+            value: PostOptions.edit,
+            child: Text('Editar'),
+          ),
+          const PopupMenuItem<PostOptions>(
+            value: PostOptions.delete,
+            child: Text('Eliminar'),
+          ),
+        ],
+      );
 }

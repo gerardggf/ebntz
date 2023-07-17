@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/domain/models/user_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final firebaseFirestoreProvider = Provider<FirebaseFirestore>((ref) {
@@ -17,6 +19,8 @@ class FirebaseFirestoreService {
   final FirebaseFirestore firebaseFirestore;
 
   FirebaseFirestoreService(this.firebaseFirestore);
+
+  // posts ---------------------------------------------------
 
   Stream<List<LineupItemModel>> getPosts() async* {
     final snapshots = firebaseFirestore
@@ -63,6 +67,76 @@ class FirebaseFirestoreService {
       return FirebaseResponse.success;
     } catch (e) {
       return FirebaseResponse.failure;
+    }
+  }
+
+  // users ---------------------------------------------------
+
+  Future<UserModel?> getUser(String userId) async {
+    try {
+      final CollectionReference usersCollection =
+          firebaseFirestore.collection('users');
+      DocumentReference docRef = usersCollection.doc(userId);
+      return await docRef.get().then(
+            (event) => UserModel.fromJson(
+              event.data() as Map<String, dynamic>,
+            ),
+          );
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return null;
+    }
+  }
+
+  Future<bool> createFirestoreUser(UserModel? user) async {
+    try {
+      if (user == null) return false;
+      final CollectionReference usersCollection =
+          firebaseFirestore.collection('users');
+      DocumentReference docRef = usersCollection.doc(user.id);
+      await docRef.set(
+        user.toJson(),
+      );
+      return true;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return false;
+    }
+  }
+
+  Future<bool> updateFirestoreUsername(String userId, String username) async {
+    try {
+      final CollectionReference usersCollection =
+          firebaseFirestore.collection('users');
+      DocumentReference docRef = usersCollection.doc(userId);
+      await docRef.update(
+        {"username": username},
+      );
+      return true;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return false;
+    }
+  }
+
+  Future<bool> deleteFirestoreUser(String userId) async {
+    try {
+      final CollectionReference usersCollection =
+          firebaseFirestore.collection('users');
+      DocumentReference docRef = usersCollection.doc(userId);
+      await docRef.delete();
+      return true;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return false;
     }
   }
 }

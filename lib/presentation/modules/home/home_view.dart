@@ -150,7 +150,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     return e.title.toLowerCase().contains(
                               controller.searchText!.toLowerCase(),
                             ) ||
-                        findByArtist;
+                        findByArtist && e.approved;
                   },
                 ).toList();
                 return ListView.builder(

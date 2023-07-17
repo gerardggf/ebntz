@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ebntz/data/services/remote/firebase_auth_service.dart';
 import 'package:ebntz/data/services/remote/firebase_firestore_service.dart';
 import 'package:ebntz/data/services/remote/firebase_storage_service.dart';
 import 'package:ebntz/data/services/local/ml_kit_service.dart';
 import 'package:ebntz/my_app.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +23,8 @@ void main() async {
 
   final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
+  final firebaseAuth = FirebaseAuth.instance;
+
   final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
 
   runApp(
@@ -29,6 +33,7 @@ void main() async {
         firebaseStorageProvider.overrideWithValue(firebaseStorage),
         firebaseFirestoreProvider.overrideWithValue(firebaseFirestore),
         textRecognizerProvider.overrideWithValue(textRecognizer),
+        firebaseAuthProvider.overrideWithValue(firebaseAuth),
       ],
       child: const MyApp(),
     ),

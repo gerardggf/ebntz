@@ -6,4 +6,5 @@ class Routes {
   static const home = 'home';
   static const profile = 'profile';
   static const newPost = 'new-post';
+  static const editPost = 'edit-post';
 }
