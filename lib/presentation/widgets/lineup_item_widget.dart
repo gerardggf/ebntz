@@ -89,10 +89,11 @@ class LineupItemWidget extends ConsumerWidget {
           ),
         ),
         Image.network(lineupItem.url),
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Text(lineupItem.description),
-        ),
+        if (lineupItem.description.trim().isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(lineupItem.description),
+          ),
         // Padding(
         //   padding: const EdgeInsets.all(10),
         //   child: Text(

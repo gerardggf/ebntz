@@ -61,6 +61,7 @@ class AuthController extends StateNotifier<AuthState> {
         if (kDebugMode) {
           print(user.toJson());
         }
+        state = state.copyWith(fetching: false);
       },
     );
 

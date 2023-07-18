@@ -1,4 +1,5 @@
 import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +29,13 @@ class OptionsDrawer extends ConsumerWidget {
               ),
               const SizedBox(height: 15),
               ListTile(
-                title: const Text('Perfil'),
+                title: Text(
+                  ref.watch(sessionControllerProvider) == null
+                      ? 'Iniciar sesión / Registrarse'
+                      : 'Perfil',
+                  overflow: TextOverflow.ellipsis,
+                ),
+                minLeadingWidth: 30,
                 leading: const Icon(
                   Icons.person,
                   color: kPrimaryColor,
@@ -44,6 +51,7 @@ class OptionsDrawer extends ConsumerWidget {
                   Icons.add,
                   color: kPrimaryColor,
                 ),
+                minLeadingWidth: 30,
                 onTap: () {
                   context.pop();
                   context.pushNamed(Routes.newPost);

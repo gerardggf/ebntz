@@ -32,6 +32,7 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
         key: _formKey,
         child: Column(
           children: [
+            const SizedBox(height: 10),
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Text(
@@ -116,8 +117,12 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
       final result = await notifier.register();
       if (mounted) {
         if (result == 'register-success') {
-          //Navigator.pushReplacementNamed(context, Routes.signIn);
           notifier.updateIsRegister(false);
+          showCustomSnackBar(
+            context: context,
+            text: 'Cuenta registrada con éxito',
+            color: Colors.orange,
+          );
         }
         print(result);
         showCustomSnackBar(

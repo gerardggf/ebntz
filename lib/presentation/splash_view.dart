@@ -1,4 +1,6 @@
+import 'package:ebntz/domain/repositories/authentication_repository.dart';
 import 'package:ebntz/domain/repositories/connectivity_repository.dart';
+import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,25 +28,24 @@ class _SplashViewState extends ConsumerState<SplashView> {
 
   Future<void> _init() async {
     final routeName = await () async {
-      final hasInternet = ref.read(connectivityRepositoryProvider).hasInternet;
+      final ConnectivityRepository connectivityRepository =
+          ref.read(connectivityRepositoryProvider);
+      final AuthenticationRepository authenticationRepository =
+          ref.read(authenticationRepositoryProvider);
+      final SessionController sessionController =
+          ref.read(sessionControllerProvider.notifier);
+
+      final hasInternet = connectivityRepository.hasInternet;
 
       if (!hasInternet) {
         return Routes.offline;
       }
 
-      // final isSignedIn = await Repositories.authentication.isSignedIn;
+      final user = await authenticationRepository.currentUser;
 
-      // if (!isSignedIn) {
-      //   return Routes.signIn;
-      // }
-
-      // final user = await Repositories.account.getUserData();
-
-      // if (user != null) {
-      //   sessionController.setUser(user);
-      //   favoritesController.init();
-      //   return Routes.home;
-      // }
+      if (user != null) {
+        await sessionController.setUser(user);
+      }
 
       return Routes.home;
     }();

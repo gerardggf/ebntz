@@ -1,7 +1,6 @@
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/global/utils/get_text_from_code.dart';
 import 'package:ebntz/presentation/modules/auth/auth_controller.dart';
-import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +13,7 @@ class LoginWidget extends ConsumerStatefulWidget {
 }
 
 class _LoginWidgetState extends ConsumerState<LoginWidget> {
-  final TextEditingController _usernameController = TextEditingController(),
+  final TextEditingController _emailController = TextEditingController(),
       _passwordController = TextEditingController();
 
   @override
@@ -28,6 +27,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
       ),
       child: Column(
         children: [
+          const SizedBox(height: 10),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
@@ -38,17 +38,24 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
             ),
           ),
           TextFormField(
-            controller: _usernameController,
+            controller: _emailController,
             decoration: const InputDecoration(labelText: 'Correo electrónico'),
+            onChanged: (value) {
+              notifier.updateEmail(value);
+            },
           ),
           TextFormField(
             controller: _passwordController,
+            obscureText: true,
             decoration: const InputDecoration(labelText: 'Contraseña'),
+            onChanged: (value) {
+              notifier.updatePassword(value);
+            },
           ),
           const SizedBox(height: 30),
           CustomButton(
-            onPressed: () {
-              login();
+            onPressed: () async {
+              await _login();
             },
             child: const Text('Iniciar sesión'),
           ),
@@ -67,7 +74,11 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
     );
   }
 
-  Future<void> login() async {
+  Future<void> _login() async {
+    if (_emailController.text.trim().isEmpty ||
+        _passwordController.text.trim().isEmpty) {
+      return;
+    }
     final notifier = ref.read(authControllerProvider.notifier);
 
     final result = await notifier.login();
@@ -80,12 +91,11 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
         );
       },
       right: (_) {
-        // if (!ref.watch(authenticationRepositoryProvider).currentUser!.verified) {
-        //   Navigator.pushReplacementNamed(context, Routes.verifyEmail);
-        // }
-        // else {
-        Navigator.pushReplacementNamed(context, Routes.home);
-        //}
+        showCustomSnackBar(
+          context: context,
+          //TODO:traducir
+          text: 'Sesión iniciada correctamente',
+        );
       },
     );
   }

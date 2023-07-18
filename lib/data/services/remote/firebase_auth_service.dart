@@ -17,11 +17,11 @@ final firebaseAuthServiceProvider = Provider<FirebaseAuthService>(
 
 class FirebaseAuthService {
   FirebaseAuthService(
-    this.auth,
+    this.firebaseAuth,
     this.firestoreService,
   );
 
-  final FirebaseAuth auth;
+  final FirebaseAuth firebaseAuth;
   final FirebaseFirestoreService firestoreService;
 
   Future<UserModel?> _mapUser(User? user) async {
@@ -40,17 +40,16 @@ class FirebaseAuthService {
     );
   }
 
-  Future<UserModel?> get currentUser async => await _mapUser(auth.currentUser);
-  User? get firebaseCurrentUser => auth.currentUser;
+  Future<UserModel?> get currentUser async =>
+      await _mapUser(firebaseAuth.currentUser);
+  User? get firebaseCurrentUser => firebaseAuth.currentUser;
 
   Future<String> createUserWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
-    print('eee $email');
-    print(password);
     try {
-      final credentials = await auth.createUserWithEmailAndPassword(
+      final credentials = await firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -71,8 +70,8 @@ class FirebaseAuthService {
     required String password,
   }) async {
     try {
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      final credential = await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
       return Either.right(
         await _mapUser(credential.user),
       );
@@ -84,7 +83,7 @@ class FirebaseAuthService {
   }
 
   Future<void> sendPasswordResetEmail(String email) async {
-    return await auth.sendPasswordResetEmail(email: email);
+    return await firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
   Future<void> sendEmailVerification(User user) async {
@@ -98,7 +97,7 @@ class FirebaseAuthService {
   }
 
   Future<void> signOut() async {
-    return await auth.signOut();
+    return await firebaseAuth.signOut();
   }
 
   Future<void> delete(User user) async {
