@@ -44,6 +44,9 @@ class NewPostController extends StateNotifier<NewPostState> {
 
   void updateLocation(String text) => state = state.copyWith(location: text);
 
+  void updateDateTime(DateTime date) =>
+      state = state.copyWith(initialDate: date);
+
   void updateCategory(String text) => state = state.copyWith(category: text);
 
   Future<void> updateImage(File? image) async {

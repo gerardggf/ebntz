@@ -18,7 +18,6 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(authControllerProvider);
     final notifier = ref.watch(authControllerProvider.notifier);
     return Padding(
       padding: const EdgeInsets.symmetric(

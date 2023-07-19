@@ -8,6 +8,7 @@ part 'new_post_state.freezed.dart';
 class NewPostState with _$NewPostState {
   factory NewPostState({
     @Default(false) bool fetching,
+    @Default(null) DateTime? initialDate,
     @Default('') String title,
     @Default('') String author,
     @Default('') String description,

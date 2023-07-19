@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class NewPostView extends ConsumerStatefulWidget {
   const NewPostView({super.key});
@@ -20,7 +21,8 @@ final GlobalKey<FormState> _formKey = GlobalKey();
 class _NewPostViewState extends ConsumerState<NewPostView> {
   final TextEditingController _titleController = TextEditingController(),
       _descriptionController = TextEditingController(),
-      _locationController = TextEditingController();
+      _locationController = TextEditingController(),
+      _initialDateController = TextEditingController();
 
   //TODO: añadir selección de fechas del evento
 
@@ -104,20 +106,27 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
               ),
               const SizedBox(height: 10),
               GestureDetector(
-                onTap: () {
-                  showDatePicker(
-                    context: context,
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime(2100),
-                    initialDate: DateTime.now(),
-                  );
+                onTap: () async {
+                  final result = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100),
+                        initialDate: DateTime.now(),
+                      ) ??
+                      DateTime.now();
+                  notifier.updateDateTime(result);
+                  if (controller.initialDate != null) {
+                    _initialDateController.text = DateFormat('dd/MM/yyyy')
+                        .format(controller.initialDate!);
+                  }
                 },
-                child: const AbsorbPointer(
+                child: AbsorbPointer(
                   absorbing: true,
                   child: TextField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Fecha inicio',
                     ),
+                    controller: _initialDateController,
                   ),
                 ),
               ),

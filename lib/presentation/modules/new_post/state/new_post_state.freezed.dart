@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$NewPostState {
   bool get fetching => throw _privateConstructorUsedError;
+  DateTime? get initialDate => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
@@ -37,6 +38,7 @@ abstract class $NewPostStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool fetching,
+      DateTime? initialDate,
       String title,
       String author,
       String description,
@@ -59,6 +61,7 @@ class _$NewPostStateCopyWithImpl<$Res, $Val extends NewPostState>
   @override
   $Res call({
     Object? fetching = null,
+    Object? initialDate = freezed,
     Object? title = null,
     Object? author = null,
     Object? description = null,
@@ -71,6 +74,10 @@ class _$NewPostStateCopyWithImpl<$Res, $Val extends NewPostState>
           ? _value.fetching
           : fetching // ignore: cast_nullable_to_non_nullable
               as bool,
+      initialDate: freezed == initialDate
+          ? _value.initialDate
+          : initialDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -109,6 +116,7 @@ abstract class _$$_NewPostStateCopyWith<$Res>
   @useResult
   $Res call(
       {bool fetching,
+      DateTime? initialDate,
       String title,
       String author,
       String description,
@@ -129,6 +137,7 @@ class __$$_NewPostStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fetching = null,
+    Object? initialDate = freezed,
     Object? title = null,
     Object? author = null,
     Object? description = null,
@@ -141,6 +150,10 @@ class __$$_NewPostStateCopyWithImpl<$Res>
           ? _value.fetching
           : fetching // ignore: cast_nullable_to_non_nullable
               as bool,
+      initialDate: freezed == initialDate
+          ? _value.initialDate
+          : initialDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -174,6 +187,7 @@ class __$$_NewPostStateCopyWithImpl<$Res>
 class _$_NewPostState implements _NewPostState {
   _$_NewPostState(
       {this.fetching = false,
+      this.initialDate = null,
       this.title = '',
       this.author = '',
       this.description = '',
@@ -184,6 +198,9 @@ class _$_NewPostState implements _NewPostState {
   @override
   @JsonKey()
   final bool fetching;
+  @override
+  @JsonKey()
+  final DateTime? initialDate;
   @override
   @JsonKey()
   final String title;
@@ -205,7 +222,7 @@ class _$_NewPostState implements _NewPostState {
 
   @override
   String toString() {
-    return 'NewPostState(fetching: $fetching, title: $title, author: $author, description: $description, category: $category, location: $location, image: $image)';
+    return 'NewPostState(fetching: $fetching, initialDate: $initialDate, title: $title, author: $author, description: $description, category: $category, location: $location, image: $image)';
   }
 
   @override
@@ -215,6 +232,8 @@ class _$_NewPostState implements _NewPostState {
             other is _$_NewPostState &&
             (identical(other.fetching, fetching) ||
                 other.fetching == fetching) &&
+            (identical(other.initialDate, initialDate) ||
+                other.initialDate == initialDate) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.description, description) ||
@@ -227,8 +246,8 @@ class _$_NewPostState implements _NewPostState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, fetching, title, author,
-      description, category, location, image);
+  int get hashCode => Object.hash(runtimeType, fetching, initialDate, title,
+      author, description, category, location, image);
 
   @JsonKey(ignore: true)
   @override
@@ -240,6 +259,7 @@ class _$_NewPostState implements _NewPostState {
 abstract class _NewPostState implements NewPostState {
   factory _NewPostState(
       {final bool fetching,
+      final DateTime? initialDate,
       final String title,
       final String author,
       final String description,
@@ -249,6 +269,8 @@ abstract class _NewPostState implements NewPostState {
 
   @override
   bool get fetching;
+  @override
+  DateTime? get initialDate;
   @override
   String get title;
   @override
