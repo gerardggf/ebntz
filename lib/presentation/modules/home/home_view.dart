@@ -14,29 +14,18 @@ class HomeView extends ConsumerStatefulWidget {
   ConsumerState<HomeView> createState() => _HomeViewState();
 }
 
+final postsStreamProvider = StreamProvider<List<LineupItemModel>>(
+  (ref) => ref.read(postsRepostoryProvider).getPosts(),
+);
+
 class _HomeViewState extends ConsumerState<HomeView> {
-  Stream<List<LineupItemModel>>? posts;
   final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        _init();
-      },
-    );
-  }
-
-  void _init() {
-    posts = ref.read(postsRepostoryProvider).getPosts();
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     final controller = ref.watch(homeControllerProvider);
     final notifier = ref.watch(homeControllerProvider.notifier);
+    final postsStream = ref.watch(postsStreamProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -119,50 +108,26 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
             ),
           Expanded(
-            child: StreamBuilder<List<LineupItemModel>>(
-              stream: posts,
-              builder: (BuildContext context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(
-                      color: kPrimaryColor,
-                    ),
-                  );
-                }
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: Text('Error'),
-                  );
-                }
-                final items = snapshot.data!.where(
-                  (e) {
-                    if (controller.searchText == null) {
-                      return true;
-                    }
-
-                    final regExp = RegExp(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]');
-                    final filteredTags =
-                        e.tags.join().toLowerCase().replaceAll(regExp, '');
-                    //print('FilteredTags: $filteredTags');
-                    final findByArtist = filteredTags.contains(
-                      controller.searchText!.toLowerCase().replaceAll(' ', ''),
-                    );
-                    return e.title.toLowerCase().contains(
-                              controller.searchText!.toLowerCase(),
-                            ) ||
-                        findByArtist && e.approved;
-                  },
-                ).toList();
+            child: postsStream.when(
+              data: (data) {
                 return ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: items.length,
+                  itemCount: data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return LineupItemWidget(
-                      lineupItem: items[index],
+                      lineupItem: data[index],
                     );
                   },
                 );
               },
+              error: (e, stackTrace) => Center(
+                child: Text('Error: ${e.toString()}'),
+              ),
+              loading: () => const Center(
+                child: CircularProgressIndicator(
+                  color: kPrimaryColor,
+                ),
+              ),
             ),
           ),
         ],
