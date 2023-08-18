@@ -47,6 +47,7 @@ dependencies:
   connectivity_plus: ^4.0.1
   http: ^0.13.6
   firebase_auth: ^4.6.0
+  flutter_map: ^4.0.0
 
 dev_dependencies:
   flutter_test:
