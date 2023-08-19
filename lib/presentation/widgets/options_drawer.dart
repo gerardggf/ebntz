@@ -1,3 +1,4 @@
+import 'package:ebntz/domain/repositories/authentication_repository.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
@@ -27,6 +28,19 @@ class OptionsDrawer extends ConsumerWidget {
                   fontWeight: FontWeight.w900,
                 ),
               ),
+              const SizedBox(height: 10),
+              if (ref
+                      .watch(authenticationRepositoryProvider)
+                      .firebaseCurrentUser !=
+                  null)
+                Text(
+                  ref
+                      .watch(authenticationRepositoryProvider)
+                      .firebaseCurrentUser!
+                      .email!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontStyle: FontStyle.italic),
+                ),
               const SizedBox(height: 15),
               ListTile(
                 title: Text(

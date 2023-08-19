@@ -110,12 +110,32 @@ class _HomeViewState extends ConsumerState<HomeView> {
           Expanded(
             child: postsStream.when(
               data: (data) {
+                final items = data.where(
+                  (e) {
+                    if (controller.searchText == null) {
+                      return true;
+                    }
+
+                    final regExp = RegExp(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]');
+                    final filteredTags =
+                        e.tags.join().toLowerCase().replaceAll(regExp, '');
+                    //print('FilteredTags: $filteredTags');
+                    final findByArtist = filteredTags.contains(
+                      controller.searchText!.toLowerCase().replaceAll(' ', ''),
+                    );
+                    return e.title.toLowerCase().contains(
+                              controller.searchText!.toLowerCase(),
+                            ) ||
+                        findByArtist && e.approved;
+                  },
+                ).toList();
+                //print(items.map((e) => e.title));
                 return ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount: data.length,
+                  itemCount: items.length,
                   itemBuilder: (BuildContext context, int index) {
                     return LineupItemWidget(
-                      lineupItem: data[index],
+                      lineupItem: items[index],
                     );
                   },
                 );

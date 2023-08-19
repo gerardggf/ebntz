@@ -118,7 +118,8 @@ class LineupItemWidget extends ConsumerWidget {
                   builder: (context) => AlertDialog(
                     title: const Text('Eliminar evento'),
                     content: const Text(
-                        '¿Seguro que quieres eliminar esta publicación?'),
+                      '¿Seguro que quieres eliminar esta publicación?',
+                    ),
                     actions: [
                       TextButton(
                         onPressed: () {
