@@ -167,7 +167,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
+              if (controller.dates.isNotEmpty) const SizedBox(height: 10),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,

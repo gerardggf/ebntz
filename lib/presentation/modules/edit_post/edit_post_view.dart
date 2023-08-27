@@ -1,15 +1,20 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
-import 'package:ebntz/presentation/modules/new_post/new_post_controller.dart';
-import 'package:ebntz/presentation/widgets/custom_button.dart';
+import 'package:ebntz/presentation/global/utils/date_functions.dart';
+import 'package:ebntz/presentation/modules/edit_post/edit_post_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
 
 class EditPostView extends ConsumerStatefulWidget {
-  const EditPostView({super.key});
+  const EditPostView({
+    super.key,
+    required this.id,
+  });
+
+  final String id;
 
   @override
   ConsumerState<EditPostView> createState() => _EditPostViewState();
@@ -22,12 +27,37 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
       _descriptionController = TextEditingController(),
       _locationController = TextEditingController();
 
-//TODO: volver a copiar pantalla de newpost una vez añadida la seleccion de fechas del evento
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        final controller = ref.watch(editPostControllerProvider);
+        ref
+            .read(editPostControllerProvider.notifier)
+            .loadPostData(widget.id)
+            .then((_) {
+          _titleController.text = controller.title;
+          _descriptionController.text = controller.description;
+          _locationController.text = controller.location ?? '';
+          setState(() {});
+        });
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _locationController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final controller = ref.watch(newPostControllerProvider);
-    final notifier = ref.watch(newPostControllerProvider.notifier);
+    final controller = ref.watch(editPostControllerProvider);
+    final notifier = ref.watch(editPostControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Editar evento'),
@@ -35,9 +65,21 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
         backgroundColor: AppColors.primary,
         actions: [
           if (!controller.fetching)
-            IconButton(
-              onPressed: () async => _submit(),
-              icon: const Icon(Icons.publish),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: const StadiumBorder(),
+                ),
+                onPressed: () async => _submit(),
+                child: const Text(
+                  'Actualizar',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
             ),
           if (controller.fetching)
             const Padding(
@@ -61,6 +103,11 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
               vertical: 10,
             ),
             children: [
+              if (controller.title.isNotEmpty)
+                CachedNetworkImage(
+                  imageUrl: controller.imageUrl,
+                  fit: BoxFit.fitWidth,
+                ),
               TextFormField(
                 controller: _titleController,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -68,6 +115,9 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                   if (_titleController.text == '' ||
                       _titleController.text.isEmpty) {
                     return 'El campo no puede estar vacío';
+                  }
+                  if (_titleController.text.length > 25) {
+                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
                   }
                   return null;
                 },
@@ -77,6 +127,45 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                 onChanged: (value) {
                   notifier.updateTitle(value);
                 },
+              ),
+              const SizedBox(height: 20),
+              TextButton.icon(
+                onPressed: () async {
+                  _chooseDates();
+                },
+                icon: const Icon(Icons.add),
+                label: const FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Añadir fechas del evento',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
+              if (controller.dates.isNotEmpty) const SizedBox(height: 10),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (_, index) {
+                  return ListTile(
+                    trailing: IconButton(
+                      onPressed: () {
+                        final datesCopy = List<DateTime>.from(controller.dates);
+                        datesCopy.removeAt(index);
+                        notifier.updateDates(datesCopy);
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                      ),
+                    ),
+                    title: Text(
+                      '$index. ${mapWeekday(controller.dates[index].weekday)} ${dateToString(
+                            controller.dates[index],
+                          ) ?? '?'}',
+                    ),
+                  );
+                },
+                itemCount: controller.dates.length,
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -88,6 +177,12 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                 onChanged: (value) {
                   notifier.updateLocation(value);
                 },
+                validator: (value) {
+                  if (_titleController.text.length > 25) {
+                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -98,55 +193,11 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                 maxLength: 500,
                 maxLines: null,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (_descriptionController.text == '' ||
-                      _descriptionController.text.isEmpty) {
-                    return 'El campo no puede estar vacío';
-                  }
-                  return null;
-                },
                 onChanged: (value) {
                   notifier.updateDescription(value);
                 },
               ),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: CustomButton(
-                      onPressed: () {
-                        imagePickerBottomSheet();
-                      },
-                      child: Text(
-                        controller.image != null
-                            ? 'Cambiar imagen'
-                            : 'Escoger imagen',
-                      ),
-                    ),
-                  ),
-                  if (controller.image != null) const SizedBox(width: 10),
-                  if (controller.image != null)
-                    Expanded(
-                      child: CustomButton(
-                        onPressed: () {
-                          notifier.updateImage(null);
-                        },
-                        child: const Icon(
-                          Icons.close,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              if (controller.image != null)
-                Image.file(
-                  controller.image!,
-                  fit: BoxFit.fitWidth,
-                ),
-              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -154,54 +205,31 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
     );
   }
 
-  void imagePickerBottomSheet() {
-    final notifier = ref.watch(newPostControllerProvider.notifier);
-
-    showModalBottomSheet(
+  Future<void> _chooseDates() async {
+    final controller = ref.read(editPostControllerProvider);
+    final notifier = ref.read(editPostControllerProvider.notifier);
+    final date = await showDatePicker(
       context: context,
-      builder: (context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              leading: const Icon(Icons.photo),
-              title: const Text(
-                'Cámara',
-              ),
-              onTap: () {
-                Navigator.of(context).pop();
-                notifier.getImage(ImageSource.camera);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.folder),
-              title: const Text('Galería'),
-              onTap: () {
-                Navigator.of(context).pop();
-                notifier.getImage(ImageSource.gallery);
-              },
-            ),
-          ],
-        );
-      },
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      initialDate:
+          controller.dates.isEmpty ? DateTime.now() : controller.dates.last,
     );
+    final datesCopy = List<DateTime>.from(controller.dates);
+    if (datesCopy.contains(date) || date == null) {
+      return;
+    }
+    datesCopy.add(date);
+    notifier.updateDates(datesCopy);
   }
 
   Future<void> _submit() async {
-    final controller = ref.read(newPostControllerProvider);
-    final notifier = ref.read(newPostControllerProvider.notifier);
+    final notifier = ref.read(editPostControllerProvider.notifier);
     if (!_formKey.currentState!.validate()) {
       return;
     }
-    if (controller.image == null) {
-      showCustomSnackBar(
-        context: context,
-        text: 'Tienes que seleccionar una imagen',
-        color: Colors.orange,
-      );
-      return;
-    }
-    final result = await notifier.submit();
+
+    final result = await notifier.submitUpdate();
     if (result == FirebaseResponse.success) {
       if (mounted) {
         showCustomSnackBar(

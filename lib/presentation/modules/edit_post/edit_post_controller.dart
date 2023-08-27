@@ -1,10 +1,7 @@
-import 'dart:io';
-
+import 'package:ebntz/domain/enums.dart';
+import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io' as io;
-
 import 'state/edit_post_state.dart';
 
 final editPostControllerProvider =
@@ -21,19 +18,9 @@ class EditPostController extends StateNotifier<EditPostState> {
     this.postsRepository,
   );
 
+  LineupItemModel? post;
+
   final PostsRepository postsRepository;
-
-  Future<void> getImage(ImageSource imageSource) async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: imageSource, imageQuality: 25);
-
-    if (pickedFile != null) {
-      io.File? image;
-      image = io.File(pickedFile.path);
-
-      updateImage(image);
-    }
-  }
 
   void updateTitle(String text) => state = state.copyWith(title: text);
 
@@ -42,22 +29,55 @@ class EditPostController extends StateNotifier<EditPostState> {
 
   void updateLocation(String text) => state = state.copyWith(location: text);
 
-  void updateCategory(String text) => state = state.copyWith(category: text);
+  void updateDates(List<DateTime> date) => state = state.copyWith(dates: date);
 
-  void updateImage(File? image) => state = state.copyWith(image: image);
+  void resetData() {
+    updateTitle('');
+    updateDates([]);
+    updateLocation('');
+    updateDescription('');
+  }
 
   void updateFetching(bool value) => state = state.copyWith(fetching: value);
 
-  // Future<FirebaseResponse> submit() async {
-  //   updateFetching(true);
+  Future<void> loadPostData(String id) async {
+    post = await postsRepository.getPost(id);
+    if (post == null) return;
+    state = state.copyWith(
+      title: post!.title,
+      description: post!.description,
+      location: post!.location,
+      imageUrl: post!.url,
+      dates: post!.dates.isEmpty
+          ? []
+          : post!.dates
+              .where((element) => element.isNotEmpty)
+              .map(
+                (e) => DateTime.parse(e),
+              )
+              .toList(),
+    );
+  }
 
-  //TODO: do
+  Future<FirebaseResponse> submitUpdate() async {
+    updateFetching(true);
+    if (post == null) return FirebaseResponse.failure;
+    final result = await postsRepository.editPost(
+      id: post!.id,
+      lineupItemModel: post!.copyWith(
+        title: state.title,
+        dates: post!.dates.isEmpty
+            ? []
+            : state.dates.map((e) => e.toString()).toList(),
+        location: state.location,
+        description: state.description,
+      ),
+    );
+    if (result == FirebaseResponse.success) {
+      resetData();
+    }
+    updateFetching(false);
 
-  //   if (result == FirebaseResponse.success) {
-  //     state.image == null;
-  //   }
-  //   updateFetching(false);
-
-  //   return result;
-  // }
+    return result;
+  }
 }

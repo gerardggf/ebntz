@@ -18,7 +18,7 @@ class HomeView extends ConsumerStatefulWidget {
 }
 
 final postsStreamProvider = StreamProvider<List<LineupItemModel>>(
-  (ref) => ref.read(postsRepostoryProvider).getPosts(),
+  (ref) => ref.read(postsRepostoryProvider).suscribeToPosts(),
 );
 
 class _HomeViewState extends ConsumerState<HomeView> {

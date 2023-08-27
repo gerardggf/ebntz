@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/domain/models/user_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
+import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/modules/new_post/state/new_post_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,6 +15,7 @@ final newPostControllerProvider =
   (ref) => NewPostController(
     NewPostState(),
     ref.read(postsRepostoryProvider),
+    ref.read(sessionControllerProvider),
   ),
 );
 
@@ -20,9 +23,11 @@ class NewPostController extends StateNotifier<NewPostState> {
   NewPostController(
     super.state,
     this.postsRepository,
+    this.sessionController,
   );
 
   final PostsRepository postsRepository;
+  final UserModel? sessionController;
 
   Future<void> getImage(ImageSource imageSource) async {
     final pickedFile =
@@ -32,7 +37,7 @@ class NewPostController extends StateNotifier<NewPostState> {
       io.File? image;
       image = io.File(pickedFile.path);
 
-      updateImage(image);
+      await updateImage(image);
     }
   }
 
@@ -74,7 +79,7 @@ class NewPostController extends StateNotifier<NewPostState> {
       image: state.image!,
       lineupItemModel: LineupItemModel(
         id: '',
-        author: 'prueba',
+        author: sessionController?.id ?? '',
         creationDate: DateTime.now().toString(),
         category: state.category.trim() == '' ? state.category.trim() : '',
         tags: [],

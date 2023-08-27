@@ -32,7 +32,7 @@ class FilterPostsView extends ConsumerWidget {
           ),
           const SizedBox(height: 25),
           const Text(
-            'Fecha',
+            'Filtrar por fecha',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 22,

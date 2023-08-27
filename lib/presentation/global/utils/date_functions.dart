@@ -41,21 +41,21 @@ String getFormattedPostDate(String dateString) {
 String mapWeekday(int weekday) {
   switch (weekday) {
     case 1:
-      return 'L';
+      return 'Lunes';
     case 2:
-      return 'M';
+      return 'Martes';
     case 3:
-      return 'X';
+      return 'Miércoles';
     case 4:
-      return 'J';
+      return 'Jueves';
     case 5:
-      return 'V';
+      return 'Viernes';
     case 6:
-      return 'S';
+      return 'Sábado';
     case 7:
-      return 'D';
+      return 'Domingo';
     default:
-      return 'L';
+      return 'Lunes';
   }
 }
 

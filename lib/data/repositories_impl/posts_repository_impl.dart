@@ -19,8 +19,8 @@ class PostsRepositoryImpl implements PostsRepository {
   final MLKitService mlKitService;
 
   @override
-  Stream<List<LineupItemModel>> getPosts() {
-    return firebaseFirestoreService.getPosts();
+  Stream<List<LineupItemModel>> suscribeToPosts() {
+    return firebaseFirestoreService.suscribeToPosts();
   }
 
   @override
@@ -63,5 +63,21 @@ class PostsRepositoryImpl implements PostsRepository {
   @override
   Future<String?> getInfoFromImage(File file) {
     return mlKitService.getTitle(file);
+  }
+
+  @override
+  Future<LineupItemModel?> getPost(String id) async {
+    return await firebaseFirestoreService.getPost(id);
+  }
+
+  @override
+  Future<FirebaseResponse> editPost({
+    required String id,
+    required LineupItemModel lineupItemModel,
+  }) {
+    return firebaseFirestoreService.editPost(
+      id: id,
+      lineupItemModel: lineupItemModel,
+    );
   }
 }

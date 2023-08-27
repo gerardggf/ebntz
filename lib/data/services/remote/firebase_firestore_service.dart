@@ -22,7 +22,7 @@ class FirebaseFirestoreService {
 
   // posts ---------------------------------------------------
 
-  Stream<List<LineupItemModel>> getPosts() async* {
+  Stream<List<LineupItemModel>> suscribeToPosts() async* {
     final snapshots = firebaseFirestore
         .collection('posts')
         .orderBy('creationDate', descending: true)
@@ -37,6 +37,16 @@ class FirebaseFirestoreService {
           .toList(),
     );
     yield* items;
+  }
+
+  Future<LineupItemModel?> getPost(String id) async {
+    final doc = await firebaseFirestore.collection('posts').doc(id).get();
+    final post = doc.data() == null
+        ? null
+        : LineupItemModel.fromJson(
+            doc.data()!,
+          );
+    return post;
   }
 
   Future<FirebaseResponse> createPost({
@@ -64,6 +74,21 @@ class FirebaseFirestoreService {
     try {
       final doc = firebaseFirestore.collection('posts').doc(id);
       await doc.delete();
+      return FirebaseResponse.success;
+    } catch (e) {
+      return FirebaseResponse.failure;
+    }
+  }
+
+  Future<FirebaseResponse> editPost({
+    required String id,
+    required LineupItemModel lineupItemModel,
+  }) async {
+    try {
+      final doc = firebaseFirestore.collection('posts').doc(id);
+      doc.update(
+        lineupItemModel.toJson(),
+      );
       return FirebaseResponse.success;
     } catch (e) {
       return FirebaseResponse.failure;

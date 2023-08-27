@@ -1,14 +1,14 @@
 import 'package:ebntz/my_app.dart';
 import 'package:ebntz/presentation/modules/edit_post/edit_post_view.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_view.dart';
+import 'package:ebntz/presentation/modules/home/home_view.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_view.dart';
 import 'package:ebntz/presentation/modules/profile/profile_view.dart';
 import 'package:ebntz/presentation/offline_view.dart';
 import 'package:ebntz/presentation/splash_view.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../modules/home/home_view.dart';
 import 'routes.dart';
 
 mixin RouterMixin on State<MyApp> {
@@ -41,8 +41,10 @@ mixin RouterMixin on State<MyApp> {
       ),
       GoRoute(
         name: Routes.editPost,
-        path: '/edit-post',
-        builder: (_, __) => const EditPostView(),
+        path: '/edit-post/:id',
+        builder: (_, state) => EditPostView(
+          id: state.pathParameters["id"] ?? '',
+        ),
       ),
       GoRoute(
         name: Routes.filterPosts,

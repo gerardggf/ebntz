@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
+import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -83,8 +84,9 @@ class LineupItemWidget extends ConsumerWidget {
                   ),
                 ),
               ),
-              if (lineupItem.author == 'prueba') const SizedBox(width: 5),
-              if (lineupItem.author == 'prueba')
+              if (lineupItem.author == ref.watch(sessionControllerProvider)?.id)
+                const SizedBox(width: 5),
+              if (lineupItem.author == ref.watch(sessionControllerProvider)?.id)
                 _buildPopUpMenuButtonWidget(context, ref),
             ],
           ),
@@ -102,13 +104,13 @@ class LineupItemWidget extends ConsumerWidget {
             );
           },
         ),
-        if (lineupItem.description.trim().isNotEmpty &&
+        if (lineupItem.description.trim().isNotEmpty ||
             (lineupItem.dates..removeWhere((element) => element.isEmpty))
                 .isNotEmpty)
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              '${lineupItem.dates.map((e) => dateToString(DateTime.parse(e))).join(', ')} ${lineupItem.description}',
+              '${lineupItem.dates.map((e) => dateToString(DateTime.parse(e))).join(', ')}  ${lineupItem.description}',
             ),
           ),
         // Padding(
@@ -126,14 +128,18 @@ class LineupItemWidget extends ConsumerWidget {
 
   Widget _buildPopUpMenuButtonWidget(BuildContext context, WidgetRef ref) =>
       PopupMenuButton<PostOptions>(
+        icon: const Icon(Icons.expand_circle_down_outlined),
         onSelected: (result) async {
           if (result == PostOptions.edit) {
-            context.pushNamed(Routes.editPost);
+            context.pushNamed(
+              Routes.editPost,
+              pathParameters: {"id": lineupItem.id},
+            );
           } else if (result == PostOptions.delete) {
             final result = await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Eliminar evento'),
+                    title: const Text('Eliminar publicación'),
                     content: const Text(
                       '¿Seguro que quieres eliminar esta publicación?',
                     ),
@@ -172,11 +178,11 @@ class LineupItemWidget extends ConsumerWidget {
         itemBuilder: (BuildContext context) => <PopupMenuEntry<PostOptions>>[
           const PopupMenuItem<PostOptions>(
             value: PostOptions.edit,
-            child: Text('Editar'),
+            child: Text('Editar publicación'),
           ),
           const PopupMenuItem<PostOptions>(
             value: PostOptions.delete,
-            child: Text('Eliminar'),
+            child: Text('Eliminar punlicación'),
           ),
         ],
       );

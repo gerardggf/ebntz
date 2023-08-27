@@ -17,13 +17,20 @@ final postsRepostoryProvider = Provider<PostsRepository>(
 );
 
 abstract class PostsRepository {
-  Stream<List<LineupItemModel>> getPosts();
+  Stream<List<LineupItemModel>> suscribeToPosts();
+  Future<LineupItemModel?> getPost(String id);
+
   Future<List<String>> getRecognizedTexts(File file);
   Future<FirebaseResponse> createPost({
     required LineupItemModel lineupItemModel,
     required File image,
   });
-  Future<FirebaseResponse> deletePost(LineupItemModel lineupItemModel);
 
+  Future<FirebaseResponse> editPost({
+    required String id,
+    required LineupItemModel lineupItemModel,
+  });
+
+  Future<FirebaseResponse> deletePost(LineupItemModel lineupItemModel);
   Future<String?> getInfoFromImage(File file);
 }
