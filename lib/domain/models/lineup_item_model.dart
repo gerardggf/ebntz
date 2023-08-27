@@ -9,6 +9,7 @@ class LineupItemModel {
   final String location;
   final String url;
   final bool approved;
+  final List<String> dates;
 
   LineupItemModel({
     required this.id,
@@ -21,20 +22,21 @@ class LineupItemModel {
     required this.location,
     required this.url,
     required this.approved,
+    required this.dates,
   });
 
-  LineupItemModel copyWith({
-    String? id,
-    String? author,
-    String? creationDate,
-    String? category,
-    List<String>? tags,
-    String? title,
-    String? description,
-    String? location,
-    String? url,
-    bool? approved,
-  }) =>
+  LineupItemModel copyWith(
+          {String? id,
+          String? author,
+          String? creationDate,
+          String? category,
+          List<String>? tags,
+          String? title,
+          String? description,
+          String? location,
+          String? url,
+          bool? approved,
+          List<String>? dates}) =>
       LineupItemModel(
         id: id ?? this.id,
         author: author ?? this.author,
@@ -46,6 +48,7 @@ class LineupItemModel {
         location: location ?? this.location,
         url: url ?? this.url,
         approved: approved ?? this.approved,
+        dates: dates ?? this.dates,
       );
 
   factory LineupItemModel.fromJson(Map<String, dynamic> json) =>
@@ -54,12 +57,17 @@ class LineupItemModel {
         author: json["author"],
         creationDate: json["creationDate"],
         category: json["category"],
-        tags: List<String>.from(json["tags"].map((x) => x)),
+        tags: List<String>.from(
+          json["tags"].map((x) => x),
+        ),
         title: json["title"],
         description: json["description"],
         location: json["location"],
         url: json["url"],
         approved: json["approved"],
+        dates: List<String>.from(
+          json["dates"].map((x) => x),
+        ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,12 +75,15 @@ class LineupItemModel {
         "author": author,
         "creationDate": creationDate,
         "category": category,
-        "tags": List<dynamic>.from(tags.map((x) => x)),
+        "tags": List<dynamic>.from(
+          tags.map((x) => x),
+        ),
         "title": title,
         "description": description,
         "location": location,
         "url": url,
         "approved": approved,
+        "dates": dates,
       };
 }
 
@@ -88,4 +99,5 @@ class LineupItemModel {
 // "location":"dhjashjdga",
 // "url":"sjkdasjyhfash",
 // "approved":false,
+// "dates":["ahsda","ahjsdhas"]
 // }

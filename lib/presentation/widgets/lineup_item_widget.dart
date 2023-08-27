@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
@@ -88,7 +89,19 @@ class LineupItemWidget extends ConsumerWidget {
             ],
           ),
         ),
-        Image.network(lineupItem.url),
+        CachedNetworkImage(
+          imageUrl: lineupItem.url,
+          progressIndicatorBuilder: (context, url, progress) {
+            return SizedBox(
+              height: 300,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: (progress.downloaded / 100),
+                ),
+              ),
+            );
+          },
+        ),
         if (lineupItem.description.trim().isNotEmpty)
           Padding(
             padding: const EdgeInsets.all(10),

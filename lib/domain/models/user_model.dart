@@ -62,7 +62,7 @@ class UserModel {
         "id": id,
         "username": username,
         "email": email,
-        "creationDate": dateToString(creationDate),
+        "creationDate": creationDate.toString(),
         "verified": verified,
         "favorites": favorites,
         "isAdmin": isAdmin,

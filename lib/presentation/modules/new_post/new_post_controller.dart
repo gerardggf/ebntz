@@ -44,8 +44,7 @@ class NewPostController extends StateNotifier<NewPostState> {
 
   void updateLocation(String text) => state = state.copyWith(location: text);
 
-  void updateDateTime(DateTime date) =>
-      state = state.copyWith(initialDate: date);
+  void updateDates(List<DateTime> date) => state = state.copyWith(dates: date);
 
   void updateCategory(String text) => state = state.copyWith(category: text);
 
@@ -68,10 +67,8 @@ class NewPostController extends StateNotifier<NewPostState> {
       lineupItemModel: LineupItemModel(
         id: '',
         author: 'prueba',
-        creationDate: dateToString(
-          DateTime.now(),
-        )!,
-        category: state.category.trim() == '' ? state.category.trim() : 'Music',
+        creationDate: DateTime.now().toString(),
+        category: state.category.trim() == '' ? state.category.trim() : '',
         tags: [],
         title:
             '${state.title[0].toUpperCase()}${state.title.substring(1, state.title.length)}'
@@ -80,6 +77,11 @@ class NewPostController extends StateNotifier<NewPostState> {
         location: state.location?.trim() ?? '',
         url: '',
         approved: true,
+        dates: state.dates
+            .map(
+              (e) => e.toString(),
+            )
+            .toList(),
       ),
     );
     if (result == FirebaseResponse.success) {

@@ -1,6 +1,7 @@
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
+import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_controller.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -104,31 +105,40 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                   notifier.updateTitle(value);
                 },
               ),
-              const SizedBox(height: 10),
-              GestureDetector(
-                onTap: () async {
-                  final result = await showDatePicker(
-                        context: context,
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(2100),
-                        initialDate: DateTime.now(),
-                      ) ??
-                      DateTime.now();
-                  notifier.updateDateTime(result);
-                  if (controller.initialDate != null) {
-                    _initialDateController.text = DateFormat('dd/MM/yyyy')
-                        .format(controller.initialDate!);
-                  }
+              const SizedBox(height: 20),
+              TextButton.icon(
+                onPressed: () async {
+                  _chooseDates();
                 },
-                child: AbsorbPointer(
-                  absorbing: true,
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'Fecha inicio',
-                    ),
-                    controller: _initialDateController,
-                  ),
+                icon: const Icon(Icons.add),
+                label: const Text(
+                  'Añadir fechas',
+                  style: TextStyle(fontSize: 20),
                 ),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (_, index) {
+                  return ListTile(
+                    trailing: IconButton(
+                      onPressed: () {
+                        final datesCopy = List<DateTime>.from(controller.dates);
+                        datesCopy.removeAt(index);
+                        notifier.updateDates(datesCopy);
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                      ),
+                    ),
+                    title: Text(
+                      dateToString(
+                            controller.dates[index],
+                          ) ??
+                          '?',
+                    ),
+                  );
+                },
+                itemCount: controller.dates.length,
               ),
               const SizedBox(height: 10),
               TextFormField(
@@ -173,6 +183,9 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                         controller.image != null
                             ? 'Cambiar imagen'
                             : 'Escoger imagen',
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
@@ -236,6 +249,21 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
         );
       },
     );
+  }
+
+  Future<void> _chooseDates() async {
+    final controller = ref.read(newPostControllerProvider);
+    final notifier = ref.read(newPostControllerProvider.notifier);
+    final date = await showDatePicker(
+          context: context,
+          firstDate: DateTime(1900),
+          lastDate: DateTime(2100),
+          initialDate: DateTime.now(),
+        ) ??
+        DateTime.now();
+    final datesCopy = List<DateTime>.from(controller.dates);
+    datesCopy.add(date);
+    notifier.updateDates(datesCopy);
   }
 
   Future<void> _submit() async {

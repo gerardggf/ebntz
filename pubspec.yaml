@@ -48,6 +48,7 @@ dependencies:
   http: ^0.13.6
   firebase_auth: ^4.6.0
   flutter_map: ^4.0.0
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:
@@ -60,8 +61,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   freezed: ^2.3.5
-
   build_runner: ^2.3.3
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

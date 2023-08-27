@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 String? dateToString(DateTime? date) {
   if (date == null) return null;
-  return DateFormat('dd-MM-yyyy-HH-mm').format(date);
+  return DateFormat('dd/MM/yyyy').format(date);
 }
 
 DateTime stringToDate(String stringDate) {
