@@ -5,28 +5,8 @@ String? dateToString(DateTime? date) {
   return DateFormat('dd/MM/yyyy').format(date);
 }
 
-DateTime stringToDate(String stringDate) {
-  return DateTime(
-    int.parse(
-      '${stringDate[6]}${stringDate[7]}${stringDate[8]}${stringDate[9]}',
-    ),
-    int.parse(
-      '${stringDate[3]}${stringDate[4]}',
-    ),
-    int.parse(
-      '${stringDate[0]}${stringDate[1]}',
-    ),
-    int.parse(
-      '${stringDate[11]}${stringDate[12]}',
-    ),
-    int.parse(
-      '${stringDate[14]}${stringDate[15]}',
-    ),
-  );
-}
-
 String getFormattedPostDate(String dateString) {
-  final date = stringToDate(dateString);
+  final date = DateTime.parse(dateString);
   final month = () {
     switch (date.month) {
       case 1:
@@ -59,7 +39,7 @@ String getFormattedPostDate(String dateString) {
 }
 
 String getFormattedPostTimeOfDay(String dateString) {
-  final date = stringToDate(dateString);
+  final date = DateTime.parse(dateString);
   final String extra = () {
     if (date.minute.toString().length == 1) {
       return '0';

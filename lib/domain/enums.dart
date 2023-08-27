@@ -3,8 +3,13 @@ enum FirebaseResponse {
   failure,
 }
 
+//opciones de cada publicación
 enum PostOptions {
   delete,
   edit,
   info,
+}
+
+enum OrderPostsBy {
+  creationDate,
 }

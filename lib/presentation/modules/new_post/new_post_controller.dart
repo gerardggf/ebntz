@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
-import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:ebntz/presentation/modules/new_post/state/new_post_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';

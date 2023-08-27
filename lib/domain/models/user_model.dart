@@ -1,15 +1,3 @@
-// To parse this JSON data, do
-//
-//     final userModel = userModelFromJson(jsonString);
-
-import 'dart:convert';
-
-import 'package:ebntz/presentation/global/utils/date_functions.dart';
-
-UserModel userModelFromJson(String str) => UserModel.fromJson(json.decode(str));
-
-String userModelToJson(UserModel data) => json.encode(data.toJson());
-
 class UserModel {
   final String id;
   final String username;
@@ -52,7 +40,7 @@ class UserModel {
         id: json["id"],
         username: json["username"],
         email: json["email"],
-        creationDate: stringToDate(json["creationDate"]),
+        creationDate: DateTime.parse(json["creationDate"]),
         verified: json["verified"],
         favorites: json["favorites"],
         isAdmin: json["isAdmin"],

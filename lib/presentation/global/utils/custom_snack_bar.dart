@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 void showCustomSnackBar({
   required BuildContext context,
   required String text,
-  Color color = kPrimaryColor,
+  Color color = AppColors.primary,
   int milliseconds = 2000,
 }) {
   ScaffoldMessenger.of(context).hideCurrentSnackBar();

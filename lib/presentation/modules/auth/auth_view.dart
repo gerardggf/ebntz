@@ -17,7 +17,7 @@ class AuthView extends ConsumerWidget {
         title: Text(
           controller.isRegister ? 'Registrarse' : 'Inicio de sesión',
         ),
-        backgroundColor: kPrimaryColor,
+        backgroundColor: AppColors.primary,
       ),
       body:
           controller.isRegister ? const RegisterWidget() : const LoginWidget(),

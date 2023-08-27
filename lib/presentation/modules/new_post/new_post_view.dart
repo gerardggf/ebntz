@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
 class NewPostView extends ConsumerStatefulWidget {
   const NewPostView({super.key});
@@ -22,10 +21,7 @@ final GlobalKey<FormState> _formKey = GlobalKey();
 class _NewPostViewState extends ConsumerState<NewPostView> {
   final TextEditingController _titleController = TextEditingController(),
       _descriptionController = TextEditingController(),
-      _locationController = TextEditingController(),
-      _initialDateController = TextEditingController();
-
-  //TODO: añadir selección de fechas del evento
+      _locationController = TextEditingController();
 
   @override
   void initState() {
@@ -56,7 +52,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
       appBar: AppBar(
         title: const Text('Nuevo evento'),
         elevation: 0,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: AppColors.primary,
         actions: [
           if (!controller.fetching)
             IconButton(

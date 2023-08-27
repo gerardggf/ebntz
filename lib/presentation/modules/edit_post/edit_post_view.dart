@@ -32,7 +32,7 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
       appBar: AppBar(
         title: const Text('Editar evento'),
         elevation: 0,
-        backgroundColor: kPrimaryColor,
+        backgroundColor: AppColors.primary,
         actions: [
           if (!controller.fetching)
             IconButton(

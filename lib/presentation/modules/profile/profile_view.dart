@@ -1,6 +1,7 @@
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
+import 'package:ebntz/presentation/global/utils/string_functions.dart';
 import 'package:ebntz/presentation/modules/auth/auth_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,11 +26,29 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             appBar: AppBar(
               elevation: 0,
               title: const Text('Perfil'),
-              backgroundColor: kPrimaryColor,
+              backgroundColor: AppColors.primary,
             ),
             body: ListView(
               physics: const BouncingScrollPhysics(),
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Text(
+                        sessionController.username,
+                        style: const TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        hideEmail(sessionController.email),
+                      ),
+                    ],
+                  ),
+                ),
                 ListTile(
                   onTap: () {},
                   title: const Text('Cambiar nombre de usuario'),

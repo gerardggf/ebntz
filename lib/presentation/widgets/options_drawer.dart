@@ -21,10 +21,10 @@ class OptionsDrawer extends ConsumerWidget {
           child: ListView(
             children: [
               const Text(
-                'eBntz',
+                'ebntz',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 30,
                   fontWeight: FontWeight.w900,
                 ),
               ),
@@ -34,10 +34,7 @@ class OptionsDrawer extends ConsumerWidget {
                       .firebaseCurrentUser !=
                   null)
                 Text(
-                  ref
-                      .watch(authenticationRepositoryProvider)
-                      .firebaseCurrentUser!
-                      .email!,
+                  ref.watch(sessionControllerProvider)!.username,
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
@@ -52,25 +49,26 @@ class OptionsDrawer extends ConsumerWidget {
                 minLeadingWidth: 30,
                 leading: const Icon(
                   Icons.person,
-                  color: kPrimaryColor,
+                  color: AppColors.primary,
                 ),
                 onTap: () {
                   context.pop();
                   context.pushNamed(Routes.profile);
                 },
               ),
-              ListTile(
-                title: const Text('Compartir nuevo evento'),
-                leading: const Icon(
-                  Icons.add,
-                  color: kPrimaryColor,
+              if (ref.watch(sessionControllerProvider) != null)
+                ListTile(
+                  title: const Text('Compartir nuevo evento'),
+                  leading: const Icon(
+                    Icons.add,
+                    color: AppColors.primary,
+                  ),
+                  minLeadingWidth: 30,
+                  onTap: () {
+                    context.pop();
+                    context.pushNamed(Routes.newPost);
+                  },
                 ),
-                minLeadingWidth: 30,
-                onTap: () {
-                  context.pop();
-                  context.pushNamed(Routes.newPost);
-                },
-              ),
             ],
           ),
         ),

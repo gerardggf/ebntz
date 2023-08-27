@@ -1,11 +1,14 @@
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';
 import 'package:ebntz/presentation/modules/home/home_controller.dart';
+import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:ebntz/presentation/widgets/lineup_item_widget.dart';
 import 'package:ebntz/presentation/widgets/options_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
@@ -29,7 +32,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: AppColors.primary,
         title: const Text(
           'eBntz',
           style: TextStyle(
@@ -38,24 +41,63 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ),
         elevation: 0,
         actions: [
-          IconButton(
-            onPressed: () {
-              notifier.updateSearchBar(!controller.searchBar);
-            },
-            icon: const Icon(Icons.search),
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () {
+                  notifier.updateSearchBar(!controller.searchBar);
+                },
+                icon: const Icon(Icons.search),
+              ),
+              if (controller.searchText != null)
+                Positioned(
+                  width: 12,
+                  height: 12,
+                  left: 5,
+                  top: 10,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+            ],
           ),
           const SizedBox(width: 10),
-          Builder(builder: (context) {
-            return IconButton(
-              onPressed: () {
-                Scaffold.of(context).openEndDrawer();
-              },
-              icon: const Icon(Icons.menu),
-            );
-          }),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  context.pushNamed(Routes.filterPosts);
+                },
+                icon: const Icon(Icons.tune),
+              ),
+              if (ref.watch(filterPostsControllerProvider).date != null)
+                Positioned(
+                  width: 12,
+                  height: 12,
+                  left: 5,
+                  top: 10,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.black,
+                      ),
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ],
       ),
-      endDrawer: const OptionsDrawer(),
+      drawer: const OptionsDrawer(),
       body: Column(
         children: [
           if (controller.searchBar)
@@ -77,7 +119,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         controller: _searchController,
                         decoration: const InputDecoration(
                           icon: Icon(Icons.search),
-                          iconColor: kPrimaryColor,
+                          iconColor: AppColors.primary,
                           border: InputBorder.none,
                           hintText: 'Busca por evento o artista',
                         ),
@@ -100,7 +142,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                               ? Icons.close
                               : Icons.keyboard_arrow_up,
                         ),
-                        color: kPrimaryColor,
+                        color: AppColors.primary,
                       ),
                     ),
                   ],
@@ -110,26 +152,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
           Expanded(
             child: postsStream.when(
               data: (data) {
-                final items = data.where(
-                  (e) {
-                    if (controller.searchText == null) {
-                      return true;
-                    }
-
-                    final regExp = RegExp(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]');
-                    final filteredTags =
-                        e.tags.join().toLowerCase().replaceAll(regExp, '');
-                    //print('FilteredTags: $filteredTags');
-                    final findByArtist = filteredTags.contains(
-                      controller.searchText!.toLowerCase().replaceAll(' ', ''),
-                    );
-                    return e.title.toLowerCase().contains(
-                              controller.searchText!.toLowerCase(),
-                            ) ||
-                        findByArtist && e.approved;
-                  },
-                ).toList();
-                //print(items.map((e) => e.title));
+                final items = data
+                    .where((e) => _filterText(e) && _filterDate(e))
+                    .toList();
                 return ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   itemCount: items.length,
@@ -145,7 +170,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
               loading: () => const Center(
                 child: CircularProgressIndicator(
-                  color: kPrimaryColor,
+                  color: AppColors.primary,
                 ),
               ),
             ),
@@ -153,5 +178,44 @@ class _HomeViewState extends ConsumerState<HomeView> {
         ],
       ),
     );
+  }
+
+  bool _filterText(LineupItemModel e) {
+    final controller = ref.watch(homeControllerProvider);
+    if (controller.searchText == null) {
+      return true;
+    }
+
+    final regExp = RegExp(r'[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]');
+    final filteredTags = e.tags.join().toLowerCase().replaceAll(regExp, '');
+
+    final findByArtist = filteredTags.contains(
+      controller.searchText!.toLowerCase().replaceAll(' ', ''),
+    );
+
+    return e.title.toLowerCase().contains(
+              controller.searchText!.toLowerCase(),
+            ) ||
+        findByArtist && e.approved;
+  }
+
+  bool _filterDate(LineupItemModel e) {
+    final postDates = e.dates..removeWhere((element) => element == '');
+    final filterController = ref.watch(filterPostsControllerProvider);
+    if (filterController.date == null) {
+      return true;
+    }
+
+    if (postDates.isEmpty) {
+      return false;
+    }
+
+    return postDates
+        .map(
+          (e) => DateTime.parse(e),
+        )
+        .contains(
+          filterController.date,
+        );
   }
 }
