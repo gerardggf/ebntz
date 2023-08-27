@@ -42,6 +42,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         elevation: 0,
         actions: [
           Stack(
+            alignment: Alignment.center,
             children: [
               IconButton(
                 onPressed: () {

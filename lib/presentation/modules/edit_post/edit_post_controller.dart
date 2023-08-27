@@ -66,7 +66,7 @@ class EditPostController extends StateNotifier<EditPostState> {
       id: post!.id,
       lineupItemModel: post!.copyWith(
         title: state.title,
-        dates: post!.dates.isEmpty
+        dates: state.dates.isEmpty
             ? []
             : state.dates.map((e) => e.toString()).toList(),
         location: state.location,
