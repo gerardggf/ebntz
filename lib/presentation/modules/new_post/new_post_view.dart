@@ -27,7 +27,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
+      (_) {
         final controller = ref.watch(newPostControllerProvider);
         _titleController.text = controller.title;
         _descriptionController.text = controller.description;
@@ -55,9 +55,21 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
         backgroundColor: AppColors.primary,
         actions: [
           if (!controller.fetching)
-            IconButton(
-              onPressed: () async => _submit(),
-              icon: const Icon(Icons.publish),
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  shape: const StadiumBorder(),
+                ),
+                onPressed: () async => _submit(),
+                child: const Text(
+                  'Publicar',
+                  style: TextStyle(
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
             ),
           if (controller.fetching)
             const Padding(
@@ -81,92 +93,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
               vertical: 10,
             ),
             children: [
-              TextFormField(
-                controller: _titleController,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (_titleController.text == '' ||
-                      _titleController.text.isEmpty) {
-                    return 'El campo no puede estar vacío';
-                  }
-                  if (_titleController.text.length > 25) {
-                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(
-                  labelText: 'Título',
-                ),
-                onChanged: (value) {
-                  notifier.updateTitle(value);
-                },
-              ),
-              const SizedBox(height: 20),
-              TextButton.icon(
-                onPressed: () async {
-                  _chooseDates();
-                },
-                icon: const Icon(Icons.add),
-                label: const Text(
-                  'Añadir fechas',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (_, index) {
-                  return ListTile(
-                    trailing: IconButton(
-                      onPressed: () {
-                        final datesCopy = List<DateTime>.from(controller.dates);
-                        datesCopy.removeAt(index);
-                        notifier.updateDates(datesCopy);
-                      },
-                      icon: const Icon(
-                        Icons.delete,
-                      ),
-                    ),
-                    title: Text(
-                      dateToString(
-                            controller.dates[index],
-                          ) ??
-                          '?',
-                    ),
-                  );
-                },
-                itemCount: controller.dates.length,
-              ),
               const SizedBox(height: 10),
-              TextFormField(
-                controller: _locationController,
-                decoration: const InputDecoration(
-                  labelText: 'Ubicación',
-                ),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                onChanged: (value) {
-                  notifier.updateLocation(value);
-                },
-                validator: (value) {
-                  if (_titleController.text.length > 25) {
-                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Descripción',
-                ),
-                maxLength: 500,
-                maxLines: null,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                onChanged: (value) {
-                  notifier.updateDescription(value);
-                },
-              ),
-              const SizedBox(height: 20),
               Row(
                 children: [
                   Expanded(
@@ -206,7 +133,96 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                   controller.image!,
                   fit: BoxFit.fitWidth,
                 ),
+              TextFormField(
+                controller: _titleController,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (value) {
+                  if (_titleController.text == '' ||
+                      _titleController.text.isEmpty) {
+                    return 'El campo no puede estar vacío';
+                  }
+                  if (_titleController.text.length > 25) {
+                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Título',
+                ),
+                onChanged: (value) {
+                  notifier.updateTitle(value);
+                },
+              ),
+              const SizedBox(height: 20),
+              TextButton.icon(
+                onPressed: () async {
+                  _chooseDates();
+                },
+                icon: const Icon(Icons.add),
+                label: const FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Añadir fechas del evento',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ),
+              ),
               const SizedBox(height: 10),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (_, index) {
+                  return ListTile(
+                    trailing: IconButton(
+                      onPressed: () {
+                        final datesCopy = List<DateTime>.from(controller.dates);
+                        datesCopy.removeAt(index);
+                        notifier.updateDates(datesCopy);
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                      ),
+                    ),
+                    title: Text(
+                      '$index. ${mapWeekday(controller.dates[index].weekday)} ${dateToString(
+                            controller.dates[index],
+                          ) ?? '?'}',
+                    ),
+                  );
+                },
+                itemCount: controller.dates.length,
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _locationController,
+                decoration: const InputDecoration(
+                  labelText: 'Ubicación',
+                ),
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onChanged: (value) {
+                  notifier.updateLocation(value);
+                },
+                validator: (value) {
+                  if (_titleController.text.length > 25) {
+                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(
+                  labelText: 'Descripción',
+                ),
+                maxLength: 500,
+                maxLines: null,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                onChanged: (value) {
+                  notifier.updateDescription(value);
+                },
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -251,13 +267,16 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
     final controller = ref.read(newPostControllerProvider);
     final notifier = ref.read(newPostControllerProvider.notifier);
     final date = await showDatePicker(
-          context: context,
-          firstDate: DateTime(1900),
-          lastDate: DateTime(2100),
-          initialDate: DateTime.now(),
-        ) ??
-        DateTime.now();
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      initialDate:
+          controller.dates.isEmpty ? DateTime.now() : controller.dates.last,
+    );
     final datesCopy = List<DateTime>.from(controller.dates);
+    if (datesCopy.contains(date) || date == null) {
+      return;
+    }
     datesCopy.add(date);
     notifier.updateDates(datesCopy);
   }

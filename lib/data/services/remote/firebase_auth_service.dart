@@ -29,9 +29,14 @@ class FirebaseAuthService {
       return null;
     }
     final firestoreUser = await firestoreService.getUser(user.uid);
+    if (user.displayName == null) {
+      user.updateDisplayName(
+        user.email!.split('@')[0],
+      );
+    }
     return UserModel(
       id: user.uid,
-      username: user.displayName ?? user.email!.split('@')[0],
+      username: user.displayName!,
       email: user.email!,
       creationDate: user.metadata.creationTime,
       verified: user.emailVerified,

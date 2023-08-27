@@ -102,10 +102,14 @@ class LineupItemWidget extends ConsumerWidget {
             );
           },
         ),
-        if (lineupItem.description.trim().isNotEmpty)
+        if (lineupItem.description.trim().isNotEmpty &&
+            (lineupItem.dates..removeWhere((element) => element.isEmpty))
+                .isNotEmpty)
           Padding(
             padding: const EdgeInsets.all(10),
-            child: Text(lineupItem.description),
+            child: Text(
+              '${lineupItem.dates.map((e) => dateToString(DateTime.parse(e))).join(', ')} ${lineupItem.description}',
+            ),
           ),
         // Padding(
         //   padding: const EdgeInsets.all(10),

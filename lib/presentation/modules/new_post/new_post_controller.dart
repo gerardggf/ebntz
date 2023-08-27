@@ -57,6 +57,15 @@ class NewPostController extends StateNotifier<NewPostState> {
     }
   }
 
+  void resetData() {
+    updateImage(null);
+    updateTitle('');
+    updateCategory('');
+    updateDates([]);
+    updateLocation('');
+    updateDescription('');
+  }
+
   void updateFetching(bool value) => state = state.copyWith(fetching: value);
 
   Future<FirebaseResponse> submit() async {
@@ -84,7 +93,7 @@ class NewPostController extends StateNotifier<NewPostState> {
       ),
     );
     if (result == FirebaseResponse.success) {
-      updateImage(null);
+      resetData();
     }
     updateFetching(false);
 

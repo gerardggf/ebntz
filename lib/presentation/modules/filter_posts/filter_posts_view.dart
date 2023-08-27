@@ -1,6 +1,7 @@
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';
+import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,6 +24,13 @@ class FilterPostsView extends ConsumerWidget {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(30),
         children: [
+          CustomButton(
+            onPressed: () {
+              notifier.updateDate(null);
+            },
+            child: const Text('Restablecer filtros'),
+          ),
+          const SizedBox(height: 25),
           const Text(
             'Fecha',
             style: TextStyle(
@@ -30,6 +38,7 @@ class FilterPostsView extends ConsumerWidget {
               fontSize: 22,
             ),
           ),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -49,7 +58,7 @@ class FilterPostsView extends ConsumerWidget {
                       ? 'Añadir fecha'
                       : dateToString(controller.date)!,
                   style: const TextStyle(
-                    fontSize: 18,
+                    fontSize: 20,
                   ),
                 ),
               ),
