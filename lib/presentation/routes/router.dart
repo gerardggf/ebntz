@@ -1,5 +1,6 @@
 import 'package:ebntz/my_app.dart';
 import 'package:ebntz/presentation/modules/edit_post/edit_post_view.dart';
+import 'package:ebntz/presentation/modules/favorites/favorites_view.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_view.dart';
 import 'package:ebntz/presentation/modules/home/home_view.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_view.dart';
@@ -50,6 +51,11 @@ mixin RouterMixin on State<MyApp> {
         name: Routes.filterPosts,
         path: '/filter-posts',
         builder: (_, __) => const FilterPostsView(),
+      ),
+      GoRoute(
+        name: Routes.favorites,
+        path: '/favorites',
+        builder: (_, __) => const FavoritesView(),
       ),
     ],
   );

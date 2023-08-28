@@ -3,11 +3,12 @@ import 'package:ebntz/domain/repositories/authentication_repository.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'state/home_state.dart';
+import 'state/favorites_state.dart';
 
-final homeControllerProvider = StateNotifierProvider<HomeController, HomeState>(
-  (ref) => HomeController(
-    HomeState(),
+final favoritesControllerProvider =
+    StateNotifierProvider<FavoritesController, FavoritesState>(
+  (ref) => FavoritesController(
+    FavoritesState(),
     ref.read(accountRepositoryProvider),
     ref.read(
       sessionControllerProvider.notifier,
@@ -16,8 +17,8 @@ final homeControllerProvider = StateNotifierProvider<HomeController, HomeState>(
   ),
 );
 
-class HomeController extends StateNotifier<HomeState> {
-  HomeController(
+class FavoritesController extends StateNotifier<FavoritesState> {
+  FavoritesController(
     super.state,
     this.accountRepository,
     this.sessionController,

@@ -16,9 +16,9 @@ final firebaseFirestoreServiceProvider = Provider(
 );
 
 class FirebaseFirestoreService {
-  final FirebaseFirestore firebaseFirestore;
-
   FirebaseFirestoreService(this.firebaseFirestore);
+
+  final FirebaseFirestore firebaseFirestore;
 
   // posts ---------------------------------------------------
 
@@ -156,6 +156,28 @@ class FirebaseFirestoreService {
           firebaseFirestore.collection('users');
       DocumentReference docRef = usersCollection.doc(userId);
       await docRef.delete();
+      return true;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return false;
+    }
+  }
+
+  //favorites -------------------------------------------------------------------------------------------
+
+  Future<bool> updateFavorites(
+    List<String> favoritePosts,
+    String userId,
+  ) async {
+    try {
+      final CollectionReference usersCollection =
+          firebaseFirestore.collection('users');
+      DocumentReference docRef = usersCollection.doc(userId);
+      await docRef.update(
+        {"favorites": favoritePosts},
+      );
       return true;
     } catch (e) {
       if (kDebugMode) {

@@ -2,8 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
+import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
+import 'package:ebntz/presentation/modules/home/home_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +21,8 @@ class LineupItemWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.watch(homeControllerProvider);
+    final notifier = ref.watch(homeControllerProvider.notifier);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -67,7 +71,7 @@ class LineupItemWidget extends ConsumerWidget {
                         style: const TextStyle(
                           fontStyle: FontStyle.italic,
                           color: Colors.black54,
-                          fontSize: 12,
+                          fontSize: 11,
                         ),
                         textAlign: TextAlign.end,
                       ),
@@ -76,7 +80,7 @@ class LineupItemWidget extends ConsumerWidget {
                         style: const TextStyle(
                           fontStyle: FontStyle.italic,
                           color: Colors.black54,
-                          fontSize: 12,
+                          fontSize: 11,
                         ),
                         textAlign: TextAlign.end,
                       ),
@@ -104,13 +108,77 @@ class LineupItemWidget extends ConsumerWidget {
             );
           },
         ),
-        if (lineupItem.description.trim().isNotEmpty ||
-            (lineupItem.dates..removeWhere((element) => element.isEmpty))
-                .isNotEmpty)
+        if ((lineupItem.dates..removeWhere((element) => element.isEmpty))
+            .isNotEmpty)
+          Row(
+            children: [
+              if (ref.watch(sessionControllerProvider) != null)
+                Expanded(
+                  child: controller.fetching
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primary,
+                          ),
+                        )
+                      : IconButton(
+                          onPressed: () {
+                            final sessionController =
+                                ref.read(sessionControllerProvider);
+                            if (sessionController?.favorites
+                                    .contains(lineupItem.id) ??
+                                false) {
+                              notifier.deleteFromFavorites(lineupItem.id);
+                            } else {
+                              notifier.addToFavorites(lineupItem.id);
+                            }
+                          },
+                          icon: Icon(
+                            ref
+                                    .watch(sessionControllerProvider)!
+                                    .favorites
+                                    .contains(lineupItem.id)
+                                ? Icons.bookmark
+                                : Icons.bookmark_outline,
+                            size: 30,
+                          ),
+                        ),
+                ),
+              Expanded(
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(5).copyWith(
+                    bottom: 0,
+                    left: 0,
+                  ),
+                  child: Wrap(
+                    children: [
+                      ...lineupItem.dates.map(
+                        (e) => Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Chip(
+                            label: Text(
+                              dateToString(
+                                    DateTime.parse(e),
+                                  ) ??
+                                  '',
+                              style: const TextStyle(
+                                fontSize: 11,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        if (lineupItem.description.trim().isNotEmpty)
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              '${lineupItem.dates.map((e) => dateToString(DateTime.parse(e))).join(', ')}  ${lineupItem.description}',
+              lineupItem.description,
             ),
           ),
         // Padding(

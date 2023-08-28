@@ -56,6 +56,21 @@ class OptionsDrawer extends ConsumerWidget {
                   context.pushNamed(Routes.profile);
                 },
               ),
+              ListTile(
+                title: const Text(
+                  'Guardados',
+                  overflow: TextOverflow.ellipsis,
+                ),
+                minLeadingWidth: 30,
+                leading: const Icon(
+                  Icons.bookmark,
+                  color: AppColors.primary,
+                ),
+                onTap: () {
+                  context.pop();
+                  context.pushNamed(Routes.favorites);
+                },
+              ),
               if (ref.watch(sessionControllerProvider) != null)
                 ListTile(
                   title: const Text('Compartir nuevo evento'),

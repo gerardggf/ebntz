@@ -8,4 +8,5 @@ class Routes {
   static const newPost = 'new-post';
   static const editPost = 'edit-post';
   static const filterPosts = 'filter-posts';
+  static const favorites = 'favorites';
 }
