@@ -230,10 +230,10 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
     );
   }
 
-  void imagePickerBottomSheet() {
+  Future<void> imagePickerBottomSheet() async {
     final notifier = ref.watch(newPostControllerProvider.notifier);
 
-    showModalBottomSheet(
+    await showModalBottomSheet(
       context: context,
       builder: (context) {
         return Column(
@@ -244,23 +244,25 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
               title: const Text(
                 'Cámara',
               ),
-              onTap: () {
+              onTap: () async {
                 Navigator.of(context).pop();
-                notifier.getImage(ImageSource.camera);
+                await notifier.getImage(ImageSource.camera);
               },
             ),
             ListTile(
               leading: const Icon(Icons.folder),
               title: const Text('Galería'),
-              onTap: () {
+              onTap: () async {
                 Navigator.of(context).pop();
-                notifier.getImage(ImageSource.gallery);
+                await notifier.getImage(ImageSource.gallery);
               },
             ),
           ],
         );
       },
     );
+
+    _titleController.text = ref.read(newPostControllerProvider).title;
   }
 
   Future<void> _chooseDates() async {

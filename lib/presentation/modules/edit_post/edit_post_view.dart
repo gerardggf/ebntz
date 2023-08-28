@@ -32,16 +32,13 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
-        final controller = ref.watch(editPostControllerProvider);
-        ref
+        final editPostState = await ref
             .read(editPostControllerProvider.notifier)
-            .loadPostData(widget.id)
-            .then((_) {
-          _titleController.text = controller.title;
-          _descriptionController.text = controller.description;
-          _locationController.text = controller.location ?? '';
-          setState(() {});
-        });
+            .loadPostData(widget.id);
+        if (editPostState == null) return;
+        _titleController.text = editPostState.title;
+        _descriptionController.text = editPostState.description;
+        _locationController.text = editPostState.location ?? '';
       },
     );
   }

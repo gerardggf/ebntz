@@ -2,6 +2,7 @@ import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
+import 'package:ebntz/presentation/modules/favorites/widgets/empty_favorites_widget.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';
 import 'package:ebntz/presentation/modules/home/home_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
@@ -156,6 +157,9 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
                     .where((e) =>
                         _filterText(e) && _filterDate(e) && _isFavorite(e))
                     .toList();
+                if (items.isEmpty) {
+                  return const EmptyFavoritesWidget();
+                }
                 return ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   itemCount: items.length,

@@ -40,9 +40,9 @@ class EditPostController extends StateNotifier<EditPostState> {
 
   void updateFetching(bool value) => state = state.copyWith(fetching: value);
 
-  Future<void> loadPostData(String id) async {
+  Future<EditPostState?> loadPostData(String id) async {
     post = await postsRepository.getPost(id);
-    if (post == null) return;
+    if (post == null) return null;
     state = state.copyWith(
       title: post!.title,
       description: post!.description,
@@ -57,6 +57,7 @@ class EditPostController extends StateNotifier<EditPostState> {
               )
               .toList(),
     );
+    return state;
   }
 
   Future<FirebaseResponse> submitUpdate() async {
