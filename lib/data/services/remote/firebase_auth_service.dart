@@ -59,9 +59,8 @@ class FirebaseAuthService {
         password: password,
       );
 
-      await firestoreService.createFirestoreUser(
-        await _mapUser(credentials.user),
-      );
+      final newUser = await _mapUser(credentials.user);
+      await firestoreService.createFirestoreUser(newUser);
       return 'register-success';
     } on FirebaseAuthException catch (e) {
       return e.code;

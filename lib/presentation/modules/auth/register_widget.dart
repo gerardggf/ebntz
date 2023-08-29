@@ -14,6 +14,8 @@ class RegisterWidget extends ConsumerStatefulWidget {
 
 final _formKey = GlobalKey<FormState>();
 
+//TODO: arreglar creacion usuario a veces no funciona
+
 class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
   final TextEditingController _usernameController = TextEditingController(),
       _passwordController = TextEditingController(),
