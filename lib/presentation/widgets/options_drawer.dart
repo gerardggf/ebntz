@@ -1,4 +1,3 @@
-import 'package:ebntz/domain/repositories/authentication_repository.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
@@ -29,10 +28,7 @@ class OptionsDrawer extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              if (ref
-                      .watch(authenticationRepositoryProvider)
-                      .firebaseCurrentUser !=
-                  null)
+              if (ref.watch(sessionControllerProvider) != null)
                 Text(
                   ref.watch(sessionControllerProvider)!.username,
                   textAlign: TextAlign.center,
