@@ -154,7 +154,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
             child: postsStream.when(
               data: (data) {
                 final items = data
-                    .where((e) => _filterText(e) && _filterDate(e))
+                    .where(
+                      (e) => _filterText(e) && _filterDate(e),
+                    )
                     .toList();
                 return ListView.builder(
                   physics: const BouncingScrollPhysics(),

@@ -12,4 +12,6 @@ enum PostOptions {
 
 enum OrderPostsBy {
   creationDate,
+  firstDate,
+  name,
 }

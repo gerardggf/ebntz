@@ -22,10 +22,21 @@ class FirebaseFirestoreService {
 
   // posts ---------------------------------------------------
 
-  Stream<List<LineupItemModel>> suscribeToPosts() async* {
+  Stream<List<LineupItemModel>> suscribeToPosts({
+    bool isApproved = true,
+    OrderPostsBy orderBy = OrderPostsBy.creationDate,
+  }) async* {
     final snapshots = firebaseFirestore
         .collection('posts')
-        .orderBy('creationDate', descending: true)
+        .orderBy(
+          orderBy.name,
+          descending: true,
+        )
+        .where(
+          "approved",
+          isEqualTo: isApproved,
+        )
+        .limit(100)
         .snapshots();
     final items = snapshots.map(
       (snapshot) => snapshot.docs

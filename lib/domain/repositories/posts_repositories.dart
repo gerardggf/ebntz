@@ -17,7 +17,10 @@ final postsRepostoryProvider = Provider<PostsRepository>(
 );
 
 abstract class PostsRepository {
-  Stream<List<LineupItemModel>> suscribeToPosts();
+  Stream<List<LineupItemModel>> suscribeToPosts({
+    bool isApproved = true,
+    OrderPostsBy orderBy = OrderPostsBy.creationDate,
+  });
   Future<LineupItemModel?> getPost(String id);
 
   Future<List<String>> getRecognizedTexts(File file);

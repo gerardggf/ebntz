@@ -10,6 +10,7 @@ import 'package:ebntz/presentation/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../modules/pending_approval/pending_approval_view.dart';
 import 'routes.dart';
 
 mixin RouterMixin on State<MyApp> {
@@ -56,6 +57,11 @@ mixin RouterMixin on State<MyApp> {
         name: Routes.favorites,
         path: '/favorites',
         builder: (_, __) => const FavoritesView(),
+      ),
+      GoRoute(
+        name: Routes.pendingApproval,
+        path: '/pending-approval',
+        builder: (_, __) => const PendingApprovalView(),
       ),
     ],
   );

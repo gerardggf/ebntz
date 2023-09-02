@@ -9,4 +9,5 @@ class Routes {
   static const editPost = 'edit-post';
   static const filterPosts = 'filter-posts';
   static const favorites = 'favorites';
+  static const pendingApproval = 'pending-approval';
 }

@@ -100,11 +100,10 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
               vertical: 10,
             ),
             children: [
-              if (controller.title.isNotEmpty)
-                CachedNetworkImage(
-                  imageUrl: controller.imageUrl,
-                  fit: BoxFit.fitWidth,
-                ),
+              CachedNetworkImage(
+                imageUrl: controller.imageUrl,
+                fit: BoxFit.fitWidth,
+              ),
               TextFormField(
                 controller: _titleController,
                 autovalidateMode: AutovalidateMode.onUserInteraction,

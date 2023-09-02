@@ -89,7 +89,7 @@ class NewPostController extends StateNotifier<NewPostState> {
         description: state.description.trim(),
         location: state.location?.trim() ?? '',
         url: '',
-        approved: true,
+        approved: sessionController!.isAdmin ? true : false,
         dates: state.dates
             .map(
               (e) => e.toString(),

@@ -90,7 +90,9 @@ class LineupItemWidget extends ConsumerWidget {
               ),
               if (lineupItem.author == ref.watch(sessionControllerProvider)?.id)
                 const SizedBox(width: 5),
-              if (lineupItem.author == ref.watch(sessionControllerProvider)?.id)
+              if (lineupItem.author ==
+                      ref.watch(sessionControllerProvider)?.id ||
+                  (ref.watch(sessionControllerProvider)?.isAdmin ?? false))
                 _buildPopUpMenuButtonWidget(context, ref),
             ],
           ),
@@ -196,7 +198,12 @@ class LineupItemWidget extends ConsumerWidget {
 
   Widget _buildPopUpMenuButtonWidget(BuildContext context, WidgetRef ref) =>
       PopupMenuButton<PostOptions>(
-        icon: const Icon(Icons.expand_circle_down_outlined),
+        icon: Icon(
+          Icons.expand_circle_down_outlined,
+          color: ref.watch(sessionControllerProvider)?.isAdmin ?? false
+              ? Colors.red
+              : Colors.black,
+        ),
         onSelected: (result) async {
           if (result == PostOptions.edit) {
             context.pushNamed(

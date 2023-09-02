@@ -1,5 +1,4 @@
 import 'package:ebntz/domain/models/lineup_item_model.dart';
-import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/modules/favorites/widgets/empty_favorites_widget.dart';
@@ -11,16 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../home/home_view.dart';
+
 class FavoritesView extends ConsumerStatefulWidget {
   const FavoritesView({super.key});
 
   @override
   ConsumerState<FavoritesView> createState() => _FavoritesViewState();
 }
-
-final postsStreamProvider = StreamProvider<List<LineupItemModel>>(
-  (ref) => ref.read(postsRepostoryProvider).suscribeToPosts(),
-);
 
 class _FavoritesViewState extends ConsumerState<FavoritesView> {
   final TextEditingController _searchController = TextEditingController();

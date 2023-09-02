@@ -10,6 +10,7 @@ class OptionsDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final sessionController = ref.watch(sessionControllerProvider);
     return SafeArea(
       child: Drawer(
         child: Container(
@@ -28,16 +29,16 @@ class OptionsDrawer extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              if (ref.watch(sessionControllerProvider) != null)
+              if (sessionController != null)
                 Text(
-                  ref.watch(sessionControllerProvider)!.username,
+                  sessionController.username,
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               const SizedBox(height: 15),
               ListTile(
                 title: Text(
-                  ref.watch(sessionControllerProvider) == null
+                  sessionController == null
                       ? 'Iniciar sesión / Registrarse'
                       : 'Perfil',
                   overflow: TextOverflow.ellipsis,
@@ -52,7 +53,7 @@ class OptionsDrawer extends ConsumerWidget {
                   context.pushNamed(Routes.profile);
                 },
               ),
-              if (ref.watch(sessionControllerProvider) != null)
+              if (sessionController != null)
                 ListTile(
                   title: const Text(
                     'Guardados',
@@ -68,7 +69,7 @@ class OptionsDrawer extends ConsumerWidget {
                     context.pushNamed(Routes.favorites);
                   },
                 ),
-              if (ref.watch(sessionControllerProvider) != null)
+              if (sessionController != null)
                 ListTile(
                   title: const Text('Compartir nuevo evento'),
                   leading: const Icon(
@@ -78,9 +79,26 @@ class OptionsDrawer extends ConsumerWidget {
                   minLeadingWidth: 30,
                   onTap: () {
                     context.pop();
-                    context.pushNamed(Routes.newPost);
+                    context.pushNamed(Routes.pendingApproval);
                   },
                 ),
+              if (sessionController?.isAdmin ?? false)
+                ListTile(
+                  leading: const Icon(
+                    Icons.pending_actions,
+                    color: Colors.red,
+                  ),
+                  onTap: () {
+                    context.pop();
+                    context.pushNamed(Routes.pendingApproval);
+                  },
+                  title: const Text(
+                    'Pendientes de aprobar',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                )
             ],
           ),
         ),

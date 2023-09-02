@@ -19,8 +19,11 @@ class PostsRepositoryImpl implements PostsRepository {
   final MLKitService mlKitService;
 
   @override
-  Stream<List<LineupItemModel>> suscribeToPosts() {
-    return firebaseFirestoreService.suscribeToPosts();
+  Stream<List<LineupItemModel>> suscribeToPosts({
+    bool isApproved = true,
+    OrderPostsBy orderBy = OrderPostsBy.creationDate,
+  }) {
+    return firebaseFirestoreService.suscribeToPosts(isApproved: isApproved);
   }
 
   @override
