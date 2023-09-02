@@ -23,7 +23,35 @@ class PostsRepositoryImpl implements PostsRepository {
     bool isApproved = true,
     OrderPostsBy orderBy = OrderPostsBy.creationDate,
   }) {
-    return firebaseFirestoreService.suscribeToPosts(isApproved: isApproved);
+    final String orderByField = () {
+      switch (orderBy) {
+        case OrderPostsBy.creationDate:
+          return 'creationDate';
+        case OrderPostsBy.firstDate:
+          return 'dates';
+        case OrderPostsBy.name:
+          return 'title';
+        case OrderPostsBy.location:
+          return 'location';
+        default:
+          return 'creationDate';
+      }
+    }();
+    final bool isDescending = () {
+      switch (orderBy) {
+        case OrderPostsBy.name:
+          return false;
+        case OrderPostsBy.location:
+          return false;
+        default:
+          return true;
+      }
+    }();
+    return firebaseFirestoreService.suscribeToPosts(
+      isApproved: isApproved,
+      orderBy: orderByField,
+      isDescending: isDescending,
+    );
   }
 
   @override
@@ -82,5 +110,11 @@ class PostsRepositoryImpl implements PostsRepository {
       id: id,
       lineupItemModel: lineupItemModel,
     );
+  }
+
+  @override
+  Future<bool> updatePostApproval(
+      {required String id, bool isApproved = true}) async {
+    return await firebaseFirestoreService.updatePostApproval(id, isApproved);
   }
 }

@@ -93,7 +93,7 @@ class OptionsDrawer extends ConsumerWidget {
                     context.pushNamed(Routes.pendingApproval);
                   },
                   title: const Text(
-                    'Pendientes de aprobar',
+                    'Aprobaciones pendientes',
                     style: TextStyle(
                       color: Colors.red,
                     ),

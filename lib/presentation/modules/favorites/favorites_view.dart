@@ -26,7 +26,10 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
   Widget build(BuildContext context) {
     final controller = ref.watch(homeControllerProvider);
     final notifier = ref.watch(homeControllerProvider.notifier);
-    final postsStream = ref.watch(postsStreamProvider);
+    final filterController = ref.watch(filterPostsControllerProvider);
+    final postsStream = ref.watch(
+      postsStreamProvider(filterController.orderBy),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -52,8 +55,8 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
                 Positioned(
                   width: 12,
                   height: 12,
-                  left: 5,
-                  top: 10,
+                  left: 7,
+                  top: 12,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -80,8 +83,8 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
                 Positioned(
                   width: 12,
                   height: 12,
-                  left: 5,
-                  top: 10,
+                  left: 7,
+                  top: 12,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,

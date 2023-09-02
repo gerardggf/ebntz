@@ -36,4 +36,9 @@ abstract class PostsRepository {
 
   Future<FirebaseResponse> deletePost(LineupItemModel lineupItemModel);
   Future<String?> getInfoFromImage(File file);
+
+  Future<bool> updatePostApproval({
+    required String id,
+    bool isApproved = true,
+  });
 }

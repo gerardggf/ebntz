@@ -257,7 +257,7 @@ class LineupItemWidget extends ConsumerWidget {
           ),
           const PopupMenuItem<PostOptions>(
             value: PostOptions.delete,
-            child: Text('Eliminar punlicación'),
+            child: Text('Eliminar publicación'),
           ),
         ],
       );

@@ -14,4 +14,5 @@ enum OrderPostsBy {
   creationDate,
   firstDate,
   name,
+  location,
 }

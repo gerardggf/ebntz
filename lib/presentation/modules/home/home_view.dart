@@ -1,3 +1,4 @@
+import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/global/const.dart';
@@ -17,8 +18,10 @@ class HomeView extends ConsumerStatefulWidget {
   ConsumerState<HomeView> createState() => _HomeViewState();
 }
 
-final postsStreamProvider = StreamProvider<List<LineupItemModel>>(
-  (ref) => ref.read(postsRepostoryProvider).suscribeToPosts(),
+final postsStreamProvider =
+    StreamProvider.family<List<LineupItemModel>, OrderPostsBy>(
+  (ref, orderBy) =>
+      ref.read(postsRepostoryProvider).suscribeToPosts(orderBy: orderBy),
 );
 
 class _HomeViewState extends ConsumerState<HomeView> {
@@ -28,7 +31,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
   Widget build(BuildContext context) {
     final controller = ref.watch(homeControllerProvider);
     final notifier = ref.watch(homeControllerProvider.notifier);
-    final postsStream = ref.watch(postsStreamProvider);
+    final filterController = ref.watch(filterPostsControllerProvider);
+    final postsStream =
+        ref.watch(postsStreamProvider(filterController.orderBy));
 
     return Scaffold(
       appBar: AppBar(
@@ -54,8 +59,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 Positioned(
                   width: 12,
                   height: 12,
-                  left: 5,
-                  top: 10,
+                  left: 7,
+                  top: 12,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -82,8 +87,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 Positioned(
                   width: 12,
                   height: 12,
-                  left: 5,
-                  top: 10,
+                  left: 7,
+                  top: 12,
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -196,10 +201,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
       controller.searchText!.toLowerCase().replaceAll(' ', ''),
     );
 
-    return e.title.toLowerCase().contains(
-              controller.searchText!.toLowerCase(),
+    return e.title.trim().toLowerCase().contains(
+              controller.searchText!.trim().toLowerCase(),
             ) ||
-        findByArtist && e.approved;
+        findByArtist;
   }
 
   bool _filterDate(LineupItemModel e) {

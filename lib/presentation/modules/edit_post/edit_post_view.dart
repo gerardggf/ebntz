@@ -39,6 +39,7 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
         _titleController.text = editPostState.title;
         _descriptionController.text = editPostState.description;
         _locationController.text = editPostState.location ?? '';
+        print(editPostState.imageUrl);
       },
     );
   }
@@ -100,10 +101,11 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
               vertical: 10,
             ),
             children: [
-              CachedNetworkImage(
-                imageUrl: controller.imageUrl,
-                fit: BoxFit.fitWidth,
-              ),
+              if (controller.imageUrl.isNotEmpty)
+                CachedNetworkImage(
+                  imageUrl: controller.imageUrl,
+                  fit: BoxFit.fitWidth,
+                ),
               TextFormField(
                 controller: _titleController,
                 autovalidateMode: AutovalidateMode.onUserInteraction,

@@ -24,13 +24,14 @@ class FirebaseFirestoreService {
 
   Stream<List<LineupItemModel>> suscribeToPosts({
     bool isApproved = true,
-    OrderPostsBy orderBy = OrderPostsBy.creationDate,
+    String orderBy = 'creationDate',
+    bool isDescending = true,
   }) async* {
     final snapshots = firebaseFirestore
         .collection('posts')
         .orderBy(
-          orderBy.name,
-          descending: true,
+          orderBy,
+          descending: isDescending,
         )
         .where(
           "approved",
@@ -103,6 +104,23 @@ class FirebaseFirestoreService {
       return FirebaseResponse.success;
     } catch (e) {
       return FirebaseResponse.failure;
+    }
+  }
+
+  Future<bool> updatePostApproval(String id, bool isApproved) async {
+    try {
+      final CollectionReference usersCollection =
+          firebaseFirestore.collection('posts');
+      DocumentReference docRef = usersCollection.doc(id);
+      await docRef.update(
+        {"approved": isApproved},
+      );
+      return true;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      return false;
     }
   }
 

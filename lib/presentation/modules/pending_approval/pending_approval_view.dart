@@ -26,23 +26,77 @@ class _PendingApprovalViewState extends ConsumerState<PendingApprovalView> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         title: const Text(
-          'eBntz',
-          style: TextStyle(
-            fontWeight: FontWeight.w900,
-          ),
+          'Aprobaciones pendientes',
         ),
         elevation: 0,
       ),
       body: pendingApprovalStream.when(
         data: (data) {
-          return ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: data.length,
-            itemBuilder: (BuildContext context, int index) {
-              return LineupItemWidget(
-                lineupItem: data[index],
-              );
-            },
+          return Column(
+            children: [
+              Expanded(
+                child: Container(
+                  color: Colors.grey,
+                  child: Center(
+                    child: Text(
+                      'Pendientes: ${data.length}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 12,
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        Container(
+                          color: Colors.orange,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 3,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15)
+                                      .copyWith(right: 0),
+                                  child: const Text(
+                                    'Pulsa el check para aprobar la publicación inferior una vez revisada.',
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: IconButton(
+                                  onPressed: () {
+                                    ref
+                                        .read(postsRepostoryProvider)
+                                        .updatePostApproval(id: data[index].id);
+                                  },
+                                  icon: const Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.blue,
+                                    size: 30,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        LineupItemWidget(
+                          lineupItem: data[index],
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         },
         error: (e, stackTrace) => Center(
