@@ -20,6 +20,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = ref.watch(authControllerProvider);
     final notifier = ref.watch(authControllerProvider.notifier);
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -54,12 +55,19 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
             },
           ),
           const SizedBox(height: 30),
-          CustomButton(
-            onPressed: () async {
-              await _login();
-            },
-            child: const Text('Iniciar sesión'),
-          ),
+          if (controller.fetching)
+            const Center(
+              child: CircularProgressIndicator(
+                color: Colors.black,
+              ),
+            )
+          else
+            CustomButton(
+              onPressed: () async {
+                await _login();
+              },
+              child: const Text('Iniciar sesión'),
+            ),
           const SizedBox(height: 20),
           TextButton(
             onPressed: () async {

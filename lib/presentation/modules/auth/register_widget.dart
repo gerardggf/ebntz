@@ -21,6 +21,7 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = ref.watch(authControllerProvider);
     final notifier = ref.watch(authControllerProvider.notifier);
     return Padding(
       padding: const EdgeInsets.symmetric(
@@ -88,12 +89,19 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
               obscureText: true,
             ),
             const SizedBox(height: 30),
-            CustomButton(
-              onPressed: () async {
-                register();
-              },
-              child: const Text('Registrarse'),
-            ),
+            if (controller.fetching)
+              const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.black,
+                ),
+              )
+            else
+              CustomButton(
+                onPressed: () async {
+                  register();
+                },
+                child: const Text('Registrarse'),
+              ),
             const SizedBox(height: 20),
             TextButton(
               onPressed: () {

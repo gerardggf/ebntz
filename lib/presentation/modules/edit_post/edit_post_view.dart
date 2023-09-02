@@ -39,7 +39,6 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
         _titleController.text = editPostState.title;
         _descriptionController.text = editPostState.description;
         _locationController.text = editPostState.location ?? '';
-        print(editPostState.imageUrl);
       },
     );
   }

@@ -32,6 +32,8 @@ class AuthController extends StateNotifier<AuthState> {
   void updateIsRegister(bool value) =>
       state = state.copyWith(isRegister: value);
 
+  void updateFetching(bool value) => state = state.copyWith(fetching: value);
+
   void updateEmail(String text) => state = state.copyWith(email: text);
 
   void updatePassword(String text) => state = state.copyWith(password: text);
@@ -49,19 +51,19 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<Either<String, UserModel?>> login() async {
-    state = state.copyWith(fetching: true);
+    updateFetching(true);
     final result = await authenticationRepository.signIn(
       email: state.email,
       password: state.password,
     );
     result.when(
-      left: (_) => state = state.copyWith(fetching: false),
+      left: (_) => updateFetching(false),
       right: (user) async {
         await sessionController.setUser(user!);
         if (kDebugMode) {
           print(user.toJson());
         }
-        state = state.copyWith(fetching: false);
+        updateFetching(false);
       },
     );
 
@@ -69,7 +71,7 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<String> register() async {
-    state = state.copyWith(fetching: true);
+    updateFetching(true);
     final result = await authenticationRepository.register(
       email: state.email,
       password: state.password,
@@ -77,7 +79,7 @@ class AuthController extends StateNotifier<AuthState> {
     if (result == 'register-success') {
       authenticationRepository.sendVerifyCurrentUsersEmail();
     }
-    state = state.copyWith(fetching: false);
+    updateFetching(false);
     return result;
   }
 }
