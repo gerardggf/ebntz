@@ -10,6 +10,7 @@ import 'package:ebntz/presentation/splash_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../modules/change_password/change_password_view.dart';
 import '../modules/pending_approval/pending_approval_view.dart';
 import 'routes.dart';
 
@@ -62,6 +63,11 @@ mixin RouterMixin on State<MyApp> {
         name: Routes.pendingApproval,
         path: '/pending-approval',
         builder: (_, __) => const PendingApprovalView(),
+      ),
+      GoRoute(
+        name: Routes.changePassword,
+        path: '/change-password',
+        builder: (_, __) => const ChangePasswordView(),
       ),
     ],
   );

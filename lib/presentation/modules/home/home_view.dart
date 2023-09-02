@@ -2,6 +2,7 @@ import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';
 import 'package:ebntz/presentation/modules/home/home_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
@@ -102,8 +103,18 @@ class _HomeViewState extends ConsumerState<HomeView> {
             ],
           ),
         ],
+        leading: ref.watch(sessionControllerProvider) != null
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.login),
+                onPressed: () {
+                  context.pushNamed(Routes.profile);
+                },
+              ),
       ),
-      drawer: const OptionsDrawer(),
+      drawer: ref.watch(sessionControllerProvider) == null
+          ? null
+          : const OptionsDrawer(),
       body: Column(
         children: [
           if (controller.searchBar)
@@ -201,8 +212,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
       controller.searchText!.toLowerCase().replaceAll(' ', ''),
     );
 
-    return e.title.trim().toLowerCase().contains(
-              controller.searchText!.trim().toLowerCase(),
+    return e.title.replaceAll(' ', '').toLowerCase().contains(
+              controller.searchText!.replaceAll(' ', '').toLowerCase(),
             ) ||
         findByArtist;
   }

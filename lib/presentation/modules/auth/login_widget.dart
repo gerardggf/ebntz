@@ -1,9 +1,11 @@
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/global/utils/get_text_from_code.dart';
 import 'package:ebntz/presentation/modules/auth/auth_controller.dart';
+import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
@@ -59,6 +61,16 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
             child: const Text('Iniciar sesión'),
           ),
           const SizedBox(height: 20),
+          TextButton(
+            onPressed: () async {
+              context.pushNamed(Routes.changePassword);
+            },
+            child: const Text(
+              'Recuperar contraseña',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          const SizedBox(height: 10),
           TextButton(
             onPressed: () async {
               notifier.updateIsRegister(true);

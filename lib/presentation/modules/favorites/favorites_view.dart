@@ -198,8 +198,8 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
       controller.searchText!.toLowerCase().replaceAll(' ', ''),
     );
 
-    return e.title.toLowerCase().contains(
-              controller.searchText!.toLowerCase(),
+    return e.title.replaceAll(' ', '').toLowerCase().contains(
+              controller.searchText!.replaceAll(' ', '').toLowerCase(),
             ) ||
         findByArtist && e.approved;
   }

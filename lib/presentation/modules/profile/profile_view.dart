@@ -4,8 +4,10 @@ import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/global/utils/dialogs/change_username_dialog.dart';
 import 'package:ebntz/presentation/global/utils/string_functions.dart';
 import 'package:ebntz/presentation/modules/auth/auth_view.dart';
+import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({super.key});
@@ -51,6 +53,16 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   ),
                 ),
                 ListTile(
+                  leading: const Icon(Icons.bookmark_outline),
+                  minLeadingWidth: 30,
+                  onTap: () {
+                    context.pushNamed(Routes.favorites);
+                  },
+                  title: const Text('Guardados'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.person),
+                  minLeadingWidth: 30,
                   onTap: () async {
                     await showDialog<String>(
                       context: context,
@@ -61,11 +73,18 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   },
                   title: const Text('Cambiar nombre de usuario'),
                 ),
+                //TODO: pendiente cambiar contraseña
                 ListTile(
-                  onTap: () {},
+                  leading: const Icon(Icons.password_outlined),
+                  minLeadingWidth: 30,
+                  onTap: () {
+                    context.pushNamed(Routes.changePassword);
+                  },
                   title: const Text('Cambiar contraseña'),
                 ),
                 ListTile(
+                  leading: const Icon(Icons.logout),
+                  minLeadingWidth: 30,
                   onTap: () async {
                     await sessionControllerNotifier.signOut();
                     if (mounted) {
@@ -78,11 +97,15 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   },
                   title: const Text(
                     'Cerrar sesión',
-                    style: TextStyle(color: Colors.red),
                   ),
                 ),
                 const Divider(thickness: 1),
                 ListTile(
+                  leading: const Icon(
+                    Icons.delete_forever_outlined,
+                    color: Colors.red,
+                  ),
+                  minLeadingWidth: 30,
                   onTap: () {},
                   title: const Text(
                     'Eliminar cuenta',

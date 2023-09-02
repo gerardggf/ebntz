@@ -29,18 +29,15 @@ class OptionsDrawer extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 10),
-              if (sessionController != null)
-                Text(
-                  sessionController.username,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontStyle: FontStyle.italic),
-                ),
+              Text(
+                sessionController!.username,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontStyle: FontStyle.italic),
+              ),
               const SizedBox(height: 15),
               ListTile(
-                title: Text(
-                  sessionController == null
-                      ? 'Iniciar sesión / Registrarse'
-                      : 'Perfil',
+                title: const Text(
+                  'Perfil',
                   overflow: TextOverflow.ellipsis,
                 ),
                 minLeadingWidth: 30,
@@ -53,36 +50,34 @@ class OptionsDrawer extends ConsumerWidget {
                   context.pushNamed(Routes.profile);
                 },
               ),
-              if (sessionController != null)
-                ListTile(
-                  title: const Text(
-                    'Guardados',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  minLeadingWidth: 30,
-                  leading: const Icon(
-                    Icons.bookmark,
-                    color: AppColors.primary,
-                  ),
-                  onTap: () {
-                    context.pop();
-                    context.pushNamed(Routes.favorites);
-                  },
+              ListTile(
+                title: const Text(
+                  'Guardados',
+                  overflow: TextOverflow.ellipsis,
                 ),
-              if (sessionController != null)
-                ListTile(
-                  title: const Text('Compartir nuevo evento'),
-                  leading: const Icon(
-                    Icons.add,
-                    color: AppColors.primary,
-                  ),
-                  minLeadingWidth: 30,
-                  onTap: () {
-                    context.pop();
-                    context.pushNamed(Routes.pendingApproval);
-                  },
+                minLeadingWidth: 30,
+                leading: const Icon(
+                  Icons.bookmark,
+                  color: AppColors.primary,
                 ),
-              if (sessionController?.isAdmin ?? false)
+                onTap: () {
+                  context.pop();
+                  context.pushNamed(Routes.favorites);
+                },
+              ),
+              ListTile(
+                title: const Text('Compartir nuevo evento'),
+                leading: const Icon(
+                  Icons.add,
+                  color: AppColors.primary,
+                ),
+                minLeadingWidth: 30,
+                onTap: () {
+                  context.pop();
+                  context.pushNamed(Routes.pendingApproval);
+                },
+              ),
+              if (sessionController.isAdmin)
                 ListTile(
                   leading: const Icon(
                     Icons.pending_actions,
