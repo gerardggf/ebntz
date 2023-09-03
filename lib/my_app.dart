@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'generated/translations.g.dart';
 import 'presentation/routes/router.dart';
 
 class MyApp extends StatefulWidget {
@@ -19,6 +21,9 @@ class _MyAppState extends State<MyApp> with RouterMixin {
       child: MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
+        locale: TranslationProvider.of(context).flutterLocale,
+        supportedLocales: AppLocaleUtils.supportedLocales,
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
         title: 'eBntz',
       ),
     );

@@ -3,6 +3,7 @@ import 'package:ebntz/data/services/remote/firebase_auth_service.dart';
 import 'package:ebntz/data/services/remote/firebase_firestore_service.dart';
 import 'package:ebntz/data/services/remote/firebase_storage_service.dart';
 import 'package:ebntz/data/services/local/ml_kit_service.dart';
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/my_app.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -35,7 +36,9 @@ void main() async {
         textRecognizerProvider.overrideWithValue(textRecognizer),
         firebaseAuthProvider.overrideWithValue(firebaseAuth),
       ],
-      child: const MyApp(),
+      child: TranslationProvider(
+        child: const MyApp(),
+      ),
     ),
   );
 }

@@ -1,3 +1,5 @@
+import 'package:ebntz/domain/repositories/authentication_repository.dart';
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
@@ -8,6 +10,8 @@ import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../global/utils/date_functions.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({super.key});
@@ -35,7 +39,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
               physics: const BouncingScrollPhysics(),
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20).copyWith(bottom: 5),
                   child: Column(
                     children: [
                       Text(
@@ -52,6 +56,16 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     ],
                   ),
                 ),
+                Text(
+                  '${texts.global.accountCreatedOn} ${dateToString(sessionController.creationDate)}',
+                  style: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    color: Colors.grey,
+                    fontSize: 11,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
                 ListTile(
                   leading: const Icon(Icons.bookmark_outline),
                   minLeadingWidth: 30,
@@ -71,16 +85,15 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       },
                     );
                   },
-                  title: const Text('Cambiar nombre de usuario'),
+                  title: Text(texts.global.changeUsername),
                 ),
-                //TODO: pendiente cambiar contraseña
                 ListTile(
                   leading: const Icon(Icons.password_outlined),
                   minLeadingWidth: 30,
                   onTap: () {
                     context.pushNamed(Routes.changePassword);
                   },
-                  title: const Text('Cambiar contraseña'),
+                  title: Text(texts.global.changePassword),
                 ),
                 ListTile(
                   leading: const Icon(Icons.logout),
@@ -90,13 +103,13 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     if (mounted) {
                       showCustomSnackBar(
                         context: context,
-                        text: 'Sesión cerrada',
+                        text: texts.global.sessionHasBeenClosed,
                       );
                       Navigator.pop(context);
                     }
                   },
-                  title: const Text(
-                    'Cerrar sesión',
+                  title: Text(
+                    texts.global.logout,
                   ),
                 ),
                 const Divider(thickness: 1),
@@ -106,14 +119,83 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     color: Colors.red,
                   ),
                   minLeadingWidth: 30,
-                  onTap: () {},
-                  title: const Text(
-                    'Eliminar cuenta',
-                    style: TextStyle(color: Colors.red),
+                  onTap: () async {
+                    if (await _deleteAccountDialogs()) {
+                      ref
+                          .read(authenticationRepositoryProvider)
+                          .deleteAccount();
+                      if (!mounted) return;
+                      context.pop();
+                      showCustomSnackBar(
+                        context: context,
+                        text: 'La cuenta ha sido eliminada correctamente',
+                        color: Colors.red,
+                      );
+                    }
+                  },
+                  title: Text(
+                    texts.global.deleteAccount,
+                    style: const TextStyle(color: Colors.red),
                   ),
                 ),
               ],
             ),
           );
+  }
+
+  Future<bool> _deleteAccountDialogs() async {
+    final result = await showDialog<bool?>(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: Text(
+          texts.global.areYouSureYouWantToDeleteYourAccount,
+        ),
+        title: Text(
+          texts.global.deleteAccount,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              final result2 = await showDialog<bool?>(
+                context: context,
+                builder: (_) => AlertDialog(
+                  content: Text(
+                    texts.global
+                        .yourDataWillBeDeletedButNotTheRoutesYouHaveCreatedHoweverTheyWillRemainAnonymousIfYouWantToDeleteThemPleaseDoItManually,
+                  ),
+                  title: Text(
+                    texts.global.deleteAccount,
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        context.pop(true);
+                      },
+                      child: Text(texts.global.confirm),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.pop(false);
+                      },
+                      child: Text(texts.global.cancel),
+                    ),
+                  ],
+                ),
+              );
+              if (!mounted) return;
+              context.pop(result2);
+            },
+            child: Text(texts.global.confirm),
+          ),
+          TextButton(
+            onPressed: () {
+              context.pop(false);
+            },
+            child: Text(texts.global.cancel),
+          ),
+        ],
+      ),
+    );
+    return result ?? false;
   }
 }

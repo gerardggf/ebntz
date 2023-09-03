@@ -58,7 +58,7 @@ class _PendingApprovalViewState extends ConsumerState<PendingApprovalView> {
                     return Column(
                       children: [
                         Container(
-                          color: Colors.orange,
+                          color: AppColors.secondary,
                           child: Row(
                             children: [
                               Expanded(

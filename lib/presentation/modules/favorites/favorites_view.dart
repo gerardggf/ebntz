@@ -63,7 +63,7 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
                       border: Border.all(
                         color: Colors.black,
                       ),
-                      color: Colors.white,
+                      color: AppColors.secondary,
                     ),
                   ),
                 ),
@@ -91,7 +91,7 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
                       border: Border.all(
                         color: Colors.black,
                       ),
-                      color: Colors.white,
+                      color: AppColors.secondary,
                     ),
                   ),
                 ),

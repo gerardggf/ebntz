@@ -1,4 +1,5 @@
 import 'package:ebntz/domain/enums.dart';
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
@@ -241,8 +242,8 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
           children: <Widget>[
             ListTile(
               leading: const Icon(Icons.photo),
-              title: const Text(
-                'Cámara',
+              title: Text(
+                texts.global.camera,
               ),
               onTap: () async {
                 Navigator.of(context).pop();
@@ -251,7 +252,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
             ),
             ListTile(
               leading: const Icon(Icons.folder),
-              title: const Text('Galería'),
+              title: Text(texts.global.gallery),
               onTap: () async {
                 Navigator.of(context).pop();
                 await notifier.getImage(ImageSource.gallery);
@@ -293,7 +294,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
       showCustomSnackBar(
         context: context,
         text: 'Tienes que seleccionar una imagen',
-        color: Colors.orange,
+        color: AppColors.secondary,
       );
       return;
     }
@@ -302,7 +303,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
       if (mounted) {
         showCustomSnackBar(
           context: context,
-          text: 'Nuevo evento enviado con éxito',
+          text: 'Se ha mandado la publicación a revisión para ser aprobada',
         );
         context.pop();
       }

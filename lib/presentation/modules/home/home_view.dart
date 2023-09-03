@@ -68,7 +68,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       border: Border.all(
                         color: Colors.black,
                       ),
-                      color: Colors.white,
+                      color: AppColors.secondary,
                     ),
                   ),
                 ),
@@ -96,7 +96,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       border: Border.all(
                         color: Colors.black,
                       ),
-                      color: Colors.white,
+                      color: AppColors.secondary,
                     ),
                   ),
                 ),
@@ -163,6 +163,28 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+          if (filterController.date != null)
+            InkWell(
+              onTap: () {
+                ref
+                    .watch(filterPostsControllerProvider.notifier)
+                    .clearFilters();
+              },
+              child: Container(
+                color: AppColors.secondary,
+                width: double.infinity,
+                height: 40,
+                child: const Center(
+                  child: Text(
+                    'Restablecer filtros',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),

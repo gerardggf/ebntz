@@ -2,6 +2,7 @@ import 'package:ebntz/data/services/remote/firebase_firestore_service.dart';
 import 'package:ebntz/domain/either/either.dart';
 import 'package:ebntz/domain/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final firebaseAuthProvider = Provider<FirebaseAuth>(
@@ -114,7 +115,13 @@ class FirebaseAuthService {
   }
 
   Future<void> delete(User user) async {
-    await firestoreService.deleteFirestoreUser(user.uid);
-    return await user.delete();
+    try {
+      await user.delete();
+      await firestoreService.deleteFirestoreUser(user.uid);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
   }
 }

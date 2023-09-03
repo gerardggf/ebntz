@@ -3,6 +3,8 @@ import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../generated/translations.g.dart';
+
 class ChangeUsernameDialog extends ConsumerStatefulWidget {
   const ChangeUsernameDialog({
     super.key,
@@ -39,14 +41,14 @@ class _ChangeUsernameDialogState extends ConsumerState<ChangeUsernameDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Cambiar nombre de usuario'),
+      title: Text(texts.global.changeUsername),
       content: TextField(
         controller: _usernameController,
         onChanged: (value) {
           username = value;
         },
-        decoration: const InputDecoration(
-          hintText: 'Nuevo nombre de usuario',
+        decoration: InputDecoration(
+          hintText: texts.global.newUsername,
         ),
       ),
       actions: [
@@ -66,13 +68,13 @@ class _ChangeUsernameDialogState extends ConsumerState<ChangeUsernameDialog> {
               Navigator.pop(context);
             }
           },
-          child: const Text('Confirmar'),
+          child: Text(texts.global.confirm),
         ),
         TextButton(
           onPressed: () async {
             Navigator.pop(context);
           },
-          child: const Text('Confirmar'),
+          child: Text(texts.global.confirm),
         ),
       ],
     );

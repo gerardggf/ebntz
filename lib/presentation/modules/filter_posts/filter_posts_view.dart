@@ -5,6 +5,7 @@ import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FilterPostsView extends ConsumerWidget {
   const FilterPostsView({super.key});
@@ -13,6 +14,11 @@ class FilterPostsView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = ref.watch(filterPostsControllerProvider);
     final notifier = ref.watch(filterPostsControllerProvider.notifier);
+    final today = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -88,7 +94,9 @@ class FilterPostsView extends ConsumerWidget {
               },
             ),
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 15),
+          const Divider(thickness: 1),
+          const SizedBox(height: 15),
           const Text(
             'Filtrar por fecha',
             style: TextStyle(
@@ -96,40 +104,140 @@ class FilterPostsView extends ConsumerWidget {
               fontSize: 22,
             ),
           ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+          const SizedBox(height: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextButton(
-                onPressed: () async {
-                  final result = await showDatePicker(
-                        context: context,
-                        initialDate: controller.date ?? DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(2100),
-                      ) ??
-                      controller.date;
-                  notifier.updateDate(result);
-                },
-                child: Text(
-                  controller.date == null
-                      ? 'Añadir fecha'
-                      : dateToString(controller.date)!,
-                  style: const TextStyle(
-                    fontSize: 20,
+              Row(
+                children: [
+                  InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () {
+                      notifier.updateDate(
+                        today,
+                      );
+                      context.pop();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: controller.date == today
+                              ? Colors.white
+                              : Colors.black26,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                        color: controller.date == today
+                            ? AppColors.primary
+                            : Colors.white,
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'Hoy',
+                              style: TextStyle(
+                                color: controller.date == today
+                                    ? Colors.white
+                                    : AppColors.primary,
+                                fontFamily: 'Nexa',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 10),
+                  InkWell(
+                    borderRadius: BorderRadius.circular(15),
+                    onTap: () {
+                      notifier.updateDate(today.add(
+                        const Duration(days: 1),
+                      ));
+                      context.pop();
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: controller.date ==
+                                  today.add(
+                                    const Duration(days: 1),
+                                  )
+                              ? Colors.white
+                              : Colors.black26,
+                        ),
+                        borderRadius: BorderRadius.circular(30),
+                        color: controller.date ==
+                                today.add(
+                                  const Duration(days: 1),
+                                )
+                            ? AppColors.primary
+                            : Colors.white,
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              'Mañana',
+                              style: TextStyle(
+                                color: controller.date ==
+                                        today.add(
+                                          const Duration(days: 1),
+                                        )
+                                    ? Colors.white
+                                    : AppColors.primary,
+                                fontFamily: 'Nexa',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              if (controller.date != null)
-                IconButton(
-                  onPressed: () {
-                    notifier.updateDate(null);
-                  },
-                  icon: const Icon(
-                    Icons.close,
-                    color: Colors.blue,
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      final result = await showDatePicker(
+                            context: context,
+                            initialDate: controller.date ?? today,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100),
+                          ) ??
+                          controller.date;
+                      notifier.updateDate(result);
+                    },
+                    child: Text(
+                      controller.date == null
+                          ? 'Añadir fecha'
+                          : dateToString(controller.date)!,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: AppColors.secondary,
+                      ),
+                    ),
                   ),
-                ),
+                  if (controller.date != null)
+                    IconButton(
+                      onPressed: () {
+                        notifier.updateDate(null);
+                      },
+                      icon: const Icon(
+                        Icons.close,
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
           const SizedBox(height: 30),

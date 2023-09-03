@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
@@ -201,7 +202,7 @@ class LineupItemWidget extends ConsumerWidget {
         icon: Icon(
           Icons.expand_circle_down_outlined,
           color: ref.watch(sessionControllerProvider)?.isAdmin ?? false
-              ? Colors.red
+              ? AppColors.secondary
               : Colors.black,
         ),
         onSelected: (result) async {
@@ -223,9 +224,9 @@ class LineupItemWidget extends ConsumerWidget {
                         onPressed: () {
                           context.pop(true);
                         },
-                        child: const Text(
-                          'Confirmar',
-                          style: TextStyle(
+                        child: Text(
+                          texts.global.confirm,
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),
@@ -234,9 +235,9 @@ class LineupItemWidget extends ConsumerWidget {
                         onPressed: () {
                           context.pop(false);
                         },
-                        child: const Text(
-                          'Cancelar',
-                          style: TextStyle(
+                        child: Text(
+                          texts.global.cancel,
+                          style: const TextStyle(
                             color: Colors.black,
                           ),
                         ),

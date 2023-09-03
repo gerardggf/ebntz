@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../global/const.dart';
+
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
 
@@ -106,7 +108,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
         showCustomSnackBar(
           context: context,
           text: getTextFromAuthCode(context: context, stringCode: failure),
-          color: Colors.orange,
+          color: AppColors.secondary,
         );
       },
       right: (_) {

@@ -5,6 +5,8 @@ import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../global/const.dart';
+
 class RegisterWidget extends ConsumerStatefulWidget {
   const RegisterWidget({super.key});
 
@@ -128,7 +130,7 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
           showCustomSnackBar(
             context: context,
             text: 'Cuenta registrada con éxito',
-            color: Colors.orange,
+            color: AppColors.secondary,
           );
         }
         showCustomSnackBar(
@@ -137,14 +139,14 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
             context: context,
             stringCode: result,
           ),
-          color: Colors.orange,
+          color: AppColors.secondary,
         );
       }
     } else {
       showCustomSnackBar(
         context: context,
         text: 'Hay campos que no cumplen con las condiciones especificadas',
-        color: Colors.orange,
+        color: AppColors.secondary,
       );
     }
   }

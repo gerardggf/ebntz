@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -40,34 +41,34 @@ class _OfflineViewState extends ConsumerState<OfflineView> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(30),
+          padding: const EdgeInsets.all(30),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(
-                'No tienes conexión a internet',
-                style: TextStyle(
+                texts.global.youDoNotHaveInternet,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Icon(
+              const Icon(
                 Icons.signal_wifi_connected_no_internet_4_outlined,
                 size: 50,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'Por favor conéctate a una red',
                 textAlign: TextAlign.center,
               )
