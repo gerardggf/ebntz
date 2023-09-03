@@ -16,6 +16,8 @@ import 'firebase_options.dart';
 
 //TODO: pendiente traducciones slang
 
+//TODO: añadir usuario en post
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

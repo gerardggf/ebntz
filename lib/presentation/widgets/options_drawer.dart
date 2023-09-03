@@ -74,7 +74,7 @@ class OptionsDrawer extends ConsumerWidget {
                 minLeadingWidth: 30,
                 onTap: () {
                   context.pop();
-                  context.pushNamed(Routes.pendingApproval);
+                  context.pushNamed(Routes.newPost);
                 },
               ),
               if (sessionController.isAdmin)
