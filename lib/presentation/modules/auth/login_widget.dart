@@ -114,7 +114,6 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
       right: (_) {
         showCustomSnackBar(
           context: context,
-          //TODO:traducir
           text: 'Sesión iniciada correctamente',
         );
       },

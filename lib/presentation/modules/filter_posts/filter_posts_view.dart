@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'widgets/filter_item_widget.dart';
+
+part 'utils/utils.dart';
+
 class FilterPostsView extends ConsumerWidget {
   const FilterPostsView({super.key});
 
@@ -66,7 +70,7 @@ class FilterPostsView extends ConsumerWidget {
                       ),
                       borderRadius: BorderRadius.circular(30),
                       color: controller.orderBy == OrderPostsBy.values[index]
-                          ? AppColors.primary
+                          ? AppColors.secondary
                           : Colors.white,
                     ),
                     child: Center(
@@ -110,94 +114,37 @@ class FilterPostsView extends ConsumerWidget {
             children: [
               Row(
                 children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(15),
-                    onTap: () {
-                      notifier.updateDate(
-                        today,
-                      );
-                      context.pop();
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: controller.date == today
-                              ? Colors.white
-                              : Colors.black26,
-                        ),
-                        borderRadius: BorderRadius.circular(30),
-                        color: controller.date == today
-                            ? AppColors.primary
-                            : Colors.white,
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Hoy',
-                              style: TextStyle(
-                                color: controller.date == today
-                                    ? Colors.white
-                                    : AppColors.primary,
-                                fontFamily: 'Nexa',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  FilterItemWidget(
+                      onPressed: () {
+                        notifier.updateDate(today);
+                        context.pop();
+                      },
+                      text: 'Hoy',
+                      date: today),
                   const SizedBox(width: 10),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(15),
-                    onTap: () {
+                  FilterItemWidget(
+                    onPressed: () {
                       notifier.updateDate(today.add(
                         const Duration(days: 1),
                       ));
                       context.pop();
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: controller.date ==
-                                  today.add(
-                                    const Duration(days: 1),
-                                  )
-                              ? Colors.white
-                              : Colors.black26,
-                        ),
-                        borderRadius: BorderRadius.circular(30),
-                        color: controller.date ==
-                                today.add(
-                                  const Duration(days: 1),
-                                )
-                            ? AppColors.primary
-                            : Colors.white,
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              'Mañana',
-                              style: TextStyle(
-                                color: controller.date ==
-                                        today.add(
-                                          const Duration(days: 1),
-                                        )
-                                    ? Colors.white
-                                    : AppColors.primary,
-                                fontFamily: 'Nexa',
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                    text: 'Mañana',
+                    date: today.add(
+                      const Duration(days: 1),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  FilterItemWidget(
+                    onPressed: () {
+                      notifier.updateDate(today.add(
+                        const Duration(days: 2),
+                      ));
+                      context.pop();
+                    },
+                    text: 'Mañana pasado',
+                    date: today.add(
+                      const Duration(days: 2),
                     ),
                   ),
                 ],
@@ -250,20 +197,5 @@ class FilterPostsView extends ConsumerWidget {
         ],
       ),
     );
-  }
-
-  String _getOrderRoutesText(OrderPostsBy orderBy) {
-    switch (orderBy) {
-      case OrderPostsBy.creationDate:
-        return 'Fecha de creación';
-      case OrderPostsBy.firstDate:
-        return 'Fecha evento';
-      case OrderPostsBy.name:
-        return 'Nombre';
-      case OrderPostsBy.location:
-        return 'Ubicación';
-      default:
-        return 'Fecha de creación';
-    }
   }
 }
