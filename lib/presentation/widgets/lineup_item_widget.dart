@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ebntz/data/services/remote/firebase_firestore_service.dart';
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/domain/models/user_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
@@ -12,7 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LineupItemWidget extends ConsumerWidget {
+class LineupItemWidget extends ConsumerStatefulWidget {
   const LineupItemWidget({
     super.key,
     required this.lineupItem,
@@ -21,7 +23,26 @@ class LineupItemWidget extends ConsumerWidget {
   final LineupItemModel lineupItem;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LineupItemWidget> createState() => _LineupItemWidgetState();
+}
+
+class _LineupItemWidgetState extends ConsumerState<LineupItemWidget> {
+  late Future<UserModel?> _getUserItemFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _getUserItemFuture = ref
+            .read(firebaseFirestoreServiceProvider)
+            .getUser(widget.lineupItem.author);
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final controller = ref.watch(homeControllerProvider);
     final notifier = ref.watch(homeControllerProvider.notifier);
     return Column(
@@ -40,7 +61,7 @@ class LineupItemWidget extends ConsumerWidget {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                        lineupItem.title,
+                        widget.lineupItem.title,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
@@ -49,9 +70,9 @@ class LineupItemWidget extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    if (lineupItem.location != '')
+                    if (widget.lineupItem.location != '')
                       Text(
-                        lineupItem.location,
+                        widget.lineupItem.location,
                         textAlign: TextAlign.start,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -68,7 +89,7 @@ class LineupItemWidget extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        getFormattedPostDate(lineupItem.creationDate),
+                        getFormattedPostDate(widget.lineupItem.creationDate),
                         style: const TextStyle(
                           fontStyle: FontStyle.italic,
                           color: Colors.black54,
@@ -77,7 +98,8 @@ class LineupItemWidget extends ConsumerWidget {
                         textAlign: TextAlign.end,
                       ),
                       Text(
-                        getFormattedPostTimeOfDay(lineupItem.creationDate),
+                        getFormattedPostTimeOfDay(
+                            widget.lineupItem.creationDate),
                         style: const TextStyle(
                           fontStyle: FontStyle.italic,
                           color: Colors.black54,
@@ -89,17 +111,13 @@ class LineupItemWidget extends ConsumerWidget {
                   ),
                 ),
               ),
-              if (lineupItem.author == ref.watch(sessionControllerProvider)?.id)
-                const SizedBox(width: 5),
-              if (lineupItem.author ==
-                      ref.watch(sessionControllerProvider)?.id ||
-                  (ref.watch(sessionControllerProvider)?.isAdmin ?? false))
-                _buildPopUpMenuButtonWidget(context, ref),
+              const SizedBox(width: 5),
+              _buildPopUpMenuButtonWidget(context, ref),
             ],
           ),
         ),
         CachedNetworkImage(
-          imageUrl: lineupItem.url,
+          imageUrl: widget.lineupItem.url,
           progressIndicatorBuilder: (context, url, progress) {
             return SizedBox(
               height: 300,
@@ -111,7 +129,7 @@ class LineupItemWidget extends ConsumerWidget {
             );
           },
         ),
-        if ((lineupItem.dates..removeWhere((element) => element.isEmpty))
+        if ((widget.lineupItem.dates..removeWhere((element) => element.isEmpty))
             .isNotEmpty)
           Row(
             children: [
@@ -128,18 +146,19 @@ class LineupItemWidget extends ConsumerWidget {
                             final sessionController =
                                 ref.read(sessionControllerProvider);
                             if (sessionController?.favorites
-                                    .contains(lineupItem.id) ??
+                                    .contains(widget.lineupItem.id) ??
                                 false) {
-                              notifier.deleteFromFavorites(lineupItem.id);
+                              notifier
+                                  .deleteFromFavorites(widget.lineupItem.id);
                             } else {
-                              notifier.addToFavorites(lineupItem.id);
+                              notifier.addToFavorites(widget.lineupItem.id);
                             }
                           },
                           icon: Icon(
                             ref
                                     .watch(sessionControllerProvider)!
                                     .favorites
-                                    .contains(lineupItem.id)
+                                    .contains(widget.lineupItem.id)
                                 ? Icons.bookmark
                                 : Icons.bookmark_outline,
                             size: 30,
@@ -155,7 +174,7 @@ class LineupItemWidget extends ConsumerWidget {
                   ),
                   child: Wrap(
                     children: [
-                      ...lineupItem.dates.map(
+                      ...widget.lineupItem.dates.map(
                         (e) => Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Chip(
@@ -177,11 +196,11 @@ class LineupItemWidget extends ConsumerWidget {
               ),
             ],
           ),
-        if (lineupItem.description.trim().isNotEmpty)
+        if (widget.lineupItem.description.trim().isNotEmpty)
           Padding(
             padding: const EdgeInsets.all(10),
             child: Text(
-              lineupItem.description,
+              widget.lineupItem.description,
             ),
           ),
         // Padding(
@@ -209,7 +228,7 @@ class LineupItemWidget extends ConsumerWidget {
           if (result == PostOptions.edit) {
             context.pushNamed(
               Routes.editPost,
-              pathParameters: {"id": lineupItem.id},
+              pathParameters: {"id": widget.lineupItem.id},
             );
           } else if (result == PostOptions.delete) {
             final result = await showDialog(
@@ -247,19 +266,38 @@ class LineupItemWidget extends ConsumerWidget {
                 ) ??
                 false;
             if (result) {
-              ref.read(postsRepostoryProvider).deletePost(lineupItem);
+              ref.read(postsRepostoryProvider).deletePost(widget.lineupItem);
             }
           }
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<PostOptions>>[
-          const PopupMenuItem<PostOptions>(
-            value: PostOptions.edit,
-            child: Text('Editar publicación'),
+          PopupMenuItem<PostOptions>(
+            enabled: false,
+            value: PostOptions.info,
+            child: FutureBuilder<UserModel?>(
+                future: _getUserItemFuture,
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const Text('...');
+                  }
+                  final username = snapshot.data?.username ?? '';
+                  return Text('Publicado por $username');
+                }),
           ),
-          const PopupMenuItem<PostOptions>(
-            value: PostOptions.delete,
-            child: Text('Eliminar publicación'),
-          ),
+          if (widget.lineupItem.author ==
+                  ref.watch(sessionControllerProvider)?.id ||
+              (ref.watch(sessionControllerProvider)?.isAdmin ?? false))
+            const PopupMenuItem<PostOptions>(
+              value: PostOptions.edit,
+              child: Text('Editar publicación'),
+            ),
+          if (widget.lineupItem.author ==
+                  ref.watch(sessionControllerProvider)?.id ||
+              (ref.watch(sessionControllerProvider)?.isAdmin ?? false))
+            const PopupMenuItem<PostOptions>(
+              value: PostOptions.delete,
+              child: Text('Eliminar publicación'),
+            ),
         ],
       );
 }

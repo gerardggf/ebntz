@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../generated/translations.g.dart';
 import '../../global/const.dart';
+import '../../global/utils/validate_fields.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
@@ -68,16 +70,16 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
               onPressed: () async {
                 await _login();
               },
-              child: const Text('Iniciar sesión'),
+              child: Text(texts.global.login),
             ),
           const SizedBox(height: 20),
           TextButton(
             onPressed: () async {
               context.pushNamed(Routes.changePassword);
             },
-            child: const Text(
-              'Recuperar contraseña',
-              style: TextStyle(color: Colors.black),
+            child: Text(
+              texts.global.changePassword,
+              style: const TextStyle(color: Colors.black),
             ),
           ),
           const SizedBox(height: 10),
@@ -85,9 +87,9 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
             onPressed: () async {
               notifier.updateIsRegister(true);
             },
-            child: const Text(
-              'Registrarse',
-              style: TextStyle(color: Colors.black),
+            child: Text(
+              texts.global.register,
+              style: const TextStyle(color: Colors.black),
             ),
           ),
         ],
@@ -96,11 +98,25 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
   }
 
   Future<void> _login() async {
-    if (_emailController.text.trim().isEmpty ||
-        _passwordController.text.trim().isEmpty) {
+    final controller = ref.read(authControllerProvider);
+    final notifier = ref.read(authControllerProvider.notifier);
+    FocusManager.instance.primaryFocus?.unfocus();
+
+    if (!validateEmail(controller.email)) {
+      showCustomSnackBar(
+        context: context,
+        text: texts.global.theEnteredTextIsNotInEmailFormat,
+      );
       return;
     }
-    final notifier = ref.read(authControllerProvider.notifier);
+    if (_emailController.text.replaceAll(' ', '').isEmpty ||
+        _passwordController.text.replaceAll(' ', '').isEmpty) {
+      showCustomSnackBar(
+        context: context,
+        text: texts.global.theFieldCannotbeEmpty,
+      );
+      return;
+    }
 
     final result = await notifier.login();
     result.when(
@@ -111,12 +127,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
           color: AppColors.secondary,
         );
       },
-      right: (_) {
-        showCustomSnackBar(
-          context: context,
-          text: 'Sesión iniciada correctamente',
-        );
-      },
+      right: (_) {},
     );
   }
 }

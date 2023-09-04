@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ebntz/domain/enums.dart';
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
@@ -111,7 +112,7 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                 validator: (value) {
                   if (_titleController.text == '' ||
                       _titleController.text.isEmpty) {
-                    return 'El campo no puede estar vacío';
+                    return texts.global.theFieldCannotbeEmpty;
                   }
                   if (_titleController.text.length > 25) {
                     return 'El campo no puede tener más de $kMaxCharacters carácteres';

@@ -19,9 +19,12 @@
     "password": "Contrasenya",
     "passwordsDoNotMatch": "Les contrasenyes no coincideixen",
     "repeatPassword": "Repetir contrasenya",
-    "checkIn": "Registrar-se",
+    "register": "Registrar-se",
     "iAlreadyHaveAnAccount": "Ja tinc compte",
     "thereAreFieldsThatDoNotMeetTheSpecifiedConditions": "Hi ha camps que no compleixen les condicions especificades",
     "iForgotThePassword": "He oblidat la contrasenya",
-    "close": "Tancar"
+    "close": "Tancar",
+    "login":"Iniciar sessió",
+    "theFieldCannotbeEmpty": "El camp no pot estar buit",
+    "myProfile":"El meu perfil"
 }

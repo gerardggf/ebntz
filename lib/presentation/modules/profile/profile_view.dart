@@ -32,7 +32,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
         : Scaffold(
             appBar: AppBar(
               elevation: 0,
-              title: const Text('Perfil'),
+              title: Text(texts.global.myProfile),
               backgroundColor: AppColors.primary,
             ),
             body: ListView(

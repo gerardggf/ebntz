@@ -140,7 +140,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                 validator: (value) {
                   if (_titleController.text == '' ||
                       _titleController.text.isEmpty) {
-                    return 'El campo no puede estar vacío';
+                    return texts.global.theFieldCannotbeEmpty;
                   }
                   if (_titleController.text.length > 25) {
                     return 'El campo no puede tener más de $kMaxCharacters carácteres';

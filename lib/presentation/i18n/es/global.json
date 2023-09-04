@@ -19,9 +19,12 @@
     "password": "Contraseña",
     "passwordsDoNotMatch": "Las contraseñas no coinciden",
     "repeatPassword": "Repetir contraseña",
-    "checkIn": "Registrarse",
+    "register": "Registrarse",
     "iAlreadyHaveAnAccount": "Ya tengo cuenta",
     "thereAreFieldsThatDoNotMeetTheSpecifiedConditions": "Hay campos que no cumplen con las condiciones especificadas",
     "iForgotThePassword": "He olvidado la contraseña",
-    "close": "Cerrar"
+    "close": "Cerrar",
+    "login":"Iniciar sesión",
+    "theFieldCannotbeEmpty": "El campo no puede estar vacío",
+    "myProfile":"Mi perfil"
 }

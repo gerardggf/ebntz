@@ -19,9 +19,12 @@
     "password": "Password",
     "passwordsDoNotMatch": "Passwords do not match",
     "repeatPassword": "Repeat password",
-    "checkIn": "Check in",
+    "register": "Register",
     "iAlreadyHaveAnAccount": "I already have an account",
     "thereAreFieldsThatDoNotMeetTheSpecifiedConditions": "There are fields that do not meet the specified conditions",
     "iForgotThePassword": "I forgot the password",
-    "close": "Close"
+    "close": "Close",
+    "login":"Login",
+    "theFieldCannotbeEmpty": "The field cannot be empty",
+    "myProfile":"My profile"
 }

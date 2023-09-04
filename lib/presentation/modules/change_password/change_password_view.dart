@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../global/utils/validate_fields.dart';
+
 class ChangePasswordView extends ConsumerStatefulWidget {
   const ChangePasswordView({super.key});
 
@@ -75,10 +77,5 @@ class _ChangePasswordViewState extends ConsumerState<ChangePasswordView> {
         ),
       ),
     );
-  }
-
-  bool validateEmail(String email) {
-    final regExp = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-    return regExp.hasMatch(email);
   }
 }
