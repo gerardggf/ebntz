@@ -1,3 +1,4 @@
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:intl/intl.dart';
 
 String? dateToString(DateTime? date) {
@@ -10,52 +11,57 @@ String getFormattedPostDate(String dateString) {
   final month = () {
     switch (date.month) {
       case 1:
-        return 'enero';
+        return texts.global.january;
       case 2:
-        return 'febrero';
+        return texts.global.february;
       case 3:
-        return 'marzo';
+        return texts.global.march;
       case 4:
-        return 'abril';
+        return texts.global.april;
       case 5:
-        return 'mayo';
+        return texts.global.may;
       case 6:
-        return 'junio';
+        return texts.global.june;
       case 7:
-        return 'julio';
+        return texts.global.july;
       case 8:
-        return 'agosto';
+        return texts.global.august;
       case 9:
-        return 'septiembre';
+        return texts.global.september;
       case 10:
-        return 'octubre';
+        return texts.global.october;
       case 11:
-        return 'noviembre';
+        return texts.global.november;
       case 12:
-        return 'diciembre';
+        return texts.global.december;
+      default:
+        return '';
     }
   }();
+  if (LocaleSettings.currentLocale == AppLocale.en) {
+    return '${date.day} $month ${date.year}';
+  }
   return '${date.day} de $month ${date.year}';
 }
 
 String mapWeekday(int weekday) {
   switch (weekday) {
     case 1:
-      return 'Lunes';
+      return texts.global.monday;
     case 2:
-      return 'Martes';
+      return texts.global.tuesday;
     case 3:
-      return 'Miércoles';
+      return texts.global.wednesday;
     case 4:
-      return 'Jueves';
+      return texts.global.thursday;
     case 5:
-      return 'Viernes';
+      return texts.global.friday;
     case 6:
-      return 'Sábado';
+      return texts.global.saturday;
     case 7:
-      return 'Domingo';
+      return texts.global.sunday;
     default:
-      return 'Lunes';
+      return '';
   }
 }
 

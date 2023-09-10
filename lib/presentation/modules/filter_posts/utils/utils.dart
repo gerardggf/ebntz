@@ -3,14 +3,14 @@ part of '../filter_posts_view.dart';
 String _getOrderRoutesText(OrderPostsBy orderBy) {
   switch (orderBy) {
     case OrderPostsBy.creationDate:
-      return 'Fecha de creación';
+      return texts.global.creationDate;
     case OrderPostsBy.firstDate:
-      return 'Fecha evento';
+      return texts.global.eventDate;
     case OrderPostsBy.name:
-      return 'Nombre';
+      return texts.global.name;
     case OrderPostsBy.location:
-      return 'Ubicación';
+      return texts.global.location;
     default:
-      return 'Fecha de creación';
+      return texts.global.creationDate;
   }
 }

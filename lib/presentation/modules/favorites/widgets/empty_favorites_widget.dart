@@ -1,3 +1,4 @@
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:flutter/material.dart';
 
 class EmptyFavoritesWidget extends StatelessWidget {
@@ -5,20 +6,20 @@ class EmptyFavoritesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.bookmark_outline,
             size: 50,
           ),
           Padding(
-            padding: EdgeInsets.all(30),
+            padding: const EdgeInsets.all(30),
             child: Text(
-              'No tienes ninguna publicación guardada',
+              texts.global.youHaveNoSavedPosts,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
               ),
             ),

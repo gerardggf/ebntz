@@ -1,3 +1,4 @@
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/modules/auth/auth_controller.dart';
 import 'package:ebntz/presentation/modules/auth/login_widget.dart';
@@ -16,7 +17,7 @@ class AuthView extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0,
         title: Text(
-          controller.isRegister ? 'Registrarse' : 'Inicio de sesión',
+          controller.isRegister ? texts.global.register : texts.global.login,
         ),
         backgroundColor: AppColors.primary,
       ),

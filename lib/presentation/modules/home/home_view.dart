@@ -1,6 +1,7 @@
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';
@@ -134,11 +135,11 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       child: TextField(
                         autofocus: true,
                         controller: _searchController,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.search),
+                        decoration: InputDecoration(
+                          icon: const Icon(Icons.search),
                           iconColor: AppColors.primary,
                           border: InputBorder.none,
-                          hintText: 'Busca por evento o artista',
+                          hintText: texts.global.searchByEventOrArtist,
                         ),
                         onChanged: (value) {
                           notifier.updateSearchText(value);
@@ -177,10 +178,10 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 color: AppColors.secondary,
                 width: double.infinity,
                 height: 40,
-                child: const Center(
+                child: Center(
                   child: Text(
-                    'Restablecer filtros',
-                    style: TextStyle(
+                    texts.global.resetFilters,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),

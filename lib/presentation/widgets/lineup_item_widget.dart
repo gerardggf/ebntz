@@ -234,9 +234,9 @@ class _LineupItemWidgetState extends ConsumerState<LineupItemWidget> {
             final result = await showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Eliminar publicación'),
-                    content: const Text(
-                      '¿Seguro que quieres eliminar esta publicación?',
+                    title: Text(texts.global.deletePost),
+                    content: Text(
+                      texts.global.areYouSureYouWantToDeleteThisPost,
                     ),
                     actions: [
                       TextButton(
@@ -281,22 +281,22 @@ class _LineupItemWidgetState extends ConsumerState<LineupItemWidget> {
                     return const Text('...');
                   }
                   final username = snapshot.data?.username ?? '';
-                  return Text('Publicado por $username');
+                  return Text('${texts.global.postedBy} $username');
                 }),
           ),
           if (widget.lineupItem.author ==
                   ref.watch(sessionControllerProvider)?.id ||
               (ref.watch(sessionControllerProvider)?.isAdmin ?? false))
-            const PopupMenuItem<PostOptions>(
+            PopupMenuItem<PostOptions>(
               value: PostOptions.edit,
-              child: Text('Editar publicación'),
+              child: Text(texts.global.editPost),
             ),
           if (widget.lineupItem.author ==
                   ref.watch(sessionControllerProvider)?.id ||
               (ref.watch(sessionControllerProvider)?.isAdmin ?? false))
-            const PopupMenuItem<PostOptions>(
+            PopupMenuItem<PostOptions>(
               value: PostOptions.delete,
-              child: Text('Eliminar publicación'),
+              child: Text(texts.global.deletePost),
             ),
         ],
       );

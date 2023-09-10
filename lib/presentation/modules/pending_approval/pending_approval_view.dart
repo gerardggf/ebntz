@@ -1,3 +1,4 @@
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,8 +26,8 @@ class _PendingApprovalViewState extends ConsumerState<PendingApprovalView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text(
-          'Aprobaciones pendientes',
+        title: Text(
+          texts.global.pendingApproval,
         ),
         elevation: 0,
       ),

@@ -74,7 +74,7 @@ class _ChangeUsernameDialogState extends ConsumerState<ChangeUsernameDialog> {
           onPressed: () async {
             Navigator.pop(context);
           },
-          child: Text(texts.global.confirm),
+          child: Text(texts.global.cancel),
         ),
       ],
     );

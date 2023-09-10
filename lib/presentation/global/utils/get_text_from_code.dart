@@ -1,3 +1,4 @@
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:flutter/widgets.dart';
 
 String getTextFromAuthCode({
@@ -6,16 +7,16 @@ String getTextFromAuthCode({
 }) {
   switch (stringCode) {
     case 'weak-password':
-      return 'Contraseña demasiado débil';
+      return texts.global.weakPassword;
     case 'email-already-in-use':
-      return 'Ya existe una cuenta que utiliza este correo electrónico';
+      return texts.global.thereIsAlreadyAnAccountThatUsesThisEmail;
     case 'user-not-found':
-      return 'Este usuario no existe';
+      return texts.global.thisUserDoesNotExist;
     case 'wrong-password':
-      return 'Contraseña incorrecta';
+      return texts.global.wrongPassword;
     case 'register-success':
-      return 'Cuenta creada con éxito';
+      return texts.global.accountSuccessfullyRegistered;
     default:
-      return 'Error de autenticación';
+      return texts.global.authentiactionError;
   }
 }

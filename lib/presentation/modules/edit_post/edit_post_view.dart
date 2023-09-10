@@ -58,7 +58,7 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
     final notifier = ref.watch(editPostControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar evento'),
+        title: Text(texts.global.editPost),
         elevation: 0,
         backgroundColor: AppColors.primary,
         actions: [
@@ -71,9 +71,9 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                   shape: const StadiumBorder(),
                 ),
                 onPressed: () async => _submit(),
-                child: const Text(
-                  'Actualizar',
-                  style: TextStyle(
+                child: Text(
+                  texts.global.refresh,
+                  style: const TextStyle(
                     color: AppColors.primary,
                   ),
                 ),
@@ -115,12 +115,13 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                     return texts.global.theFieldCannotbeEmpty;
                   }
                   if (_titleController.text.length > 25) {
-                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
+                    return texts.global.theFieldCannotHaveMoreThanXCharacters(
+                        maxCharacters: kMaxCharacters);
                   }
                   return null;
                 },
-                decoration: const InputDecoration(
-                  labelText: 'Título',
+                decoration: InputDecoration(
+                  labelText: texts.global.name,
                 ),
                 onChanged: (value) {
                   notifier.updateTitle(value);
@@ -132,11 +133,11 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                   _chooseDates();
                 },
                 icon: const Icon(Icons.add),
-                label: const FittedBox(
+                label: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'Añadir fechas del evento',
-                    style: TextStyle(fontSize: 20),
+                    texts.global.addDate,
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
               ),
@@ -168,8 +169,8 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: _locationController,
-                decoration: const InputDecoration(
-                  labelText: 'Ubicación',
+                decoration: InputDecoration(
+                  labelText: texts.global.location,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 onChanged: (value) {
@@ -177,7 +178,8 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
                 },
                 validator: (value) {
                   if (_titleController.text.length > 25) {
-                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
+                    return texts.global.theFieldCannotHaveMoreThanXCharacters(
+                        maxCharacters: kMaxCharacters);
                   }
                   return null;
                 },
@@ -185,8 +187,8 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Descripción',
+                decoration: InputDecoration(
+                  labelText: texts.global.description,
                 ),
                 maxLength: 500,
                 maxLines: null,
@@ -232,7 +234,7 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
       if (mounted) {
         showCustomSnackBar(
           context: context,
-          text: 'Nuevo evento enviado con éxito',
+          text: texts.global.thePostHasBeenSentForReviewToBeApproved,
         );
         context.pop();
       }
@@ -240,7 +242,7 @@ class _EditPostViewState extends ConsumerState<EditPostView> {
       if (mounted) {
         showCustomSnackBar(
           context: context,
-          text: 'No se ha podido enviar el evento con éxito',
+          text: texts.global.thePostCouldNotBeSentSuccessfully,
         );
       }
     }

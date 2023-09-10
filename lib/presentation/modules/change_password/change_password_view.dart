@@ -1,3 +1,4 @@
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/modules/change_password/change_password_controller.dart';
@@ -25,19 +26,19 @@ class _ChangePasswordViewState extends ConsumerState<ChangePasswordView> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         elevation: 0,
-        title: const Text('Recuperar contraseña'),
+        title: Text(texts.global.changePassword),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            const Text(
-              'Introduce tu correo electrónico y te mandaremos un enlace para poder recuperar tu contraseña',
+            Text(
+              texts.global
+                  .enterYourEmailAndWeWillSendYouALinkToRecoverYourPassword,
             ),
             const SizedBox(height: 10),
             TextField(
-              decoration:
-                  const InputDecoration(labelText: 'Correo electrónico'),
+              decoration: InputDecoration(labelText: texts.global.email),
               onChanged: (value) {
                 notifier.updateEmail(value);
               },
@@ -59,18 +60,18 @@ class _ChangePasswordViewState extends ConsumerState<ChangePasswordView> {
                     showCustomSnackBar(
                       milliseconds: 4000,
                       context: context,
-                      text:
-                          'Se ha enviado el enlace para el cambio de contraseña de tu cuenta. En caso de no recibirlo, comprueba tu bandeja de spam',
+                      text: texts.global
+                          .theLinkToChangeYourAccountPasswordHasBeenSentIfYouDoNotReceiveItCheckYourSpamFolder,
                     );
                   } else {
                     showCustomSnackBar(
                       context: context,
-                      text: 'El correo electrónico no es válido',
+                      text: texts.global.theEnteredTextIsNotInEmailFormat,
                     );
                   }
                 },
-                child: const Text(
-                  'Enviar correo electrónico',
+                child: Text(
+                  texts.global.sendEmail,
                 ),
               ),
           ],

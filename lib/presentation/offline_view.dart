@@ -68,8 +68,8 @@ class _OfflineViewState extends ConsumerState<OfflineView> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                'Por favor conéctate a una red',
+              Text(
+                texts.global.connectToANetwork,
                 textAlign: TextAlign.center,
               )
             ],

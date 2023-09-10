@@ -37,11 +37,12 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
-                'Regístrate e inicia sesión para poder compartir eventos y poder editar tu perfil',
-                style: TextStyle(
+                texts.global
+                    .registerAndLogInToBeAbleToShareEventsAndToEditYourProfile,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -116,9 +117,9 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
               onPressed: () {
                 notifier.updateIsRegister(false);
               },
-              child: const Text(
-                'Iniciar sesión',
-                style: TextStyle(color: Colors.black),
+              child: Text(
+                texts.global.login,
+                style: const TextStyle(color: Colors.black),
               ),
             ),
           ],
@@ -136,7 +137,7 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
           notifier.updateIsRegister(false);
           showCustomSnackBar(
             context: context,
-            text: 'Cuenta registrada con éxito',
+            text: texts.global.accountSuccessfullyRegistered,
             color: AppColors.secondary,
           );
         }
@@ -152,7 +153,7 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
     } else {
       showCustomSnackBar(
         context: context,
-        text: 'Hay campos que no cumplen con las condiciones especificadas',
+        text: texts.global.thereAreFieldsThatDoNotMeetTheSpecifiedConditions,
         color: AppColors.secondary,
       );
     }

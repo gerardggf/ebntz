@@ -1,4 +1,5 @@
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/modules/favorites/widgets/empty_favorites_widget.dart';
@@ -34,9 +35,9 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: const Text(
-          'Favoritos',
-          style: TextStyle(
+        title: Text(
+          texts.global.saved,
+          style: const TextStyle(
             fontWeight: FontWeight.w900,
           ),
         ),
@@ -118,11 +119,11 @@ class _FavoritesViewState extends ConsumerState<FavoritesView> {
                       child: TextField(
                         autofocus: true,
                         controller: _searchController,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.search),
+                        decoration: InputDecoration(
+                          icon: const Icon(Icons.search),
                           iconColor: AppColors.primary,
                           border: InputBorder.none,
-                          hintText: 'Busca por evento o artista',
+                          hintText: texts.global.searchByEventOrArtist,
                         ),
                         onChanged: (value) {
                           notifier.updateSearchText(value);

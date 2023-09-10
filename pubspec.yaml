@@ -50,7 +50,6 @@ dependencies:
   connectivity_plus: ^4.0.1
   http: ^0.13.6
   firebase_auth: ^4.6.0
-  flutter_map: ^4.0.0
   cached_network_image: ^3.2.3
   
 

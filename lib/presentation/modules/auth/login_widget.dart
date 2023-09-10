@@ -34,18 +34,9 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
       child: Column(
         children: [
           const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              'Inicia sesión para poder compartir eventos y poder editar tu perfil',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
           TextFormField(
             controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Correo electrónico'),
+            decoration: InputDecoration(labelText: texts.global.email),
             onChanged: (value) {
               notifier.updateEmail(value);
             },
@@ -53,7 +44,7 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
           TextFormField(
             controller: _passwordController,
             obscureText: true,
-            decoration: const InputDecoration(labelText: 'Contraseña'),
+            decoration: InputDecoration(labelText: texts.global.password),
             onChanged: (value) {
               notifier.updatePassword(value);
             },

@@ -72,7 +72,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   onTap: () {
                     context.pushNamed(Routes.favorites);
                   },
-                  title: const Text('Guardados'),
+                  title: Text(texts.global.saved),
                 ),
                 ListTile(
                   leading: const Icon(Icons.person),
@@ -128,7 +128,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                       context.pop();
                       showCustomSnackBar(
                         context: context,
-                        text: 'La cuenta ha sido eliminada correctamente',
+                        text: texts.global.theAccountHasBeenSuccessfullyDeleted,
                         color: Colors.red,
                       );
                     }

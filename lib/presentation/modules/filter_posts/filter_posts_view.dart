@@ -1,4 +1,5 @@
 import 'package:ebntz/domain/enums.dart';
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';
@@ -26,8 +27,8 @@ class FilterPostsView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text(
-          'Filtrar publicaciones',
+        title: Text(
+          texts.global.filterPosts,
         ),
         backgroundColor: AppColors.primary,
       ),
@@ -35,9 +36,9 @@ class FilterPostsView extends ConsumerWidget {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(20),
         children: [
-          const Text(
-            'Ordenar por:',
-            style: TextStyle(
+          Text(
+            '${texts.global.orderBy}:',
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 22,
             ),
@@ -101,9 +102,9 @@ class FilterPostsView extends ConsumerWidget {
           const SizedBox(height: 15),
           const Divider(thickness: 1),
           const SizedBox(height: 15),
-          const Text(
-            'Filtrar por fecha',
-            style: TextStyle(
+          Text(
+            texts.global.filterByDate,
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 22,
             ),
@@ -119,7 +120,7 @@ class FilterPostsView extends ConsumerWidget {
                         notifier.updateDate(today);
                         context.pop();
                       },
-                      text: 'Hoy',
+                      text: texts.global.today,
                       date: today),
                   const SizedBox(width: 10),
                   FilterItemWidget(
@@ -129,7 +130,7 @@ class FilterPostsView extends ConsumerWidget {
                       ));
                       context.pop();
                     },
-                    text: 'Mañana',
+                    text: texts.global.tomorrow,
                     date: today.add(
                       const Duration(days: 1),
                     ),
@@ -142,7 +143,7 @@ class FilterPostsView extends ConsumerWidget {
                       ));
                       context.pop();
                     },
-                    text: 'Mañana pasado',
+                    text: texts.global.theDayAfterTomorrow,
                     date: today.add(
                       const Duration(days: 2),
                     ),
@@ -165,7 +166,7 @@ class FilterPostsView extends ConsumerWidget {
                     },
                     child: Text(
                       controller.date == null
-                          ? 'Añadir fecha'
+                          ? texts.global.addDate
                           : dateToString(controller.date)!,
                       style: const TextStyle(
                         fontSize: 20,
@@ -192,7 +193,7 @@ class FilterPostsView extends ConsumerWidget {
             onPressed: () {
               notifier.clearFilters();
             },
-            child: const Text('Restablecer filtros'),
+            child: Text(texts.global.resetFilters),
           ),
         ],
       ),

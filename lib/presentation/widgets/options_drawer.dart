@@ -1,3 +1,4 @@
+import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
@@ -36,8 +37,8 @@ class OptionsDrawer extends ConsumerWidget {
               ),
               const SizedBox(height: 15),
               ListTile(
-                title: const Text(
-                  'Perfil',
+                title: Text(
+                  texts.global.profile,
                   overflow: TextOverflow.ellipsis,
                 ),
                 minLeadingWidth: 30,
@@ -51,8 +52,8 @@ class OptionsDrawer extends ConsumerWidget {
                 },
               ),
               ListTile(
-                title: const Text(
-                  'Guardados',
+                title: Text(
+                  texts.global.saved,
                   overflow: TextOverflow.ellipsis,
                 ),
                 minLeadingWidth: 30,
@@ -66,7 +67,7 @@ class OptionsDrawer extends ConsumerWidget {
                 },
               ),
               ListTile(
-                title: const Text('Compartir nuevo evento'),
+                title: Text(texts.global.shareNewEvent),
                 leading: const Icon(
                   Icons.add,
                   color: AppColors.primary,
@@ -87,9 +88,9 @@ class OptionsDrawer extends ConsumerWidget {
                     context.pop();
                     context.pushNamed(Routes.pendingApproval);
                   },
-                  title: const Text(
-                    'Aprobaciones pendientes',
-                    style: TextStyle(
+                  title: Text(
+                    texts.global.pendingApproval,
+                    style: const TextStyle(
                       color: Colors.red,
                     ),
                   ),

@@ -51,7 +51,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
     final notifier = ref.watch(newPostControllerProvider.notifier);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nuevo evento'),
+        title: Text(texts.global.shareNewEvent),
         elevation: 0,
         backgroundColor: AppColors.primary,
         actions: [
@@ -64,9 +64,9 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                   shape: const StadiumBorder(),
                 ),
                 onPressed: () async => _submit(),
-                child: const Text(
-                  'Publicar',
-                  style: TextStyle(
+                child: Text(
+                  texts.global.post,
+                  style: const TextStyle(
                     color: AppColors.primary,
                   ),
                 ),
@@ -105,8 +105,8 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                       },
                       child: Text(
                         controller.image != null
-                            ? 'Cambiar imagen'
-                            : 'Escoger imagen',
+                            ? texts.global.changeImage
+                            : texts.global.selectImage,
                         style: const TextStyle(
                           fontSize: 20,
                         ),
@@ -143,12 +143,13 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                     return texts.global.theFieldCannotbeEmpty;
                   }
                   if (_titleController.text.length > 25) {
-                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
+                    return texts.global.theFieldCannotHaveMoreThanXCharacters(
+                        maxCharacters: kMaxCharacters);
                   }
                   return null;
                 },
-                decoration: const InputDecoration(
-                  labelText: 'Título',
+                decoration: InputDecoration(
+                  labelText: texts.global.name,
                 ),
                 onChanged: (value) {
                   notifier.updateTitle(value);
@@ -160,11 +161,11 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                   _chooseDates();
                 },
                 icon: const Icon(Icons.add),
-                label: const FittedBox(
+                label: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Text(
-                    'Añadir fechas del evento',
-                    style: TextStyle(fontSize: 20),
+                    texts.global.addDate,
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
               ),
@@ -196,8 +197,8 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: _locationController,
-                decoration: const InputDecoration(
-                  labelText: 'Ubicación',
+                decoration: InputDecoration(
+                  labelText: texts.global.location,
                 ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 onChanged: (value) {
@@ -205,7 +206,8 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
                 },
                 validator: (value) {
                   if (_titleController.text.length > 25) {
-                    return 'El campo no puede tener más de $kMaxCharacters carácteres';
+                    return texts.global.theFieldCannotHaveMoreThanXCharacters(
+                        maxCharacters: kMaxCharacters);
                   }
                   return null;
                 },
@@ -213,8 +215,8 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
               const SizedBox(height: 10),
               TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Descripción',
+                decoration: InputDecoration(
+                  labelText: texts.global.description,
                 ),
                 maxLength: 500,
                 maxLines: null,
@@ -293,7 +295,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
     if (controller.image == null) {
       showCustomSnackBar(
         context: context,
-        text: 'Tienes que seleccionar una imagen',
+        text: texts.global.youHaveToSelectAnImage,
         color: AppColors.secondary,
       );
       return;
@@ -303,7 +305,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
       if (mounted) {
         showCustomSnackBar(
           context: context,
-          text: 'Se ha mandado la publicación a revisión para ser aprobada',
+          text: texts.global.thePostHasBeenSentForReviewToBeApproved,
         );
         context.pop();
       }
@@ -311,7 +313,7 @@ class _NewPostViewState extends ConsumerState<NewPostView> {
       if (mounted) {
         showCustomSnackBar(
           context: context,
-          text: 'No se ha podido enviar el evento con éxito',
+          text: texts.global.thePostCouldNotBeSentSuccessfully,
         );
       }
     }
