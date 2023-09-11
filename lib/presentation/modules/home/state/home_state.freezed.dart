@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   bool get fetching => throw _privateConstructorUsedError;
   bool get searchBar => throw _privateConstructorUsedError;
+  bool get showRegisterMessage => throw _privateConstructorUsedError;
   String? get searchText => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,11 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({bool fetching, bool searchBar, String? searchText});
+  $Res call(
+      {bool fetching,
+      bool searchBar,
+      bool showRegisterMessage,
+      String? searchText});
 }
 
 /// @nodoc
@@ -48,6 +53,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   $Res call({
     Object? fetching = null,
     Object? searchBar = null,
+    Object? showRegisterMessage = null,
     Object? searchText = freezed,
   }) {
     return _then(_value.copyWith(
@@ -58,6 +64,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       searchBar: null == searchBar
           ? _value.searchBar
           : searchBar // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showRegisterMessage: null == showRegisterMessage
+          ? _value.showRegisterMessage
+          : showRegisterMessage // ignore: cast_nullable_to_non_nullable
               as bool,
       searchText: freezed == searchText
           ? _value.searchText
@@ -74,7 +84,11 @@ abstract class _$$_HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       __$$_HomeStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool fetching, bool searchBar, String? searchText});
+  $Res call(
+      {bool fetching,
+      bool searchBar,
+      bool showRegisterMessage,
+      String? searchText});
 }
 
 /// @nodoc
@@ -90,6 +104,7 @@ class __$$_HomeStateCopyWithImpl<$Res>
   $Res call({
     Object? fetching = null,
     Object? searchBar = null,
+    Object? showRegisterMessage = null,
     Object? searchText = freezed,
   }) {
     return _then(_$_HomeState(
@@ -100,6 +115,10 @@ class __$$_HomeStateCopyWithImpl<$Res>
       searchBar: null == searchBar
           ? _value.searchBar
           : searchBar // ignore: cast_nullable_to_non_nullable
+              as bool,
+      showRegisterMessage: null == showRegisterMessage
+          ? _value.showRegisterMessage
+          : showRegisterMessage // ignore: cast_nullable_to_non_nullable
               as bool,
       searchText: freezed == searchText
           ? _value.searchText
@@ -113,7 +132,10 @@ class __$$_HomeStateCopyWithImpl<$Res>
 
 class _$_HomeState implements _HomeState {
   _$_HomeState(
-      {this.fetching = false, this.searchBar = false, this.searchText = null});
+      {this.fetching = false,
+      this.searchBar = false,
+      this.showRegisterMessage = true,
+      this.searchText = null});
 
   @override
   @JsonKey()
@@ -123,11 +145,14 @@ class _$_HomeState implements _HomeState {
   final bool searchBar;
   @override
   @JsonKey()
+  final bool showRegisterMessage;
+  @override
+  @JsonKey()
   final String? searchText;
 
   @override
   String toString() {
-    return 'HomeState(fetching: $fetching, searchBar: $searchBar, searchText: $searchText)';
+    return 'HomeState(fetching: $fetching, searchBar: $searchBar, showRegisterMessage: $showRegisterMessage, searchText: $searchText)';
   }
 
   @override
@@ -139,12 +164,15 @@ class _$_HomeState implements _HomeState {
                 other.fetching == fetching) &&
             (identical(other.searchBar, searchBar) ||
                 other.searchBar == searchBar) &&
+            (identical(other.showRegisterMessage, showRegisterMessage) ||
+                other.showRegisterMessage == showRegisterMessage) &&
             (identical(other.searchText, searchText) ||
                 other.searchText == searchText));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, fetching, searchBar, searchText);
+  int get hashCode => Object.hash(
+      runtimeType, fetching, searchBar, showRegisterMessage, searchText);
 
   @JsonKey(ignore: true)
   @override
@@ -157,12 +185,15 @@ abstract class _HomeState implements HomeState {
   factory _HomeState(
       {final bool fetching,
       final bool searchBar,
+      final bool showRegisterMessage,
       final String? searchText}) = _$_HomeState;
 
   @override
   bool get fetching;
   @override
   bool get searchBar;
+  @override
+  bool get showRegisterMessage;
   @override
   String? get searchText;
   @override

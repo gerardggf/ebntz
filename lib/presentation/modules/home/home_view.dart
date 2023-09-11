@@ -116,34 +116,36 @@ class _HomeViewState extends ConsumerState<HomeView> {
       drawer: ref.watch(sessionControllerProvider) == null
           ? null
           : const OptionsDrawer(),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        mini: true,
-        onPressed: () {
-          context.pushNamed(Routes.newPost);
-        },
-        backgroundColor: AppColors.primary,
-        child: const Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(5),
-              child: Icon(
-                Icons.event,
-                size: 20,
+      floatingActionButton: ref.watch(sessionControllerProvider) == null
+          ? null
+          : FloatingActionButton(
+              elevation: 0,
+              mini: true,
+              onPressed: () {
+                context.pushNamed(Routes.newPost);
+              },
+              backgroundColor: AppColors.primary,
+              child: const Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(5),
+                    child: Icon(
+                      Icons.event,
+                      size: 20,
+                    ),
+                  ),
+                  Positioned(
+                    left: 1,
+                    top: 0,
+                    child: Icon(
+                      Icons.add_rounded,
+                      size: 17,
+                      color: Colors.orange,
+                    ),
+                  ),
+                ],
               ),
             ),
-            Positioned(
-              left: 1,
-              top: 0,
-              child: Icon(
-                Icons.add_rounded,
-                size: 17,
-                color: Colors.orange,
-              ),
-            ),
-          ],
-        ),
-      ),
       body: Column(
         children: [
           if (controller.searchBar)
@@ -245,6 +247,47 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
             ),
           ),
+          if (ref.watch(sessionControllerProvider) == null &&
+              controller.showRegisterMessage)
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.orange,
+                    Colors.orangeAccent,
+                  ],
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: IconButton(
+                      onPressed: () {
+                        notifier.updateshowRegisterMessage(false);
+                      },
+                      icon: const Icon(Icons.close),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 7,
+                    child: GestureDetector(
+                      onTap: () {
+                        context.pushNamed(Routes.profile);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          texts.global.infoText1,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
         ],
       ),
     );

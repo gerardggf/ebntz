@@ -24,6 +24,16 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
       _repeatPasswordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        ref.read(authControllerProvider.notifier).updatePrivacyPolicy(false);
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final controller = ref.watch(authControllerProvider);
     final notifier = ref.watch(authControllerProvider.notifier);
@@ -121,10 +131,10 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
                     },
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   flex: 4,
                   child: Text(
-                    'Acepto la política de privacidad de eBntz',
+                    texts.global.iAcceptTheEbntzPrivacyPolicy,
                   ),
                 ),
               ],
@@ -139,7 +149,7 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
             else
               CustomButton(
                 onPressed: () async {
-                  register();
+                  await register();
                 },
                 child: Text(texts.global.register),
               ),

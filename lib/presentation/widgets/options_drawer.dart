@@ -72,18 +72,6 @@ class OptionsDrawer extends ConsumerWidget {
                 },
               ),
               ListTile(
-                title: Text(texts.global.shareNewEvent),
-                leading: const Icon(
-                  Icons.add,
-                  color: AppColors.primary,
-                ),
-                minLeadingWidth: 30,
-                onTap: () {
-                  context.pop();
-                  context.pushNamed(Routes.newPost);
-                },
-              ),
-              ListTile(
                 title: Text(
                   texts.global.info,
                   overflow: TextOverflow.ellipsis,
@@ -96,6 +84,18 @@ class OptionsDrawer extends ConsumerWidget {
                 onTap: () {
                   context.pop();
                   context.pushNamed(Routes.info);
+                },
+              ),
+              ListTile(
+                title: Text(texts.global.shareNewEvent),
+                leading: const Icon(
+                  Icons.add,
+                  color: AppColors.primary,
+                ),
+                minLeadingWidth: 30,
+                onTap: () {
+                  context.pop();
+                  context.pushNamed(Routes.newPost);
                 },
               ),
               if (sessionController.isAdmin)

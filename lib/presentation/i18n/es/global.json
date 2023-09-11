@@ -89,5 +89,9 @@
     "friday":"Viernes",
     "saturday":"Sábado",
     "sunday":"Domingo",
-    "info":"Información"
+    "info":"Información",
+    "iAcceptTheEbntzPrivacyPolicy":"Acepto la política de privacidad de eBntz",
+    "privacyPolicy":"Política de privacidad",
+    "infoText1":"Regístrate e inicia sesión para poder compartir eventos y que aparezcan en la página principal.",
+    "infoText2":"Una vez hayas hecho una publicación, esta quedará pendiente de ser aprobada por parte de un moderador para luego ser visible para todos los usuarios."
 }

@@ -32,6 +32,9 @@ class HomeController extends StateNotifier<HomeState> {
 
   void updateFetching(bool value) => state = state.copyWith(fetching: value);
 
+  void updateshowRegisterMessage(bool value) =>
+      state = state.copyWith(showRegisterMessage: value);
+
   void updateSearchText(String? text) =>
       state = state.copyWith(searchText: text);
 

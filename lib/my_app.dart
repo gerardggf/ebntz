@@ -14,7 +14,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with RouterMixin {
   @override
   Widget build(BuildContext context) {
-    print(TranslationProvider.of(context).flutterLocale);
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
@@ -22,8 +21,7 @@ class _MyAppState extends State<MyApp> with RouterMixin {
       child: MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: false,
-        locale: LocaleSettings.currentLocale
-            .flutterLocale, //TranslationProvider.of(context).flutterLocale,
+        locale: TranslationProvider.of(context).flutterLocale,
         supportedLocales: AppLocaleUtils.supportedLocales,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,

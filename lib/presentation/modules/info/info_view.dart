@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 class InfoView extends StatelessWidget {
   const InfoView({super.key});
 
-  //TODO:traducir
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,20 +30,20 @@ class InfoView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 25),
-          const Text(
-            'Regístrate e inicia sesión para poder compartir eventos y que a la gente les aparezcan en la página principal.',
+          Text(
+            texts.global.infoText1,
           ),
           const SizedBox(height: 20),
-          const Text(
-            'Una vez hayas hecho una publicación, esta quedará pendiente de ser aprobada por parte de un moderador para luego ser visible para todos los usuarios.',
+          Text(
+            texts.global.infoText2,
           ),
           const SizedBox(height: 20),
           TextButton(
             onPressed: () {
               goLaunchUrl(kPrivacyPolicyUrl);
             },
-            child: const Text(
-              'Política de privacidad',
+            child: Text(
+              texts.global.privacyPolicy,
             ),
           ),
         ],

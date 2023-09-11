@@ -19,6 +19,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  LocaleSettings.useDeviceLocale();
 
   final firebaseFirestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
@@ -27,14 +28,14 @@ void main() async {
   final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
 
   runApp(
-    ProviderScope(
-      overrides: [
-        firebaseStorageProvider.overrideWithValue(firebaseStorage),
-        firebaseFirestoreProvider.overrideWithValue(firebaseFirestore),
-        textRecognizerProvider.overrideWithValue(textRecognizer),
-        firebaseAuthProvider.overrideWithValue(firebaseAuth),
-      ],
-      child: TranslationProvider(
+    TranslationProvider(
+      child: ProviderScope(
+        overrides: [
+          firebaseStorageProvider.overrideWithValue(firebaseStorage),
+          firebaseFirestoreProvider.overrideWithValue(firebaseFirestore),
+          textRecognizerProvider.overrideWithValue(textRecognizer),
+          firebaseAuthProvider.overrideWithValue(firebaseAuth),
+        ],
         child: const MyApp(),
       ),
     ),

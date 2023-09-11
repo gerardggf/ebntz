@@ -89,5 +89,10 @@
     "friday":"Divendres",
     "saturday":"Dissabte",
     "sunday":"Diumenge",
-    "info":"Informació"
+    "info":"Informació",
+    "iAcceptTheEbntzPrivacyPolicy":"Accepto la política de privacitat de eBntz",
+    "privacyPolicy":"Política de privacitat",
+    "infoText1":"Registra't i inicia sessió per poder compartir esdeveniments i que apareguin a la pàgina principal.",
+    "infoText2":"Un cop penjada una publicació, aquesta quedarà pendent d'aprovació per part d'un moderador per, després ser visible per tots els usuaris."
+    
 }
