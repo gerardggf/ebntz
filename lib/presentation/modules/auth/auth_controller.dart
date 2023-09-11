@@ -77,7 +77,8 @@ class AuthController extends StateNotifier<AuthState> {
       password: state.password,
     );
     if (result == 'register-success') {
-      authenticationRepository.sendVerifyCurrentUsersEmail();
+      await login();
+      //authenticationRepository.sendVerifyCurrentUsersEmail();
     }
     updateFetching(false);
     return result;

@@ -113,42 +113,46 @@ class FilterPostsView extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  FilterItemWidget(
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                child: Row(
+                  children: [
+                    FilterItemWidget(
+                        onPressed: () {
+                          notifier.updateDate(today);
+                          context.pop();
+                        },
+                        text: texts.global.today,
+                        date: today),
+                    const SizedBox(width: 10),
+                    FilterItemWidget(
                       onPressed: () {
-                        notifier.updateDate(today);
+                        notifier.updateDate(today.add(
+                          const Duration(days: 1),
+                        ));
                         context.pop();
                       },
-                      text: texts.global.today,
-                      date: today),
-                  const SizedBox(width: 10),
-                  FilterItemWidget(
-                    onPressed: () {
-                      notifier.updateDate(today.add(
+                      text: texts.global.tomorrow,
+                      date: today.add(
                         const Duration(days: 1),
-                      ));
-                      context.pop();
-                    },
-                    text: texts.global.tomorrow,
-                    date: today.add(
-                      const Duration(days: 1),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  FilterItemWidget(
-                    onPressed: () {
-                      notifier.updateDate(today.add(
+                    const SizedBox(width: 10),
+                    FilterItemWidget(
+                      onPressed: () {
+                        notifier.updateDate(today.add(
+                          const Duration(days: 2),
+                        ));
+                        context.pop();
+                      },
+                      text: texts.global.theDayAfterTomorrow,
+                      date: today.add(
                         const Duration(days: 2),
-                      ));
-                      context.pop();
-                    },
-                    text: texts.global.theDayAfterTomorrow,
-                    date: today.add(
-                      const Duration(days: 2),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(height: 20),
               Row(

@@ -121,7 +121,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                   minLeadingWidth: 30,
                   onTap: () async {
                     if (await _deleteAccountDialogs()) {
-                      ref
+                      await sessionControllerNotifier.setUser(null);
+                      await ref
                           .read(authenticationRepositoryProvider)
                           .deleteAccount();
                       if (!mounted) return;

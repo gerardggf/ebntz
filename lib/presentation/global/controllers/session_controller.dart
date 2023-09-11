@@ -21,7 +21,7 @@ class SessionController extends StateNotifier<UserModel?> {
   final AuthenticationRepository authenticationRepository;
   final FirebaseFirestoreService firebaseFirestoreService;
 
-  Future<void> setUser(UserModel user) async {
+  Future<void> setUser(UserModel? user) async {
     state = user;
   }
 

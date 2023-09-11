@@ -21,12 +21,17 @@ class OptionsDrawer extends ConsumerWidget {
           ),
           child: ListView(
             children: [
-              const Text(
-                'ebntz',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w900,
+              GestureDetector(
+                onTap: () {
+                  context.pop();
+                },
+                child: const Text(
+                  'ebntz',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),

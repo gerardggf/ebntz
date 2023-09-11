@@ -16,8 +16,8 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
   Future<Either<String, UserModel?>> signIn({
     required String email,
     required String password,
-  }) {
-    return _firebaseAuthService.signInWithEmailAndPassword(
+  }) async {
+    return await _firebaseAuthService.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -33,7 +33,7 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    return _firebaseAuthService.createUserWithEmailAndPassword(
+    return await _firebaseAuthService.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );

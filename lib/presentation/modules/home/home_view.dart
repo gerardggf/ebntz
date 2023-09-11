@@ -116,6 +116,34 @@ class _HomeViewState extends ConsumerState<HomeView> {
       drawer: ref.watch(sessionControllerProvider) == null
           ? null
           : const OptionsDrawer(),
+      floatingActionButton: FloatingActionButton(
+        elevation: 0,
+        mini: true,
+        onPressed: () {
+          context.pushNamed(Routes.newPost);
+        },
+        backgroundColor: AppColors.primary,
+        child: const Stack(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(5),
+              child: Icon(
+                Icons.event,
+                size: 20,
+              ),
+            ),
+            Positioned(
+              left: 2,
+              top: 1,
+              child: Icon(
+                Icons.add_rounded,
+                size: 17,
+                color: Colors.orange,
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Column(
         children: [
           if (controller.searchBar)
