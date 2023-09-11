@@ -11,4 +11,5 @@ class Routes {
   static const favorites = 'favorites';
   static const pendingApproval = 'pending-approval';
   static const changePassword = 'change-password';
+  static const info = 'info';
 }

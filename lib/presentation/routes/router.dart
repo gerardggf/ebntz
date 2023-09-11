@@ -3,6 +3,7 @@ import 'package:ebntz/presentation/modules/edit_post/edit_post_view.dart';
 import 'package:ebntz/presentation/modules/favorites/favorites_view.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_view.dart';
 import 'package:ebntz/presentation/modules/home/home_view.dart';
+import 'package:ebntz/presentation/modules/info/info_view.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_view.dart';
 import 'package:ebntz/presentation/modules/profile/profile_view.dart';
 import 'package:ebntz/presentation/offline_view.dart';
@@ -68,6 +69,11 @@ mixin RouterMixin on State<MyApp> {
         name: Routes.changePassword,
         path: '/change-password',
         builder: (_, __) => const ChangePasswordView(),
+      ),
+      GoRoute(
+        name: Routes.info,
+        path: '/info',
+        builder: (_, __) => const InfoView(),
       ),
     ],
   );

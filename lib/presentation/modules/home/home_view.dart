@@ -2,7 +2,7 @@ import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';
 import 'package:ebntz/presentation/modules/home/home_controller.dart';
@@ -133,8 +133,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
               ),
             ),
             Positioned(
-              left: 2,
-              top: 1,
+              left: 1,
+              top: 0,
               child: Icon(
                 Icons.add_rounded,
                 size: 17,

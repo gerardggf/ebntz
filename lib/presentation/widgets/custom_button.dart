@@ -1,4 +1,4 @@
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {

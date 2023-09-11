@@ -1,14 +1,15 @@
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
-import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:ebntz/presentation/modules/new_post/new_post_controller.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../global/utils/functions/date_functions.dart';
 
 class NewPostView extends ConsumerStatefulWidget {
   const NewPostView({super.key});

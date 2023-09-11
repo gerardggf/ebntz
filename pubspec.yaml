@@ -51,6 +51,7 @@ dependencies:
   http: ^0.13.6
   firebase_auth: ^4.6.0
   cached_network_image: ^3.2.3
+  url_launcher: ^6.1.14
   
 
 dev_dependencies:

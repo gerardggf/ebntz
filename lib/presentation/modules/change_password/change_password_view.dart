@@ -1,13 +1,12 @@
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/modules/change_password/change_password_controller.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../global/utils/validate_fields.dart';
+import '../../global/utils/functions/validate_fields.dart';
 
 class ChangePasswordView extends ConsumerStatefulWidget {
   const ChangePasswordView({super.key});
@@ -30,8 +29,18 @@ class _ChangePasswordViewState extends ConsumerState<ChangePasswordView> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
+        child: ListView(
           children: [
+            const SizedBox(height: 10),
+            const Text(
+              'eBntz',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            const SizedBox(height: 15),
             Text(
               texts.global
                   .enterYourEmailAndWeWillSendYouALinkToRecoverYourPassword,

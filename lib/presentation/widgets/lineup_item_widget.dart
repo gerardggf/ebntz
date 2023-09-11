@@ -5,14 +5,15 @@ import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/domain/models/user_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
-import 'package:ebntz/presentation/global/utils/date_functions.dart';
 import 'package:ebntz/presentation/modules/home/home_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../global/utils/functions/date_functions.dart';
 
 class LineupItemWidget extends ConsumerStatefulWidget {
   const LineupItemWidget({

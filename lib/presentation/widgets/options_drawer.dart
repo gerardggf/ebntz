@@ -1,5 +1,5 @@
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class OptionsDrawer extends ConsumerWidget {
                   context.pop();
                 },
                 child: const Text(
-                  'ebntz',
+                  'eBntz',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 30,
@@ -81,6 +81,21 @@ class OptionsDrawer extends ConsumerWidget {
                 onTap: () {
                   context.pop();
                   context.pushNamed(Routes.newPost);
+                },
+              ),
+              ListTile(
+                title: Text(
+                  texts.global.info,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                minLeadingWidth: 30,
+                leading: const Icon(
+                  Icons.info_outline_rounded,
+                  color: AppColors.primary,
+                ),
+                onTap: () {
+                  context.pop();
+                  context.pushNamed(Routes.info);
                 },
               ),
               if (sessionController.isAdmin)

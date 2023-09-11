@@ -1,5 +1,5 @@
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/modules/auth/auth_controller.dart';
 import 'package:ebntz/presentation/modules/auth/login_widget.dart';
 import 'package:ebntz/presentation/modules/auth/register_widget.dart';

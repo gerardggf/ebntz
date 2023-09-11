@@ -7,6 +7,7 @@ class AuthState with _$AuthState {
   factory AuthState({
     @Default(false) bool fetching,
     @Default(false) bool isRegister,
+    @Default(false) bool acceptPrivacyPolicy,
     @Default('') String email,
     @Default('') String password,
   }) = _AuthState;

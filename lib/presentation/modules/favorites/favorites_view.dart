@@ -1,6 +1,6 @@
 import 'package:ebntz/domain/models/lineup_item_model.dart';
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/modules/favorites/widgets/empty_favorites_widget.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';

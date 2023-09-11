@@ -38,6 +38,9 @@ class AuthController extends StateNotifier<AuthState> {
 
   void updatePassword(String text) => state = state.copyWith(password: text);
 
+  void updatePrivacyPolicy(bool value) =>
+      state = state.copyWith(acceptPrivacyPolicy: value);
+
   void onEmailChanged(String text) {
     state = state.copyWith(
       email: text.trim().toLowerCase(),

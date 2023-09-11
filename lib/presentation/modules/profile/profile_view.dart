@@ -1,17 +1,16 @@
 import 'package:ebntz/domain/repositories/authentication_repository.dart';
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
 import 'package:ebntz/presentation/global/utils/dialogs/change_username_dialog.dart';
-import 'package:ebntz/presentation/global/utils/string_functions.dart';
 import 'package:ebntz/presentation/modules/auth/auth_view.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../global/utils/date_functions.dart';
+import '../../global/utils/functions/date_functions.dart';
+import '../../global/utils/functions/string_functions.dart';
 
 class ProfileView extends ConsumerStatefulWidget {
   const ProfileView({super.key});

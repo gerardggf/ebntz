@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/models/lineup_item_model.dart';
 import '../../../domain/repositories/posts_repositories.dart';
-import '../../global/const.dart';
+import '../../../const.dart';
 import '../../widgets/lineup_item_widget.dart';
 
 final pendingApprovalStreamProvider = StreamProvider<List<LineupItemModel>>(

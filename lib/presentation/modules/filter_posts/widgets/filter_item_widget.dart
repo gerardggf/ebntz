@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../global/const.dart';
+import '../../../../const.dart';
 import '../filter_posts_controller.dart';
 
 class FilterItemWidget extends ConsumerWidget {

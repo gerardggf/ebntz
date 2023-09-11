@@ -1,13 +1,13 @@
 import 'package:ebntz/generated/translations.g.dart';
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
-import 'package:ebntz/presentation/global/utils/get_text_from_code.dart';
-import 'package:ebntz/presentation/global/utils/validate_fields.dart';
+import 'package:ebntz/presentation/global/utils/functions/launch_url.dart';
 import 'package:ebntz/presentation/modules/auth/auth_controller.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../global/const.dart';
+import '../../../const.dart';
+import '../../global/utils/functions/get_text_from_code.dart';
+import '../../global/utils/functions/validate_fields.dart';
 
 class RegisterWidget extends ConsumerStatefulWidget {
   const RegisterWidget({super.key});
@@ -34,8 +34,17 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
       ),
       child: Form(
         key: _registerFormKey,
-        child: Column(
+        child: ListView(
           children: [
+            const SizedBox(height: 15),
+            const Text(
+              'eBntz',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
@@ -98,7 +107,29 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
               },
               obscureText: true,
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 25),
+            Row(
+              children: [
+                Expanded(
+                  child: Switch(
+                    value: controller.acceptPrivacyPolicy,
+                    onChanged: (value) async {
+                      if (!controller.acceptPrivacyPolicy) {
+                        await goLaunchUrl(kPrivacyPolicyUrl);
+                      }
+                      notifier.updatePrivacyPolicy(value);
+                    },
+                  ),
+                ),
+                const Expanded(
+                  flex: 4,
+                  child: Text(
+                    'Acepto la política de privacidad de eBntz',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 40),
             if (controller.fetching)
               const Center(
                 child: CircularProgressIndicator(
@@ -129,7 +160,12 @@ class _RegisterWidgetState extends ConsumerState<RegisterWidget> {
   }
 
   Future<void> register() async {
-    final notifier = ref.watch(authControllerProvider.notifier);
+    final controller = ref.read(authControllerProvider);
+    final notifier = ref.read(authControllerProvider.notifier);
+
+    if (!controller.acceptPrivacyPolicy) {
+      return;
+    }
     if (_registerFormKey.currentState!.validate()) {
       final result = await notifier.register();
       if (mounted) {

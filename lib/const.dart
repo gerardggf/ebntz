@@ -6,3 +6,5 @@ class AppColors {
   static const Color primary = Colors.black;
   static const Color secondary = Colors.orange;
 }
+
+const String kPrivacyPolicyUrl = 'https://sites.google.com/view/ebntz/inicio';

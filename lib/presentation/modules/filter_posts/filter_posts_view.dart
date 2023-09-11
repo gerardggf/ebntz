@@ -1,13 +1,13 @@
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/generated/translations.g.dart';
-import 'package:ebntz/presentation/global/const.dart';
-import 'package:ebntz/presentation/global/utils/date_functions.dart';
+import 'package:ebntz/const.dart';
 import 'package:ebntz/presentation/modules/filter_posts/filter_posts_controller.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../global/utils/functions/date_functions.dart';
 import 'widgets/filter_item_widget.dart';
 
 part 'utils/utils.dart';

@@ -1,6 +1,8 @@
 import 'package:ebntz/domain/enums.dart';
 import 'package:ebntz/domain/models/lineup_item_model.dart';
+import 'package:ebntz/domain/models/user_model.dart';
 import 'package:ebntz/domain/repositories/posts_repositories.dart';
+import 'package:ebntz/presentation/global/controllers/session_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'state/edit_post_state.dart';
 
@@ -9,6 +11,7 @@ final editPostControllerProvider =
   (ref) => EditPostController(
     EditPostState(),
     ref.read(postsRepostoryProvider),
+    ref.read(sessionControllerProvider),
   ),
 );
 
@@ -16,9 +19,11 @@ class EditPostController extends StateNotifier<EditPostState> {
   EditPostController(
     super.state,
     this.postsRepository,
+    this.sessionController,
   );
 
   LineupItemModel? post;
+  UserModel? sessionController;
 
   final PostsRepository postsRepository;
 
@@ -72,6 +77,7 @@ class EditPostController extends StateNotifier<EditPostState> {
             : state.dates.map((e) => e.toString()).toList(),
         location: state.location,
         description: state.description,
+        approved: (sessionController?.isAdmin ?? false) ? true : false,
       ),
     );
     if (result == FirebaseResponse.success) {

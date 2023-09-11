@@ -1,15 +1,14 @@
 import 'package:ebntz/presentation/global/utils/custom_snack_bar.dart';
-import 'package:ebntz/presentation/global/utils/get_text_from_code.dart';
+import 'package:ebntz/presentation/global/utils/functions/validate_fields.dart';
 import 'package:ebntz/presentation/modules/auth/auth_controller.dart';
 import 'package:ebntz/presentation/routes/routes.dart';
 import 'package:ebntz/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../generated/translations.g.dart';
-import '../../global/const.dart';
-import '../../global/utils/validate_fields.dart';
+import '../../../const.dart';
+import '../../global/utils/functions/get_text_from_code.dart';
 
 class LoginWidget extends ConsumerStatefulWidget {
   const LoginWidget({super.key});
@@ -31,8 +30,17 @@ class _LoginWidgetState extends ConsumerState<LoginWidget> {
         horizontal: 20,
         vertical: 10,
       ),
-      child: Column(
+      child: ListView(
         children: [
+          const SizedBox(height: 15),
+          const Text(
+            'eBntz',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 50,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
           const SizedBox(height: 10),
           TextFormField(
             controller: _emailController,
